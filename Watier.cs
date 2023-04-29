@@ -6,7 +6,7 @@ public partial class Watier : CharacterBody2D
 	[Export]
 	public float Speed = 300.0f;
 	[Export]
-	public float animationCutoffSpeed = 0.1f;
+	public float animationCutoffSpeed = 0.01f;
 
   	private AnimatedSprite2D sprite;
 
@@ -33,20 +33,19 @@ public partial class Watier : CharacterBody2D
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
 		
+		GD.Print(velocity);
+		
 		
 		if(velocity.Y > animationCutoffSpeed){
 			sprite.Play("down");
 		}
-		
-		if(velocity.Y < -animationCutoffSpeed){
+		else if(velocity.Y < -animationCutoffSpeed){
 			sprite.Play("up");
 		}
-		
-		if(velocity.X > animationCutoffSpeed){
+		else if(velocity.X > animationCutoffSpeed){
 			sprite.Play("right");
 		}
-		
-		if(velocity.X < -animationCutoffSpeed){
+		else if(velocity.X < -animationCutoffSpeed){
 			sprite.Play("left");
 		}
 		

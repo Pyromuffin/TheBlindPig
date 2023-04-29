@@ -99,5 +99,18 @@ public partial class Watier : CharacterBody2D
 	}
 	
 	
+	public void Trash(){
+		
+		if(secondItem != null){
+			secondItem.QueueFree();
+			secondItem = null;
+		}
+		
+		if(firstItem != null){
+			firstItem.QueueFree();
+			firstItem = null;
+		}
+	}
+	
 	
 }

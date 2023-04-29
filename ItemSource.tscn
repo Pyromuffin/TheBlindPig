@@ -1,0 +1,34 @@
+[gd_scene load_steps=17 format=3 uid="uid://cwqcpw2bmnp2u"]
+
+[ext_resource type="Texture2D" uid="uid://scp1swp55wfe" path="res://assets/ui/icon_absinthe_24.png" id="1_qrvnj"]
+[ext_resource type="Script" path="res://ItemSource.cs" id="2_n34e0"]
+[ext_resource type="Texture2D" uid="uid://ddqqmkedvov70" path="res://assets/ui/icon_bourbon_24.png" id="3_1ism8"]
+[ext_resource type="Texture2D" uid="uid://df001iifjrs1c" path="res://assets/ui/icon_cake_24.png" id="4_auw2i"]
+[ext_resource type="Texture2D" uid="uid://dqvb4uurg8crx" path="res://assets/ui/icon_carrot_24.png" id="5_i884m"]
+[ext_resource type="Texture2D" uid="uid://dvk5ptps2r5tj" path="res://assets/ui/icon_cocktail_24.png" id="6_7h8qm"]
+[ext_resource type="Texture2D" uid="uid://ddrhlam46hufm" path="res://assets/ui/icon_meat_24.png" id="7_y8uod"]
+[ext_resource type="Texture2D" uid="uid://bj7sjeul7vu5l" path="res://assets/ui/icon_wine_24.png" id="8_6ptn8"]
+[ext_resource type="Texture2D" uid="uid://dhn0qlml1hnal" path="res://assets/ui/icon_absinthe_16.png" id="9_dfrqg"]
+[ext_resource type="Texture2D" uid="uid://d32fdyaxjpcch" path="res://assets/ui/icon_bourbon_16.png" id="10_bpv3s"]
+[ext_resource type="Texture2D" uid="uid://qbbeikf62hvv" path="res://assets/ui/icon_cake_16.png" id="11_ftnl6"]
+[ext_resource type="Texture2D" uid="uid://cloplpbccy7ok" path="res://assets/ui/icon_carrot_16.png" id="12_gltm0"]
+[ext_resource type="Texture2D" uid="uid://b8hwaps5nff3y" path="res://assets/ui/icon_cocktail_16.png" id="13_1fnlr"]
+[ext_resource type="Texture2D" uid="uid://dktp0imuelb4l" path="res://assets/ui/icon_meat_16.png" id="14_3811i"]
+[ext_resource type="Texture2D" uid="uid://ba85eb1xblbvu" path="res://assets/ui/icon_wine_16.png" id="15_2ohk1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hlobf"]
+
+[node name="ItemSource" type="Sprite2D"]
+texture = ExtResource("1_qrvnj")
+script = ExtResource("2_n34e0")
+itemType = 3
+icons = Array[Resource]([ExtResource("1_qrvnj"), ExtResource("3_1ism8"), ExtResource("4_auw2i"), ExtResource("5_i884m"), ExtResource("6_7h8qm"), ExtResource("7_y8uod"), ExtResource("8_6ptn8")])
+smallIcons = Array[Resource]([ExtResource("9_dfrqg"), ExtResource("10_bpv3s"), ExtResource("11_ftnl6"), ExtResource("12_gltm0"), ExtResource("13_1fnlr"), ExtResource("14_3811i"), ExtResource("15_2ohk1")])
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_hlobf")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

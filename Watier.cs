@@ -8,6 +8,14 @@ public partial class Watier : CharacterBody2D
 	[Export]
 	public float animationCutoffSpeed = 0.01f;
 
+	[Export]
+	public Vector2 firstItemPosition;
+	[Export]
+	public Vector2 secondItemPosition;
+
+	private bool facingDown = true;
+	private bool facingRight = false;
+
   	private AnimatedSprite2D sprite;
 
 	public override void _Ready()
@@ -34,25 +42,73 @@ public partial class Watier : CharacterBody2D
 		}
 		
 		
-		if(velocity.Y > animationCutoffSpeed){
-			sprite.Play("down");
-		}
-		else if(velocity.Y < -animationCutoffSpeed){
-			sprite.Play("up");
-		}
-		else if(velocity.X > animationCutoffSpeed){
-			sprite.Play("right");
-		}
-		else if(velocity.X < -animationCutoffSpeed){
-			sprite.Play("left");
-		}
 		
-		if(Mathf.Abs(velocity.X) <= animationCutoffSpeed && Mathf.Abs(velocity.Y) <= animationCutoffSpeed){
-			sprite.Stop();
+		if(velocity.Length() > animationCutoffSpeed){
+			
+			if( Mathf.Abs(velocity.Y) > 0 ){
+				facingDown = velocity.Y > 0;
+			}
+			
+			if( Mathf.Abs(velocity.X) > 0 ){
+				facingRight = velocity.X > 0;
+			}
+			
+			sprite.FlipH = facingRight ^ !facingDown;
+			
+			
+			if(facingDown){
+				sprite.Play("forward_walk");
+			} else {
+				sprite.Play("backward_walk");
+			}
+		}
+		else{		
+			if(facingDown){
+				sprite.Play("forward_idle");
+			} else {
+				sprite.Play("back_idle");
+			}
 		}
 		
 
 		Velocity = velocity;
 		MoveAndSlide();
 	}
+	
+	
+	
+	public Node2D firstItem;
+	public Node2D secondItem;
+
+	public void PickUpItem(Node2D item){
+		
+		GD.Print("Picked up");
+		
+		if(firstItem == null){
+			firstItem = item;
+			AddChild(firstItem);
+			firstItem.Position = firstItemPosition;
+		} else if(secondItem == null) {
+			secondItem = item;
+			AddChild(secondItem);
+			secondItem.Position = secondItemPosition;
+		}
+		
+	}
+	
+	
+	public void Trash(){
+		
+		if(secondItem != null){
+			secondItem.QueueFree();
+			secondItem = null;
+		}
+		
+		if(firstItem != null){
+			firstItem.QueueFree();
+			firstItem = null;
+		}
+	}
+	
+	
 }

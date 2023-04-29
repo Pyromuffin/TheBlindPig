@@ -1,18 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dilas28v46s08"]
+[gd_scene load_steps=3 format=3 uid="uid://dilas28v46s08"]
 
 [ext_resource type="Texture2D" uid="uid://gusv73pnrkhp" path="res://art/Objects/Simple Milk and grass item.png" id="1_64pqf"]
 [ext_resource type="Script" path="res://Item.cs" id="2_jln3h"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_626kx"]
-
 [node name="Item" type="Sprite2D"]
 texture = ExtResource("1_64pqf")
-hframes = 4
 script = ExtResource("2_jln3h")
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_626kx")
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

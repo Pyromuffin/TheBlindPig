@@ -148,7 +148,7 @@ script = ExtResource("1_y5mux")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n2ujr")
 animation = &"up"
-frame_progress = 0.482613
+frame_progress = 0.717864
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)

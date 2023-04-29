@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d03t5yujeekpo"]
+[gd_scene load_steps=4 format=3 uid="uid://d03t5yujeekpo"]
 
 [ext_resource type="TileSet" uid="uid://foc2j2gl6bxf" path="res://ground.tres" id="1_28s4n"]
 [ext_resource type="PackedScene" uid="uid://5gxvaa2jppmm" path="res://Watier.tscn" id="2_jr4nw"]
+[ext_resource type="PackedScene" uid="uid://dilas28v46s08" path="res://Item.tscn" id="3_jxp7h"]
 
 [node name="world" type="Node2D"]
 
@@ -24,3 +25,6 @@ Speed = 100.0
 animationCutoffSpeed = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="Watier"]
+
+[node name="Item" parent="." instance=ExtResource("3_jxp7h")]
+position = Vector2(97, 77)

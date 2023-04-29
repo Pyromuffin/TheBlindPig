@@ -33,8 +33,6 @@ public partial class Watier : CharacterBody2D
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
 		
-		GD.Print(velocity);
-		
 		
 		if(velocity.Y > animationCutoffSpeed){
 			sprite.Play("down");

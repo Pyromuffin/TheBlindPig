@@ -2,8 +2,8 @@
 
 [ext_resource type="TileSet" uid="uid://foc2j2gl6bxf" path="res://ground.tres" id="1_28s4n"]
 [ext_resource type="PackedScene" uid="uid://5gxvaa2jppmm" path="res://Watier.tscn" id="2_jr4nw"]
-[ext_resource type="PackedScene" uid="uid://dilas28v46s08" path="res://Item.tscn" id="3_jxp7h"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
+[ext_resource type="PackedScene" uid="uid://cwqcpw2bmnp2u" path="res://ItemSource.tscn" id="5_0rmxv"]
 
 [node name="world" type="Node2D"]
 
@@ -29,11 +29,20 @@ secondItemPosition = Vector2(-3, -18)
 
 [node name="Camera2D" type="Camera2D" parent="Watier"]
 
-[node name="Item" parent="." instance=ExtResource("3_jxp7h")]
-position = Vector2(97, 77)
-
-[node name="Item2" parent="." instance=ExtResource("3_jxp7h")]
-position = Vector2(52, 74)
-
 [node name="Trash" parent="." instance=ExtResource("4_1fmxv")]
 position = Vector2(83, 15)
+
+[node name="ItemSource" parent="." instance=ExtResource("5_0rmxv")]
+position = Vector2(89, 80)
+
+[node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
+position = Vector2(48, 81)
+itemType = 1
+
+[node name="ItemSource3" parent="." instance=ExtResource("5_0rmxv")]
+position = Vector2(67, 51)
+itemType = 5
+
+[node name="ItemSource4" parent="." instance=ExtResource("5_0rmxv")]
+position = Vector2(107, 53)
+itemType = 6

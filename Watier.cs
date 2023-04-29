@@ -86,12 +86,10 @@ public partial class Watier : CharacterBody2D
 		
 		if(firstItem == null){
 			firstItem = item;
-			firstItem.GetParent().RemoveChild(item);
 			AddChild(firstItem);
 			firstItem.Position = firstItemPosition;
 		} else if(secondItem == null) {
 			secondItem = item;
-			secondItem.GetParent().RemoveChild(item);
 			AddChild(secondItem);
 			secondItem.Position = secondItemPosition;
 		}

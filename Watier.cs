@@ -8,6 +8,9 @@ public partial class Watier : CharacterBody2D
 	[Export]
 	public float animationCutoffSpeed = 0.01f;
 
+	private bool facingDown = true;
+	private bool facingRight = false;
+
   	private AnimatedSprite2D sprite;
 
 	public override void _Ready()
@@ -34,21 +37,32 @@ public partial class Watier : CharacterBody2D
 		}
 		
 		
-		if(velocity.Y > animationCutoffSpeed){
-			sprite.Play("down");
-		}
-		else if(velocity.Y < -animationCutoffSpeed){
-			sprite.Play("up");
-		}
-		else if(velocity.X > animationCutoffSpeed){
-			sprite.Play("right");
-		}
-		else if(velocity.X < -animationCutoffSpeed){
-			sprite.Play("left");
-		}
 		
-		if(Mathf.Abs(velocity.X) <= animationCutoffSpeed && Mathf.Abs(velocity.Y) <= animationCutoffSpeed){
-			sprite.Stop();
+		if(velocity.Length() > animationCutoffSpeed){
+			
+			if( Mathf.Abs(velocity.Y) > 0 ){
+				facingDown = velocity.Y > 0;
+			}
+			
+			if( Mathf.Abs(velocity.X) > 0 ){
+				facingRight = velocity.X > 0;
+			}
+			
+			sprite.FlipH = facingRight ^ !facingDown;
+			
+			
+			if(facingDown){
+				sprite.Play("forward_walk");
+			} else {
+				sprite.Play("backward_walk");
+			}
+		}
+		else{		
+			if(facingDown){
+				sprite.Play("forward_idle");
+			} else {
+				sprite.Play("back_idle");
+			}
 		}
 		
 

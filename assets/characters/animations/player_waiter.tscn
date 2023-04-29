@@ -181,6 +181,7 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 texture = ExtResource("1_iw8px")
 hframes = 6
 vframes = 2
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 15.5)

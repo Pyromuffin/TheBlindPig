@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d03t5yujeekpo"]
+[gd_scene load_steps=5 format=3 uid="uid://d03t5yujeekpo"]
 
 [ext_resource type="TileSet" uid="uid://foc2j2gl6bxf" path="res://ground.tres" id="1_28s4n"]
 [ext_resource type="PackedScene" uid="uid://5gxvaa2jppmm" path="res://Watier.tscn" id="2_jr4nw"]
 [ext_resource type="PackedScene" uid="uid://dilas28v46s08" path="res://Item.tscn" id="3_jxp7h"]
+[ext_resource type="PackedScene" uid="uid://bkvi440shed68" path="res://assets/characters/animations/player_waiter.tscn" id="4_5qjdl"]
 
 [node name="world" type="Node2D"]
 
@@ -28,3 +29,6 @@ animationCutoffSpeed = 0.0
 
 [node name="Item" parent="." instance=ExtResource("3_jxp7h")]
 position = Vector2(97, 77)
+
+[node name="player_waiter" parent="." instance=ExtResource("4_5qjdl")]
+position = Vector2(-25, 91)

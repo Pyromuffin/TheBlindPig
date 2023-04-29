@@ -9,6 +9,7 @@
 texture = ExtResource("1_64pqf")
 hframes = 4
 script = ExtResource("2_jln3h")
+heldOffset = Vector2(0, -10)
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -16,3 +17,4 @@ script = ExtResource("2_jln3h")
 shape = SubResource("CircleShape2D_626kx")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

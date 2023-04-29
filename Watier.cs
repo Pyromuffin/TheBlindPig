@@ -8,6 +8,11 @@ public partial class Watier : CharacterBody2D
 	[Export]
 	public float animationCutoffSpeed = 0.01f;
 
+	[Export]
+	public Vector2 firstItemPosition;
+	[Export]
+	public Vector2 secondItemPosition;
+
 	private bool facingDown = true;
 	private bool facingRight = false;
 
@@ -69,4 +74,41 @@ public partial class Watier : CharacterBody2D
 		Velocity = velocity;
 		MoveAndSlide();
 	}
+	
+	
+	
+	public Node2D firstItem;
+	public Node2D secondItem;
+
+	public void PickUpItem(Node2D item){
+		
+		GD.Print("Picked up");
+		
+		if(firstItem == null){
+			firstItem = item;
+			AddChild(firstItem);
+			firstItem.Position = firstItemPosition;
+		} else if(secondItem == null) {
+			secondItem = item;
+			AddChild(secondItem);
+			secondItem.Position = secondItemPosition;
+		}
+		
+	}
+	
+	
+	public void Trash(){
+		
+		if(secondItem != null){
+			secondItem.QueueFree();
+			secondItem = null;
+		}
+		
+		if(firstItem != null){
+			firstItem.QueueFree();
+			firstItem = null;
+		}
+	}
+	
+	
 }

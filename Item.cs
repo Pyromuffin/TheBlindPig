@@ -22,6 +22,7 @@ public partial class Item : Sprite2D
 	
 	private void _on_area_2d_body_entered(Node2D body)
 	{
+		GD.Print("overlapped");
 		overlapped = true;
 		holder = body;
 	}
@@ -34,30 +35,14 @@ public partial class Item : Sprite2D
 
 	public override void _Process(double delta)
 	{
-		
-		if(held &&  Input.IsActionJustPressed("ui_accept")){
-			// put it down?
-			var parent = holder;
-			var parentPos = holder.Position;
-			parent.RemoveChild(this);
-			world.AddChild(this);
-			Position = parentPos;
-			held = false;
-		}
-		
-		
 		if(overlapped && !held){
 			var selected = Input.IsActionJustPressed("ui_accept");
 			if(selected){
 				held = true;
-				GetParent().RemoveChild(this);
-				holder.AddChild(this);
-				Position = heldOffset;
+				var waiter = holder as Watier;
+				waiter.PickUpItem(this);
 			}
 		}
-		
-	
-		 
 	}
 	
 

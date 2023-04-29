@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "The Blind Pig", "The Blind Pig.csproj", "{F96A094C-67E4-4C0E-A72F-41D98E6CB891}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F96A094C-67E4-4C0E-A72F-41D98E6CB891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F96A094C-67E4-4C0E-A72F-41D98E6CB891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F96A094C-67E4-4C0E-A72F-41D98E6CB891}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{F96A094C-67E4-4C0E-A72F-41D98E6CB891}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{F96A094C-67E4-4C0E-A72F-41D98E6CB891}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{F96A094C-67E4-4C0E-A72F-41D98E6CB891}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal

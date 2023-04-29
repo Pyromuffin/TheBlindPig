@@ -11,8 +11,15 @@ config_version=5
 [application]
 
 config/name="The Blind Pig"
-config/features=PackedStringArray("4.0", "Forward Plus")
+run/main_scene="res://uhhh.tscn"
+config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=320
+window/size/viewport_height=160
+window/stretch/mode="canvas_items"
 
 [dotnet]
 

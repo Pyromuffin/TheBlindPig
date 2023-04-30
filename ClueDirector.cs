@@ -63,7 +63,7 @@ class PoliticalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return "Political Clue: " + (Patron.PolitcalAffiliation)clueID;
+		return "Political Clue: " + (PolitcalAffiliation)clueID;
 	}
 }
 
@@ -76,7 +76,7 @@ class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return "Criminal Clue: " + (Patron.CriminalBackground)clueID;
+		return "Criminal Clue: " + (CriminalBackground)clueID;
 	}
 }
 

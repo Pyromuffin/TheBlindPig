@@ -9,6 +9,11 @@ public partial class PatronVoice : Node2D
 	[Export]
 	public AudioStreamPlayer2D VoicePlayer;
 
+	[Export]
+	Timer VoiceCoolDown;
+
+	
+
 	bool Playing = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -38,7 +43,10 @@ public partial class PatronVoice : Node2D
 			VoicePlayer.Stream = GetRandomSound();
 			VoicePlayer.Play();
 			await ToSignal(VoicePlayer, "finished");
-
+			float CoolDownTime = GD.Randf() * 0.25f + 0.25f;
+			VoiceCoolDown.WaitTime = CoolDownTime;
+			VoiceCoolDown.Start();
+			await ToSignal(VoiceCoolDown, "timeout");
 			if( !Playing )
 				break;
 		}

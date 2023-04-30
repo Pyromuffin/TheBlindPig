@@ -53,17 +53,18 @@ Speed = 100.0
 [node name="Camera2D" type="Camera2D" parent="Waiter"]
 
 [node name="Music" type="Node2D" parent="."]
+position = Vector2(-184, 30)
 
 [node name="Bass" type="AudioStreamPlayer2D" parent="Music"]
-position = Vector2(-185, 32)
 stream = ExtResource("5_l46sh")
 autoplay = true
+max_distance = 600.0
 
 [node name="Treble" type="AudioStreamPlayer2D" parent="Music"]
-position = Vector2(-185, 32)
 stream = ExtResource("7_sgowm")
 autoplay = true
+max_distance = 600.0
 
 [node name="Intro" type="AudioStreamPlayer2D" parent="Music"]
-position = Vector2(-185, 32)
 stream = ExtResource("8_rg0r7")
+max_distance = 600.0

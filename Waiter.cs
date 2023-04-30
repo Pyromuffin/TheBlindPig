@@ -107,12 +107,19 @@ public partial class Waiter : CharacterBody2D
 				secondItem = null;
 			}
 
+			p.ResetOrder();
+			p.RandomTimedOrder(Item.GetRandomItem());
+
 			Suspicion.Reduce(p.deliverySuspicionReduction);
 		}
 
 		else if(secondItem?.itemType == p.desiredItem){
 			secondItem.QueueFree();
 			secondItem = null;
+
+			p.ResetOrder();
+			p.RandomTimedOrder(Item.GetRandomItem());
+			
 			Suspicion.Reduce(p.deliverySuspicionReduction);
 		}
 	}

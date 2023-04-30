@@ -175,7 +175,7 @@ public partial class ClueDirector : Node2D
 	uint currentAct = 0;
 	uint copIndex = 0;
 	
-	PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
+	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
 	
 	DialogSystem dialogSystem = new DialogSystem();
 	
@@ -186,6 +186,18 @@ public partial class ClueDirector : Node2D
 		GD.Print("================");
 		GD.Print("Start of Act " + (currentAct + 1));
 		GD.Print("-------------");
+
+		var act = acts[currentAct];
+		var randomPairs = Spawners.GetRandomSpawnPairs();
+
+		for(int i = 0; i < 3; i++){
+			var first = act._couples[i,0];
+			var second = act._couples[i,1];
+
+			Spawners.patrons[(int)first].Position = randomPairs[i].first.Position;
+			Spawners.patrons[(int)second].Position = randomPairs[i].second.Position;
+		}
+
 	}
 	
 	public void GoToNextAct()
@@ -376,7 +388,6 @@ public partial class ClueDirector : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 CreateMystery();
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)

@@ -140,9 +140,6 @@ public partial class Patron : Sprite2D
 	Texture2D dotsIcon;
 
 	[Export]
-	PatronType type;
-
-	[Export]
 	PatronVoice patronVoice;
 	[Export]
 	Label patronText;
@@ -153,11 +150,16 @@ public partial class Patron : Sprite2D
 	public override void _Ready()
 	{
 		waiter = GetParent().GetNode<Node2D>("Waiter");
-		desiredItem = Item.GetRandomItem();
-		RandomTimedOrder(Item.GetRandomItem());
+		//desiredItem = Item.GetRandomItem();
+		//RandomTimedOrder(Item.GetRandomItem());
 		EnterState( State.IDLE );
-		type =(PatronType)(GD.Randi() % 6);
-		Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
+		//type =(PatronType)(GD.Randi() % 6);
+		
+	}
+
+	public void Init(PatronDetails d) {
+		details = d;
+		Texture = GD.Load<Texture2D>("res://assets/characters/" + details.patronType.ToString().ToLower() + ".png");
 	}
 
 	void ResetDialog()

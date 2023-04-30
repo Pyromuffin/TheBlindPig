@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=10 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="TileSet" uid="uid://foc2j2gl6bxf" path="res://ground.tres" id="1_28s4n"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="5_l46sh"]
 [ext_resource type="Script" path="res://AudioDirector.cs" id="6_vv36t"]
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
+[ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 
 [node name="world" type="Node2D"]
 
@@ -46,6 +47,7 @@ itemType = 6
 position = Vector2(-67, 28)
 endDialogGrowDistance = 25.0
 iconTransitionTime = 0.5
+deliverySuspicionReduction = 10.0
 
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 position = Vector2(14, 28)
@@ -69,3 +71,10 @@ max_distance = 600.0
 stream = ExtResource("8_rg0r7")
 autoplay = true
 max_distance = 600.0
+
+[node name="Suspicion" parent="." instance=ExtResource("9_vwhiw")]
+offset_left = -58.0
+offset_top = -53.0
+offset_right = -58.0
+offset_bottom = -53.0
+suspicionRate = 1.0

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dywauqvck6svf" path="res://assets/characters/waiter_spritesheet.png" id="1_iw8px"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wb1v7"]
-size = Vector2(24, 17)
+size = Vector2(24, 18)
 
 [sub_resource type="Animation" id="Animation_owlws"]
 length = 0.001
@@ -181,10 +181,9 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 texture = ExtResource("1_iw8px")
 hframes = 6
 vframes = 2
-frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 15.5)
+position = Vector2(0, 15)
 shape = SubResource("RectangleShape2D_wb1v7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

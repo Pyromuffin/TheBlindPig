@@ -1,12 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://d03t5yujeekpo"]
+[gd_scene load_steps=9 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="TileSet" uid="uid://foc2j2gl6bxf" path="res://ground.tres" id="1_28s4n"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
 [ext_resource type="PackedScene" uid="uid://cwqcpw2bmnp2u" path="res://ItemSource.tscn" id="5_0rmxv"]
-[ext_resource type="PackedScene" path="res://Patron.tscn" id="5_6jqew"]
-[ext_resource type="PackedScene" path="res://Waiter.tscn" id="5_c2evn"]
+[ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="5_6jqew"]
+[ext_resource type="PackedScene" uid="uid://csf2hnr4t0o7x" path="res://Waiter.tscn" id="5_c2evn"]
 [ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="5_l46sh"]
-[ext_resource type="AudioStream" uid="uid://1txksy4trkhq" path="res://assets/music/JamRagTreble.mp3" id="7_sgowm"]
+[ext_resource type="Script" path="res://AudioDirector.cs" id="6_vv36t"]
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
 
 [node name="world" type="Node2D"]
@@ -44,29 +44,28 @@ itemType = 6
 
 [node name="Patron" parent="." instance=ExtResource("5_6jqew")]
 position = Vector2(-67, 28)
-minimumDialogBoxSize = Vector2(10, 10)
-targetDialogBoxSize = Vector2(32, 32)
-beginDialogGrowDistance = 50.0
 endDialogGrowDistance = 25.0
+iconTransitionTime = 0.5
 
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 position = Vector2(14, 28)
 Speed = 100.0
+firstItemPosition = Vector2(5, -10)
+secondItemPosition = Vector2(-5, -10)
 
 [node name="Camera2D" type="Camera2D" parent="Waiter"]
 
-[node name="Music" type="Node2D" parent="."]
+[node name="Music" type="Node2D" parent="." node_paths=PackedStringArray("Bass", "Treble")]
+position = Vector2(-184, 30)
+script = ExtResource("6_vv36t")
+Bass = NodePath("Bass")
+Treble = NodePath("Treble")
 
 [node name="Bass" type="AudioStreamPlayer2D" parent="Music"]
-position = Vector2(-185, 32)
 stream = ExtResource("5_l46sh")
-autoplay = true
+max_distance = 600.0
 
 [node name="Treble" type="AudioStreamPlayer2D" parent="Music"]
-position = Vector2(-185, 32)
-stream = ExtResource("7_sgowm")
-autoplay = true
-
-[node name="Intro" type="AudioStreamPlayer2D" parent="Music"]
-position = Vector2(-185, 32)
 stream = ExtResource("8_rg0r7")
+autoplay = true
+max_distance = 600.0

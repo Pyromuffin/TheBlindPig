@@ -15,7 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_byj4c")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Image" type="TextureRect" parent="."]
 layout_mode = 0
 offset_right = 1440.0
 offset_bottom = 1056.0

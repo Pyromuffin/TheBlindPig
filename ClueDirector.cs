@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Collections.Generic;
+
 
 public static class EnumExtensions
 {
@@ -13,103 +15,11 @@ public static class EnumExtensions
 	}
 }
 
-public enum Drink {
-	Wine,
-	OldFashioned,
-	Cocktail,
-	Absinthe,
-	DRINK_COUNT = Absinthe,
-}
-
-public enum Food  {
-	Meat,
-	StrawberryCake,
-	Carrot,
-	FOOD_COUNT = Carrot
-}
-
-public enum PatronType
-{
-	EscapeArtist,
-	JazzMusician,
-	Spritualist,
-	Journalist,
-	BaseballPlayer,
-	Flapper,
-}
-
-public enum CriminalBackground
-{
-	Bootlegger,
-	RumRunner,
-	Moonshiner,
-	Bribery,
-	Smuggling,
-}
-
-public enum PolitcalAffiliation
-{
-	HippoParty,
-	BearParty,
-	RabbitParty,
-}
-
-class Patronus
-{	
-	PatronType patronType;
-	bool isTheCop;
-	PatronType futureRelationshipMechanic;
-	
-	uint loudness;
-	
-	// Ordering Observation Task
-	public Drink hatedDrink;
-	public Food hatedFood;
-	//public Drink favoriteDrink;
-	//public Food favoriteFood;
-	
-	// Converstation Task
-	public PolitcalAffiliation polAff;
-	public CriminalBackground criminalBackground;
-	
-	public Patronus(uint _patronIndex, bool _isCop, uint _randomPatron)
-   	{
-		patronType = (PatronType)_patronIndex;
-		isTheCop = _isCop;
-		
-		loudness = GD.Randi() % 5 + 5;
-		
-		hatedDrink = (Drink)(typeof(Drink).GetRandomEnumValue());
-		hatedFood = (Food)(typeof(Food).GetRandomEnumValue());
-		
-		polAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
-		criminalBackground = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
-		
-		futureRelationshipMechanic = (PatronType)_randomPatron;
-		
-		//int hatedOffset = GD.Randi() % ((int)Drink.DRINK_COUNT - 1);
-		//hatedDrink = (Drink)((int)(favoriteDrink + hatedOffset + 1) % (int)Drink.DRINK_COUNT);
-		//int hatedFoodOffset  = rnd.Next((int)Food.FOOD_COUNT - 1);
-		//hatedFood = (Food)((int)(favoriteDrink + hatedFoodOffset + 1) % (int)Food.FOOD_COUNT);
-		
-		GD.Print("{ " + patronType + " }");
-		
-		GD.Print("Loudness: " + loudness);
-		GD.Print("Hated Food: " + hatedFood);
-		GD.Print("Hated Food: " + hatedDrink);
-		GD.Print("Politcal Affiliation: " + polAff);
-		GD.Print("Criminal Background: " + criminalBackground);
-		GD.Print("Connection to: " + (futureRelationshipMechanic != patronType ? futureRelationshipMechanic : "NONE"));
-		GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
-		GD.Print("======================");
-	}
-}
-
 abstract class Clue 
 {
 	public uint clueID;
 	
-	public  void SetClueID(uint _clueID)
+	public void SetClueID(uint _clueID)
 	{
 		clueID = _clueID;
 	}
@@ -118,7 +28,7 @@ abstract class Clue
 	public abstract string GetClueText();
 }
 
-class DietaryClue : Clue
+class AlchoholClue : Clue
 {
 	public override uint GetClueValue() 
 	{
@@ -127,7 +37,46 @@ class DietaryClue : Clue
 	
 	public override string GetClueText()
 	{
-		return "The cop will never order " + (Food)clueID;
+		return "Alchohol Clue: " + (ItemType)clueID;
+	}
+}
+
+class DietClue : Clue
+{
+	public override uint GetClueValue() 
+	{
+		return (uint)clueID;
+	}
+	
+	public override string GetClueText()
+	{
+		return "Diet Clue: " + (DietType)clueID;
+	}
+}
+
+class PoliticalClue : Clue
+{
+	public override uint GetClueValue() 
+	{
+		return (uint)clueID;
+	}
+	
+	public override string GetClueText()
+	{
+		return "Political Clue: " + (Patron.PolitcalAffiliation)clueID;
+	}
+}
+
+class CriminalClue : Clue
+{
+	public override uint GetClueValue() 
+	{
+		return (uint)clueID;
+	}
+	
+	public override string GetClueText()
+	{
+		return "Criminal Clue: " + (Patron.CriminalBackground)clueID;
 	}
 }
 
@@ -147,7 +96,7 @@ public partial class ClueDirector : Node2D
 	public delegate void SendDialogEventHandler();
 	
 	const uint PATRON_COUNT = 6;
-	const uint ACT_COUNT = 2;
+	const uint ACT_COUNT = 3;
 	uint copIndex;
 	
 	Patron[] patrons = new Patron[PATRON_COUNT];
@@ -160,15 +109,49 @@ public partial class ClueDirector : Node2D
 		for (uint i = 0; i < PATRON_COUNT; ++i)
 		{
 			uint randomPatron = GD.Randi() % PATRON_COUNT;
-			patrons[i] = new Patronus(i, (bool)(copIndex == i), randomPatron) ;
+			patrons[i] = new Patron(i, (bool)(copIndex == i), randomPatron) ;
 		}
+		List<int> numberList = new List<int>();
+		numberList.Add(0);
+		numberList.Add(1);
+		numberList.Add(2);
+		numberList.Add(3);
 		
 		for (uint i = 0; i < ACT_COUNT; ++i)
 		{
-			DietaryClue clue = new DietaryClue();
-			clue.SetClueID((uint)patrons[copIndex].hatedFood);
+			long clueIndex = GD.Randi() % (int)numberList.Count;
+			int clueType = numberList[ (int)clueIndex ];
 			
-			acts[i] = new Act(clue);
+			if(clueType == 0)
+			{
+				PoliticalClue clue = new PoliticalClue();
+				clue.SetClueID((uint)patrons[copIndex].politcalAffiliation);
+			
+				acts[i] = new Act(clue);
+			}
+			else if(clueType == 1)
+			{
+				DietClue clue = new DietClue();
+				clue.SetClueID((uint)patrons[copIndex].dietType);
+			
+				acts[i] = new Act(clue);
+			}
+			else if(clueType == 2)
+			{
+				CriminalClue clue = new CriminalClue();
+				clue.SetClueID((uint)patrons[copIndex].criminalBackground);
+			
+				acts[i] = new Act(clue);
+			}
+			else if(clueType == 3)
+			{
+				AlchoholClue clue = new AlchoholClue();
+				clue.SetClueID((uint)patrons[copIndex].hatedDrink);
+			
+				acts[i] = new Act(clue);
+			}
+			
+			numberList.RemoveAt((int)clueIndex);
 		}
 		
 		// Debug!

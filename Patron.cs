@@ -283,6 +283,7 @@ public partial class Patron : Sprite2D
 		dialogBubble.Show();
 		DialogIcon.Show();
 		TailIcon.Show();
+		patronText.Show();
 		DialogIcon.Texture = dotsIcon;
 	}
 	

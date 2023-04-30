@@ -45,10 +45,13 @@ itemType = 6
 [node name="Patron" parent="." instance=ExtResource("5_6jqew")]
 position = Vector2(-67, 28)
 endDialogGrowDistance = 25.0
+iconTransitionTime = 0.5
 
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 position = Vector2(14, 28)
 Speed = 100.0
+firstItemPosition = Vector2(5, -10)
+secondItemPosition = Vector2(-5, -10)
 
 [node name="Camera2D" type="Camera2D" parent="Waiter"]
 

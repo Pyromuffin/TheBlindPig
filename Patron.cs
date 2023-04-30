@@ -158,6 +158,7 @@ public partial class Patron : Sprite2D
 	public void Init(PatronDetails d) {
 		details = d;
 		Texture = GD.Load<Texture2D>("res://assets/characters/" + details.patronType.ToString().ToLower() + ".png");
+		patronVoice.Init( details.patronType );
 	}
 
 	void ResetDialog()
@@ -282,6 +283,7 @@ public partial class Patron : Sprite2D
 		dialogBubble.Show();
 		DialogIcon.Show();
 		TailIcon.Show();
+		patronText.Show();
 		DialogIcon.Texture = dotsIcon;
 	}
 	
@@ -340,6 +342,10 @@ public partial class Patron : Sprite2D
 	public void CreateDialog(string text){
 		currentDialog = text;
 		EnterState( State.TALKING );
+	}
+
+	public void EnterIdle(){
+		EnterState( State.IDLE );
 	}
 
 

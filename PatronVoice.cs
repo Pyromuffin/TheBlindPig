@@ -1,10 +1,10 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class PatronVoice : Node2D
 {
-	[Export]
-	AudioStream[] VoiceStreams;
+	List<AudioStream> VoiceStreams;
 
 	[Export]
 	public AudioStreamPlayer VoicePlayer;
@@ -26,7 +26,43 @@ public partial class PatronVoice : Node2D
 
 	AudioStream GetRandomSound()
 	{
-		return VoiceStreams[GD.RandRange( 0, VoiceStreams.Length - 1 )];
+		return VoiceStreams[GD.RandRange( 0, VoiceStreams.Count - 1 )];
+	}
+
+	public void Init(PatronType type)
+	{
+		VoiceStreams = new List<AudioStream>();
+		string voiceDirectory = "res://assets/sounds/Voices/";
+		switch ( type )
+		{
+			case(PatronType.Journalist):
+				voiceDirectory = voiceDirectory + "journalist/";
+				break;
+			case(PatronType.BaseballPlayer):
+				voiceDirectory = voiceDirectory + "giraffe/";
+				break;
+			case(PatronType.Flapper):
+				voiceDirectory = voiceDirectory + "rabbit/";
+				break;
+			case(PatronType.Spiritualist):
+				voiceDirectory = voiceDirectory + "bird/";
+				break;
+			default:
+			case(PatronType.JazzMusician):
+				voiceDirectory = voiceDirectory + "lion/";
+				break;
+		}
+
+		DirAccess voiceDir = DirAccess.Open( voiceDirectory );
+		string[] files = voiceDir.GetFiles();
+		foreach( string file in files )
+		{
+			if( !file.Contains( "import" ) )
+			{
+				AudioStream stream = (AudioStream)GD.Load( voiceDirectory + file );
+				VoiceStreams.Add( stream );
+			}
+		}
 	}
 
 	void RandomizePitch()

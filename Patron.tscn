@@ -36,6 +36,7 @@ patronText = NodePath("Dialog/Label")
 [node name="Dialog" type="Node2D" parent="."]
 
 [node name="Request text" type="NinePatchRect" parent="Dialog"]
+z_index = 10
 anchors_preset = -1
 anchor_left = 0.156
 anchor_top = -0.146
@@ -53,10 +54,12 @@ patch_margin_right = 7
 patch_margin_bottom = 5
 
 [node name="BubbleTail" type="Sprite2D" parent="Dialog"]
+z_index = 10
 position = Vector2(-7, -20)
 texture = ExtResource("4_wn67f")
 
 [node name="DialogIcon" type="Sprite2D" parent="Dialog"]
+z_index = 10
 position = Vector2(-4, -25)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("5_3xh7d")

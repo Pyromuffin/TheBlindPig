@@ -245,22 +245,17 @@ public partial class ClueDirector : Node2D
 		numberList.Add(0);
 		numberList.Add(1);
 		numberList.Add(2);
-		numberList.Add(3);
+		
+		// Every game either has a drink or food clue!
+		// Decide which act it is here
+		long actWithItemClue = GD.Randi() % ACT_COUNT;
 		
 		for (uint i = 0; i < ACT_COUNT; ++i)
 		{
-			long clueIndex = GD.Randi() % (int)numberList.Count;
-			int clueType = numberList[ (int)clueIndex ];
-			
-			if(clueType == 0)
+			// Check if this is the act with the Item clue
+			if(i == actWithItemClue)
 			{
-				PoliticalClue clue = new PoliticalClue();
-				clue.SetClueID((uint)patrons[copIndex].politcalAffiliation);
-			
-				acts[i] = new Act(clue);
-			}
-			else if(clueType == 1)
-			{
+				// 50/50 if its hated drink or type of diet
 				bool coinFlip = (GD.Randi() % 2) == 0;
 				if(coinFlip)
 				{
@@ -275,23 +270,35 @@ public partial class ClueDirector : Node2D
 					acts[i] = new Act(clue);
 				}
 			}
-			else if(clueType == 2)
+			else
 			{
-				CriminalClue clue = new CriminalClue();
-				clue.SetClueID((uint)patrons[copIndex].criminalBackground);
+				long clueIndex = GD.Randi() % (int)numberList.Count;
+				int clueType = numberList[ (int)clueIndex ];
 			
-				acts[i] = new Act(clue);
+				if(clueType == 0)
+				{
+					PoliticalClue clue = new PoliticalClue();
+					clue.SetClueID((uint)patrons[copIndex].politcalAffiliation);
+				
+					acts[i] = new Act(clue);
+				}
+				else if(clueType == 1)
+				{
+					CriminalClue clue = new CriminalClue();
+					clue.SetClueID((uint)patrons[copIndex].criminalBackground);
+				
+					acts[i] = new Act(clue);
+				}
+				else if(clueType == 2)
+				{
+					RelationshipClue clue = new RelationshipClue();
+					clue.SetClueID((uint)patrons[copIndex].relationshipType);
+				
+					acts[i] = new Act(clue);
+				}
+				
+				numberList.RemoveAt((int)clueIndex);
 			}
-			else if(clueType == 3)
-			{
-				RelationshipClue clue = new RelationshipClue();
-				clue.SetClueID((uint)patrons[copIndex].relationshipType);
-			
-				acts[i] = new Act(clue);
-			}
-			
-			
-			numberList.RemoveAt((int)clueIndex);
 		}
 	}
 	

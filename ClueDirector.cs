@@ -63,7 +63,7 @@ class PoliticalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return "Political Clue: " + (Patron.PolitcalAffiliation)clueID;
+		return "Political Clue: " + (PolitcalAffiliation)clueID;
 	}
 }
 
@@ -76,7 +76,7 @@ class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return "Criminal Clue: " + (Patron.CriminalBackground)clueID;
+		return "Criminal Clue: " + (CriminalBackground)clueID;
 	}
 }
 
@@ -92,6 +92,7 @@ class Act
 
 public partial class ClueDirector : Node2D
 {
+
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
@@ -99,7 +100,7 @@ public partial class ClueDirector : Node2D
 	const uint ACT_COUNT = 3;
 	uint copIndex;
 	
-	Patron[] patrons = new Patron[PATRON_COUNT];
+	PatronDetails[] patrons = new PatronDetails[PATRON_COUNT];
 	Act[] acts = new Act[ACT_COUNT];
 	
 	// Called when the node enters the scene tree for the first time.
@@ -109,7 +110,7 @@ public partial class ClueDirector : Node2D
 		for (uint i = 0; i < PATRON_COUNT; ++i)
 		{
 			uint randomPatron = GD.Randi() % PATRON_COUNT;
-			patrons[i] = new Patron(i, (bool)(copIndex == i), randomPatron) ;
+			patrons[i] = new PatronDetails(i, (bool)(copIndex == i), randomPatron) ;
 		}
 		List<int> numberList = new List<int>();
 		numberList.Add(0);
@@ -170,4 +171,5 @@ public partial class ClueDirector : Node2D
 	public override void _Process(double delta)
 	{
 	}
+	
 }

@@ -6,17 +6,20 @@
 [ext_resource type="Texture2D" uid="uid://b6t5falyqjvwg" path="res://assets/ui/bubble_tail.png" id="4_wn67f"]
 [ext_resource type="Texture2D" uid="uid://cbw45m4bkhhrn" path="res://assets/ui/icon_question_mark_24.png" id="5_3xh7d"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7x6vj"]
-radius = 24.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_jvnn8"]
+radius = 24.0208
 
 [node name="Patron" type="Sprite2D"]
 texture = ExtResource("1_8tbdv")
 script = ExtResource("2_38pbh")
 minimumDialogBoxSize = Vector2(16, 16)
 targetDialogBoxSize = Vector2(32, 32)
-beginDialogGrowDistance = 50.0
+beginDialogGrowDistance = 60.0
+endDialogGrowDistance = 30.0
 iconScale = 2.6
 iconTransitionTime = 1.0
+deliverySuspicionReduction = 10.0
+randomTime = 10.0
 
 [node name="Request text" type="NinePatchRect" parent="."]
 anchors_preset = -1
@@ -48,8 +51,8 @@ offset = Vector2(-24, -24)
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(3, 3)
-shape = SubResource("CircleShape2D_7x6vj")
+position = Vector2(3, 5)
+shape = SubResource("CircleShape2D_jvnn8")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="Enter"]
+[connection signal="body_exited" from="Area2D" to="." method="Exit"]

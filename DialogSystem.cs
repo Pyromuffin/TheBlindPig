@@ -28,7 +28,6 @@ public partial class DialogSystem : Node
 	{
 	}
 	
-	
 	public void GenerateRadioMessage(DialogContext _dialogContext)
 	{
 		GD.Print("The radio broadcasts information about " + _dialogContext);
@@ -72,6 +71,13 @@ public partial class DialogSystem : Node
 			{
 				PolitcalAffiliation politcalID = (PolitcalAffiliation)_clueID;
 				debugSuffixText = " " + politcalID;
+				break;
+			}
+			
+			case DialogContext.RelationshipDialog:
+			{
+				RelationshipType relationshipType = (RelationshipType)_clueID;
+				debugSuffixText = " their " + relationshipType;
 				break;
 			}
 		}

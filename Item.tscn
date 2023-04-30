@@ -1,8 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://dilas28v46s08"]
 
-[ext_resource type="Texture2D" uid="uid://gusv73pnrkhp" path="res://art/Objects/Simple Milk and grass item.png" id="1_64pqf"]
 [ext_resource type="Script" path="res://Item.cs" id="2_jln3h"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_johy6"]
+load_path = "res://.godot/imported/Simple Milk and grass item.png-4a55e211ed702de42f53871c63049a97.ctex"
+
 [node name="Item" type="Sprite2D"]
-texture = ExtResource("1_64pqf")
+texture = SubResource("CompressedTexture2D_johy6")
 script = ExtResource("2_jln3h")

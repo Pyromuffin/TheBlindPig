@@ -32,6 +32,7 @@ public enum CriminalBackground
 	Moonshiner,
 	Bribery,
 	Smuggling,
+	CRIMINALBACKGROUND_COUNT
 }
 
 public enum PolitcalAffiliation
@@ -69,18 +70,18 @@ public class PatronDetails {
 	public PatronType relationPatron;
 	public RelationshipType relationshipType;
 	
-	public PatronDetails(uint _patronIndex, bool _isCop)
+	public PatronDetails(int _patronIndex, bool _isCop, ItemType _hatedDrink, DietType _dietType, PolitcalAffiliation _polAff, CriminalBackground _crimBackground)
    	{
 		patronType = (PatronType)_patronIndex;
 		isTheCop = _isCop;
 		
 		loudness = GD.Randi() % 5 + 5;
 		
-		hatedDrink = Item.GetRandomDrink();
-		dietType = Item.GetRandomDiet();
+		hatedDrink =_hatedDrink;
+		dietType = _dietType;
 		
-		politcalAffiliation = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
-		criminalBackground = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+		politcalAffiliation = _polAff;
+		criminalBackground = _crimBackground;
 		
 		relationPatron = PatronType.None;
 		relationshipType = RelationshipType.None;
@@ -125,7 +126,8 @@ public partial class Patron : Sprite2D
 	{
 		IDLE,
 		ORDERING,
-		TALKING
+		TALKING,
+		HEARD_TALKING
 	}
 	State currentState;
 	
@@ -169,7 +171,6 @@ public partial class Patron : Sprite2D
 		DialogIcon.Hide();
 		TailIcon.Hide();
 		patronText.Hide();
-		patronVoice.SetPlaying( false );
 	}
 
 	void EnterState( State newState )
@@ -226,7 +227,12 @@ public partial class Patron : Sprite2D
 		var size = minimumDialogBoxSize.Lerp(targetDialogBoxSize, 1 - fraction);
 		dialogBubble.Size = size;
 		DialogIcon.Scale = initialIconScale.Lerp(initialIconScale * iconScale, 1 - fraction);
-
+		if( currentState == State.TALKING )
+		{
+			patronVoice.SetPlaying( fraction < 1 );
+			patronVoice.SetVolume( fraction );
+		}
+		
 		if(!fading && !revealed && fraction == 0){
 			fading = true;
 			Fade();
@@ -279,7 +285,6 @@ public partial class Patron : Sprite2D
 		DialogIcon.Show();
 		TailIcon.Show();
 		DialogIcon.Texture = dotsIcon;
-		patronVoice.SetPlaying( true );
 	}
 	
 	public void CreateOrder(ItemType item){
@@ -297,7 +302,9 @@ public partial class Patron : Sprite2D
 	
 	private void Enter(Node2D body)
 	{
-		overlapper = body;
+		if(body is Waiter){
+			overlapper = body;
+		}
 	}
 
 	private void Exit(Node2D body)

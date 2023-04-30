@@ -28,9 +28,9 @@ abstract class Clue
 	public abstract string GetClueText();
 }
 
-class AlchoholClue : Clue
+class AlcoholClue : Clue
 {
-	public AlchoholClue()
+	public AlcoholClue()
 	{
 		//dialogContext = DialogContext.ItemDialog;
 	}
@@ -93,7 +93,7 @@ class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " does some " + (CriminalBackground)clueID + " on the side";
+		return " pretends to be a " + (CriminalBackground)clueID + " on the side";
 	}
 }
 
@@ -167,7 +167,6 @@ class Act
 
 public partial class ClueDirector : Node2D
 {
-
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
@@ -182,14 +181,14 @@ public partial class ClueDirector : Node2D
 	
 	Act[] acts = new Act[ACT_COUNT];
 	
-	public void StartAct()
+	public void StartCurrentAct()
 	{
 		GD.Print("================");
 		GD.Print("Start of Act " + (currentAct + 1));
 		GD.Print("-------------");
 	}
 	
-	public void EndAct()
+	public void GoToNextAct()
 	{
 		GD.Print("-------------");
 		GD.Print("End of Act " + (currentAct + 1));
@@ -246,70 +245,124 @@ public partial class ClueDirector : Node2D
 		numberList.Add(0);
 		numberList.Add(1);
 		numberList.Add(2);
-		numberList.Add(3);
+		
+		// Every game either has a drink or food clue!
+		// Decide which act it is here
+		long actWithItemClue = GD.Randi() % ACT_COUNT;
 		
 		for (uint i = 0; i < ACT_COUNT; ++i)
 		{
-			long clueIndex = GD.Randi() % (int)numberList.Count;
-			int clueType = numberList[ (int)clueIndex ];
-			
-			if(clueType == 0)
+			// Check if this is the act with the Item clue
+			if(i == actWithItemClue)
 			{
-				PoliticalClue clue = new PoliticalClue();
-				clue.SetClueID((uint)patrons[copIndex].politcalAffiliation);
-			
-				acts[i] = new Act(clue);
-			}
-			else if(clueType == 1)
-			{
+				// 50/50 if its hated drink or type of diet
 				bool coinFlip = (GD.Randi() % 2) == 0;
 				if(coinFlip)
 				{
 					DietClue clue = new DietClue();
-					clue.SetClueID((uint)patrons[copIndex].dietType);
+					DietType randomDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
+					clue.SetClueID((uint)randomDiet);
 					acts[i] = new Act(clue);
 				}
 				else
 				{
-					AlchoholClue clue = new AlchoholClue();
-					clue.SetClueID((uint)patrons[copIndex].hatedDrink);
+					AlcoholClue clue = new AlcoholClue();
+					uint randomDrink = GD.Randi() % (uint)Item.alcohol.Length;
+					clue.SetClueID(randomDrink);
 					acts[i] = new Act(clue);
 				}
 			}
-			else if(clueType == 2)
+			else
 			{
-				CriminalClue clue = new CriminalClue();
-				clue.SetClueID((uint)patrons[copIndex].criminalBackground);
+				long clueIndex = GD.Randi() % (int)numberList.Count;
+				int clueType = numberList[ (int)clueIndex ];
 			
-				acts[i] = new Act(clue);
+				if(clueType == 0)
+				{
+					PoliticalClue clue = new PoliticalClue();
+					PolitcalAffiliation randomPolAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+					clue.SetClueID((uint)randomPolAff);
+				
+					acts[i] = new Act(clue);
+				}
+				else if(clueType == 1)
+				{
+					CriminalClue clue = new CriminalClue();
+					CriminalBackground randomCrimBack = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+					clue.SetClueID((uint)randomCrimBack);
+				
+					acts[i] = new Act(clue);
+				}
+				else if(clueType == 2)
+				{
+					RelationshipClue clue = new RelationshipClue();
+					RelationshipType randomRelationType = (RelationshipType)(typeof(RelationshipType).GetRandomEnumValue());
+					clue.SetClueID((uint)randomRelationType);
+				
+					acts[i] = new Act(clue);
+				}
+				
+				numberList.RemoveAt((int)clueIndex);
 			}
-			else if(clueType == 3)
-			{
-				RelationshipClue clue = new RelationshipClue();
-				clue.SetClueID((uint)patrons[copIndex].relationshipType);
-			
-				acts[i] = new Act(clue);
-			}
-			
-			
-			numberList.RemoveAt((int)clueIndex);
 		}
 	}
 	
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	public void CreateMystery()
 	{
+		CreateClues();
+		
+		// Debug!
+		for (uint i = 0; i < ACT_COUNT; ++i)
+		{
+			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
+		}
+		
 		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
 		
-		// First up we make the cop!
-		patrons[copIndex] = new PatronDetails(copIndex, true);
+		// Build a bunch of lists for good random distrubution!
+		uint alcoholOffset = GD.Randi() % (uint)Item.alcohol.Length;
 		
-		for (uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		List<ItemType> alcoholList = new List<ItemType>();
+		alcoholList.Add(Item.alcohol[alcoholOffset]);
+		alcoholList.Add(Item.alcohol[alcoholOffset]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 1) % (uint)Item.alcohol.Length]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 1) % (uint)Item.alcohol.Length]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 2) % (uint)Item.alcohol.Length]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 2) % (uint)Item.alcohol.Length]);
+		alcoholList.Shuffle();
+		
+		List<DietType> dietList = new List<DietType>();
+		dietList.Add(DietType.Carnivore);
+		dietList.Add(DietType.Carnivore);
+		dietList.Add(DietType.Herbivore);
+		dietList.Add(DietType.Herbivore);
+		dietList.Add(DietType.Omnivore);
+		dietList.Add(DietType.Omnivore);
+		dietList.Shuffle();
+		
+		List<PolitcalAffiliation> polList = new List<PolitcalAffiliation>();
+		polList.Add(PolitcalAffiliation.BearParty);
+		polList.Add(PolitcalAffiliation.BearParty);
+		polList.Add(PolitcalAffiliation.RabbitParty);
+		polList.Add(PolitcalAffiliation.RabbitParty);
+		polList.Add(PolitcalAffiliation.LeopardParty);
+		polList.Add(PolitcalAffiliation.LeopardParty);
+		polList.Shuffle();
+		
+		uint offset = GD.Randi() % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT;
+		List<uint> crimList = new List<uint>();
+		crimList.Add(offset);
+		crimList.Add(offset);
+		crimList.Add((offset + 1) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		crimList.Add((offset + 1) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		crimList.Add((offset + 2) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		crimList.Add((offset + 2) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		
+		crimList.Shuffle();
+		
+		for (int i = 0; i < (int)PatronType.PATRON_COUNT; ++i)
 		{
-			if(copIndex == i)
-				continue;
-				
-			patrons[i] = new PatronDetails(i, false);
+			patrons[(uint)i] = new PatronDetails(i, (bool)(copIndex == i), (ItemType)alcoholList[i], dietList[i], polList[i], (CriminalBackground)crimList[i]);
 		}
 		
 		CreatePatronRelationships();
@@ -318,14 +371,12 @@ public partial class ClueDirector : Node2D
 		{
 			patrons[i].DebugPrintDetails();
 		}
-		
-		CreateClues();
-		
-		// Debug!
-		for (uint i = 0; i < ACT_COUNT; ++i)
-		{
-			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
-		}
+	}
+	
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		 CreateMystery();
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -399,9 +450,10 @@ public partial class ClueDirector : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		/*
 		while(currentAct < ACT_COUNT)
 		{
-			StartAct();
+			StartCurrentAct();
 		
 			while(!acts[currentAct].IsActOver())
 			{
@@ -424,8 +476,9 @@ public partial class ClueDirector : Node2D
 				}
 			}
 		
-			EndAct();
+			GoToNextAct();
 		 }
+		*/
 	}
 	
 }

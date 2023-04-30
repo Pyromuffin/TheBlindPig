@@ -5,11 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://cqj2g7exnqpqm" path="res://assets/ui/bubble_9_slice.png" id="3_16ayf"]
 [ext_resource type="Texture2D" uid="uid://b6t5falyqjvwg" path="res://assets/ui/bubble_tail.png" id="4_wn67f"]
 [ext_resource type="Texture2D" uid="uid://cbw45m4bkhhrn" path="res://assets/ui/icon_question_mark_24.png" id="5_3xh7d"]
+[ext_resource type="Texture2D" uid="uid://558bng4640xv" path="res://assets/ui/icon_dots_24.png" id="5_vyp4j"]
+[ext_resource type="PackedScene" uid="uid://cuavbbtf6ko2h" path="res://prefabs/voice.tscn" id="7_070qc"]
+[ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="8_ejq3t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvnn8"]
 radius = 24.0208
 
-[node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "PreviewIcon", "TailIcon")]
+[node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "DialogIcon", "TailIcon", "patronVoice", "patronText")]
 y_sort_enabled = true
 texture = ExtResource("1_8tbdv")
 script = ExtResource("2_38pbh")
@@ -22,8 +25,12 @@ iconTransitionTime = 1.0
 deliverySuspicionReduction = 10.0
 randomTime = 10.0
 dialogBubble = NodePath("Dialog/Request text")
-PreviewIcon = NodePath("Dialog/PreviewIcon")
+DialogIcon = NodePath("Dialog/DialogIcon")
 TailIcon = NodePath("Dialog/BubbleTail")
+questionIcon = ExtResource("5_3xh7d")
+dotsIcon = ExtResource("5_vyp4j")
+patronVoice = NodePath("Dialog/Voice")
+patronText = NodePath("Dialog/Label")
 
 [node name="Dialog" type="Node2D" parent="."]
 
@@ -36,7 +43,7 @@ anchor_bottom = -0.125
 offset_left = -1.0
 offset_top = -22.0
 offset_right = 15.0
-offset_bottom = -7.008
+offset_bottom = -7.0
 rotation = -3.14159
 texture = ExtResource("3_16ayf")
 patch_margin_left = 7
@@ -48,12 +55,24 @@ patch_margin_bottom = 5
 position = Vector2(-7, -20)
 texture = ExtResource("4_wn67f")
 
-[node name="PreviewIcon" type="Sprite2D" parent="Dialog"]
+[node name="DialogIcon" type="Sprite2D" parent="Dialog"]
 position = Vector2(-4, -25)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("5_3xh7d")
 centered = false
 offset = Vector2(-24, -24)
+
+[node name="Voice" parent="Dialog" instance=ExtResource("7_070qc")]
+
+[node name="Label" type="Label" parent="Dialog"]
+offset_left = -12.0
+offset_top = -57.0
+offset_right = 231.0
+offset_bottom = -23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_ejq3t")
+text = "I heard giraffes only eat cake at night.
+I'm more of a carrot person myself."
 
 [node name="Area2D" type="Area2D" parent="."]
 

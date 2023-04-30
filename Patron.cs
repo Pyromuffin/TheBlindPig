@@ -122,14 +122,14 @@ public partial class Patron : Sprite2D
 	[Export]
 	public Sprite2D DialogIcon, TailIcon;
 
-	enum State
+	public enum State
 	{
 		IDLE,
 		ORDERING,
 		TALKING,
 		HEARD_TALKING
 	}
-	State currentState;
+	public State currentState;
 	
 	public ItemType desiredItem;
 	string currentDialog;
@@ -190,11 +190,7 @@ public partial class Patron : Sprite2D
 		currentState = newState;
 	}
 
-	public async void RandomTimedOrder(ItemType item){
 
-		await ToSignal(GetTree().CreateTimer(GD.Randf() * randomTime), "timeout");
-		CreateOrder(item);
-	}
 
 	bool fading = false;
 	bool revealed = false;
@@ -289,6 +285,53 @@ public partial class Patron : Sprite2D
 		DialogIcon.Texture = dotsIcon;
 	}
 	
+
+	bool IsItemDrink(ItemType item){
+		return item == ItemType.Absinthe || item == ItemType.Bourbon || item == ItemType.Cocktail || item == ItemType.Wine;
+	}
+
+	bool IsAcceptableForDiet(ItemType item, DietType diet){
+		
+		if(IsItemDrink(item)){
+			return true;
+		}
+
+		if(diet == DietType.Carnivore){
+			return item == ItemType.Meat;
+		}
+
+		if(diet == DietType.Herbivore){
+			return item == ItemType.Cake || item == ItemType.Carrot;
+		}
+
+		return true;
+	}
+
+	public ItemType GetRandomOrderableItem(){
+		var diet = details.dietType;
+		var hated = details.hatedDrink;
+
+		var items = new ItemType[] {	
+			ItemType.Absinthe,
+			ItemType.Bourbon,
+			ItemType.Cake,
+			ItemType.Carrot,
+			ItemType.Cocktail,
+			ItemType.Meat,
+			ItemType.Wine};
+
+		items.Shuffle();
+
+		foreach(var i in items){
+			if(IsAcceptableForDiet(i, diet) && i != hated){
+				return i;
+			}
+		}
+
+		GD.Print("huge error");
+		throw new InvalidOperationException();
+	}
+
 	public void CreateOrder(ItemType item){
 		desiredItem = item;
 		EnterState( State.ORDERING );

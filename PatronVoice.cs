@@ -12,7 +12,10 @@ public partial class PatronVoice : Node2D
 	[Export]
 	Timer VoiceCoolDown;
 
-	
+	[Export]
+	public float MAX_PITCH = 1.1f;
+	[Export]
+	public float MIN_PITCH = 0.8f;
 
 	bool Playing = false;
 	// Called when the node enters the scene tree for the first time.
@@ -24,6 +27,12 @@ public partial class PatronVoice : Node2D
 	AudioStream GetRandomSound()
 	{
 		return VoiceStreams[GD.RandRange( 0, VoiceStreams.Length - 1 )];
+	}
+
+	void RandomizePitch()
+	{
+		float newPitch = GD.Randf() * ( MAX_PITCH - MIN_PITCH ) + MIN_PITCH;
+		VoicePlayer.PitchScale = newPitch;
 	}
 
 	public void SetPlaying( bool playing )
@@ -40,6 +49,7 @@ public partial class PatronVoice : Node2D
 	{
 		for( ;; )
 		{
+			RandomizePitch();
 			VoicePlayer.Stream = GetRandomSound();
 			VoicePlayer.Play();
 			await ToSignal(VoicePlayer, "finished");

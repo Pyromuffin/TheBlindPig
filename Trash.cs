@@ -16,7 +16,7 @@ public partial class Trash : Sprite2D
 	public override void _Process(double delta)
 	{
 		if(overlapped && Input.IsActionJustPressed("ui_accept")){
-			var waiter = overlapper as Watier;
+			var waiter = overlapper as Waiter;
 			waiter.Trash();
 		}
 	}

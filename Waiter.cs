@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Watier : CharacterBody2D
+public partial class Waiter : CharacterBody2D
 {
 	[Export]
 	public float Speed = 300.0f;
@@ -81,8 +81,6 @@ public partial class Watier : CharacterBody2D
 	public Node2D secondItem;
 
 	public void PickUpItem(Node2D item){
-		
-		GD.Print("Picked up");
 		
 		if(firstItem == null){
 			firstItem = item;

@@ -108,7 +108,6 @@ public partial class Patron : Sprite2D
 {
 
 	[Export] public Vector2 minimumDialogBoxSize;
-	[Export] public Vector2 targetDialogBoxSize;
 	[Export] public float beginDialogGrowDistance;
 	[Export] public float endDialogGrowDistance;
 	[Export] public float iconScale;
@@ -126,8 +125,7 @@ public partial class Patron : Sprite2D
 	{
 		IDLE,
 		ORDERING,
-		TALKING,
-		HEARD_TALKING
+		TALKING
 	}
 	State currentState;
 	
@@ -144,6 +142,9 @@ public partial class Patron : Sprite2D
 	[Export]
 	Label patronText;
 
+	[Export]
+	AnimationPlayer animationPlayer;
+
 	public PatronDetails details;
 
 	// Called when the node enters the scene tree for the first time.
@@ -154,8 +155,7 @@ public partial class Patron : Sprite2D
 		//RandomTimedOrder(Item.GetRandomItem());
 		EnterState( State.IDLE );
 		//type =(PatronType)(GD.Randi() % 6);
-		
-	}
+	} 
 
 	public void Init(PatronDetails d) {
 		details = d;
@@ -226,18 +226,20 @@ public partial class Patron : Sprite2D
 		float totalDistance = beginDialogGrowDistance - endDialogGrowDistance;
 		float fraction = (distanceToWaiter - endDialogGrowDistance) / totalDistance;
 		fraction = Mathf.Clamp(fraction, 0, 1);
-		var size = minimumDialogBoxSize.Lerp(targetDialogBoxSize, 1 - fraction);
-		dialogBubble.Size = size;
-		DialogIcon.Scale = initialIconScale.Lerp(initialIconScale * iconScale, 1 - fraction);
+		
 		if( currentState == State.TALKING )
 		{
 			patronVoice.SetPlaying( fraction < 1 );
 			patronVoice.SetVolume( fraction );
+			animationPlayer.Play( "TalkBoxRight" );
+			animationPlayer.Seek( ( 1 - fraction ) * 1.8f );
 		}
-		
-		if(!fading && !revealed && fraction == 0){
-			fading = true;
-			Fade();
+		else if( currentState == State.ORDERING )
+		{
+			animationPlayer.Play( "IconBoxRight" );
+			animationPlayer.Seek( 1 - fraction );
+			if( 1 - fraction == 1 )
+				DialogIcon.Texture = Item.GetLargeIcon(desiredItem);
 		}
 	}
 

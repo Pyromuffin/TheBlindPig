@@ -18,7 +18,7 @@ public enum PatronType
 	None = -1,
 	EscapeArtist,
 	JazzMusician,
-	Spritualist,
+	Spiritualist,
 	Journalist,
 	BaseballPlayer,
 	Flapper,

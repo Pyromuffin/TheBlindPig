@@ -10,6 +10,7 @@
 radius = 24.0208
 
 [node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "PreviewIcon", "TailIcon")]
+y_sort_enabled = true
 texture = ExtResource("1_8tbdv")
 script = ExtResource("2_38pbh")
 minimumDialogBoxSize = Vector2(16, 16)

@@ -302,7 +302,9 @@ public partial class Patron : Sprite2D
 	
 	private void Enter(Node2D body)
 	{
-		overlapper = body;
+		if(body is Waiter){
+			overlapper = body;
+		}
 	}
 
 	private void Exit(Node2D body)

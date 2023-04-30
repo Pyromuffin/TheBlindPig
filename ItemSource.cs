@@ -39,7 +39,9 @@ public partial class ItemSource : Sprite2D
 	
 	private void _on_area_2d_body_entered(Node2D body)
 	{
-		overlapper = body;
+		if(body is Waiter){
+			overlapper = body;
+		}
 	}
 
 

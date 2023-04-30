@@ -6,6 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_hlobf"]
 
 [node name="ItemSource" type="Sprite2D"]
+z_index = 4
 texture = ExtResource("1_qrvnj")
 script = ExtResource("2_n34e0")
 itemType = 3

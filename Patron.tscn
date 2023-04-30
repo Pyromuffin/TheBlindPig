@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cucowd5iend2x"]
+[gd_scene load_steps=10 format=3 uid="uid://cucowd5iend2x"]
 
 [ext_resource type="Texture2D" uid="uid://bofc7qyp1hmcq" path="res://assets/characters/flapper.png" id="1_8tbdv"]
 [ext_resource type="Script" path="res://Patron.cs" id="2_38pbh"]
@@ -13,6 +13,7 @@
 radius = 24.0208
 
 [node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "DialogIcon", "TailIcon", "patronVoice", "patronText")]
+z_index = 4
 y_sort_enabled = true
 texture = ExtResource("1_8tbdv")
 script = ExtResource("2_38pbh")

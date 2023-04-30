@@ -119,35 +119,28 @@ position = Vector2(133, 0)
 [node name="Item Sources" type="Node" parent="."]
 
 [node name="ItemSource" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-visible = false
-position = Vector2(89, 80)
+position = Vector2(-160, -1)
 
 [node name="ItemSource2" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-visible = false
-position = Vector2(48, 81)
+position = Vector2(-132, -2)
 itemType = 1
 
 [node name="ItemSource3" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-visible = false
-position = Vector2(67, 51)
+position = Vector2(-102, -1)
 itemType = 5
 
 [node name="ItemSource4" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-visible = false
-position = Vector2(107, 53)
+position = Vector2(-69, -2)
 itemType = 6
 
 [node name="ItemSource5" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-visible = false
-position = Vector2(127, 81)
+position = Vector2(-39, -1)
 itemType = 0
 
 [node name="ItemSource6" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-visible = false
-position = Vector2(148, 50)
+position = Vector2(-3, -2)
 itemType = 4
 
 [node name="ItemSource7" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-visible = false
-position = Vector2(140, 9)
+position = Vector2(-228, 97)
 itemType = 2

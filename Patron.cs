@@ -28,6 +28,7 @@ public partial class Patron : Sprite2D
 		HippoParty,
 		BearParty,
 		RabbitParty,
+		LeopardParty,
 	}
 	
 	[Export] public Vector2 minimumDialogBoxSize;
@@ -36,14 +37,17 @@ public partial class Patron : Sprite2D
 	[Export] public float endDialogGrowDistance;
 	[Export] public float iconScale;
 	[Export] public float iconTransitionTime;
+	[Export] public float deliverySuspicionReduction;
+
+	public NinePatchRect dialogBubble;
+	public Node2D waiter;
+	public Sprite2D icon;
 	
+	// Patron details
 	public PatronType patronType;
 	public DietType dietType;
 	public ItemType hatedDrink;
 	
-	public NinePatchRect dialogBubble;
-	public Node2D waiter;
-	public Sprite2D icon;
 	
 	// ARE THEY THE COP!?
 	public bool isTheCop;
@@ -56,8 +60,7 @@ public partial class Patron : Sprite2D
 	
 	PatronType futureRelationshipMechanic;
 
-	[Export]
-	public Texture2D desired;
+	public ItemType desiredItem;
 	
 	public Patron(uint _patronIndex, bool _isCop, uint _randomPatron)
    	{
@@ -92,6 +95,7 @@ public partial class Patron : Sprite2D
 		dialogBubble = GetNode<NinePatchRect>("Request text");
 		icon = GetNode<Sprite2D>("IconQuestionMark24");
 		waiter = GetParent().GetNode<Node2D>("Waiter");
+		desiredItem = Item.GetRandomItem();
 	}
 
 	bool fading = false;
@@ -115,6 +119,12 @@ public partial class Patron : Sprite2D
 			Fade();
 		}
 
+		if(overlapper != null && Input.IsActionJustPressed("ui_accept")){
+			var waiter = overlapper as Waiter;
+			waiter.DeliverItem(this);
+		}
+
+
 	}
 
 
@@ -129,7 +139,7 @@ public partial class Patron : Sprite2D
 		}
 
 		timer = 0.0;
-		icon.Texture = desired;
+		icon.Texture = Item.GetLargeIcon(desiredItem);
 
 		while(timer < iconTransitionTime){
 			var fraction = timer / iconTransitionTime;
@@ -141,4 +151,22 @@ public partial class Patron : Sprite2D
 		fading = false;
 		revealed = true;
 	}
+	
+	
+	
+	public Node2D overlapper;
+	
+	private void _on_area_2d_body_entered(Node2D body)
+	{
+		overlapper = body;
+	}
+
+
+	private void _on_area_2d_body_exited(Node2D body)
+	{
+		overlapper = null;
+	}
 }
+
+
+

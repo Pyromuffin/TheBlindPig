@@ -14,9 +14,19 @@ public static class EnumExtensions
 	}
 }
 
+public enum ClueType
+{
+	AlcoholClueType,
+	DietClueType,
+	PoliticalClueType,
+	CriminalClueType,
+	RelationshipClueType,
+}
+
 abstract class Clue 
 {
 	public uint clueID;
+	public ClueType clueType;
 	public DialogContext dialogContext;
 	
 	public void SetClueID(uint _clueID)
@@ -33,6 +43,7 @@ class AlcoholClue : Clue
 	public AlcoholClue()
 	{
 		//dialogContext = DialogContext.ItemDialog;
+		clueType = ClueType.AlcoholClueType;
 	}
 	
 	public override uint GetClueValue() 
@@ -51,6 +62,7 @@ class DietClue : Clue
 	public DietClue()
 	{
 		//dialogContext = DialogContext.ItemDialog;
+		clueType = ClueType.DietClueType;
 	}
 	public override uint GetClueValue() 
 	{
@@ -68,6 +80,7 @@ class PoliticalClue : Clue
 	public PoliticalClue()
 	{
 		dialogContext = DialogContext.PoliticalDialog;
+		clueType = ClueType.PoliticalClueType;
 	}
 	public override uint GetClueValue() 
 	{
@@ -85,6 +98,7 @@ class CriminalClue : Clue
 	public CriminalClue()
 	{
 		dialogContext = DialogContext.CriminalDialog;
+		clueType = ClueType.CriminalClueType;
 	}
 	public override uint GetClueValue() 
 	{
@@ -102,6 +116,7 @@ class RelationshipClue : Clue
 	public RelationshipClue()
 	{
 		dialogContext = DialogContext.RelationshipDialog;
+		clueType = ClueType.RelationshipClueType;
 	}
 	
 	public override uint GetClueValue() 
@@ -167,6 +182,10 @@ class Act
 
 public partial class ClueDirector : Node2D
 {
+
+	[Export] float minimumOrderTime = 8;
+	[Export] float maximumOrderTime = 20;
+
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
@@ -256,7 +275,7 @@ public partial class ClueDirector : Node2D
 		List<int> numberList = new List<int>();
 		numberList.Add(0);
 		numberList.Add(1);
-		numberList.Add(2);
+		//numberList.Add(2); // 2 = relationship clues, which I'm disabling for now
 		
 		// Every game either has a drink or food clue!
 		// Decide which act it is here
@@ -272,15 +291,13 @@ public partial class ClueDirector : Node2D
 				if(coinFlip)
 				{
 					DietClue clue = new DietClue();
-					DietType randomDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
-					clue.SetClueID((uint)randomDiet);
+					clue.SetClueID((uint)patrons[copIndex].dietType);
 					acts[i] = new Act(clue);
 				}
 				else
 				{
 					AlcoholClue clue = new AlcoholClue();
-					uint randomDrink = GD.Randi() % (uint)Item.alcohol.Length;
-					clue.SetClueID(randomDrink);
+					clue.SetClueID((uint)patrons[copIndex].hatedDrink);
 					acts[i] = new Act(clue);
 				}
 			}
@@ -292,24 +309,21 @@ public partial class ClueDirector : Node2D
 				if(clueType == 0)
 				{
 					PoliticalClue clue = new PoliticalClue();
-					PolitcalAffiliation randomPolAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
-					clue.SetClueID((uint)randomPolAff);
+					clue.SetClueID((uint)patrons[copIndex].politcalAffiliation);
 				
 					acts[i] = new Act(clue);
 				}
 				else if(clueType == 1)
 				{
 					CriminalClue clue = new CriminalClue();
-					CriminalBackground randomCrimBack = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
-					clue.SetClueID((uint)randomCrimBack);
+					clue.SetClueID((uint)patrons[copIndex].criminalBackground);
 				
 					acts[i] = new Act(clue);
 				}
 				else if(clueType == 2)
 				{
 					RelationshipClue clue = new RelationshipClue();
-					RelationshipType randomRelationType = (RelationshipType)(typeof(RelationshipType).GetRandomEnumValue());
-					clue.SetClueID((uint)randomRelationType);
+					clue.SetClueID((uint)patrons[copIndex].relationshipType);
 				
 					acts[i] = new Act(clue);
 				}
@@ -321,64 +335,118 @@ public partial class ClueDirector : Node2D
 	
 	public void CreateMystery()
 	{
+		// Which character is the undercover pig this time?
+		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
+		
+		// Pick the cop's attributes randomly
+		DietType copDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
+		ItemType copDrink = Item.alcohol[ GD.Randi() % (uint)Item.alcohol.Length ];
+		PolitcalAffiliation copPolAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+		CriminalBackground copCrimBack = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+		
+		// Spawn the cop!
+		patrons[copIndex] = new PatronDetails(copIndex, true, copDrink, copDiet, copPolAff, copCrimBack);
+		
+		// Create the clues because
 		CreateClues();
+		
+		List<int> uniqueFromoCopAct = new List<int>();
+		uniqueFromoCopAct.Add(0);
+		uniqueFromoCopAct.Add(0);
+		uniqueFromoCopAct.Add(1);
+		uniqueFromoCopAct.Add(1);
+		uniqueFromoCopAct.Add(2);
+		uniqueFromoCopAct.Add(2);
+		uniqueFromoCopAct.Shuffle();
+		
+		for (uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		{
+			if(i != copIndex)
+			{
+				// Create our desired properties
+				// TODO: NEED TO REDO IF THE SAME AS COP
+				
+				DietType patronDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
+				while(patronDiet == copDiet)
+				{
+					patronDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
+					//GD.Print(copDiet + " - " + patronDiet);
+				}
+				
+				ItemType patronDrink = Item.alcohol[ GD.Randi() % (uint)Item.alcohol.Length ];
+				while(patronDrink == copDrink)
+				{
+					patronDrink = Item.alcohol[ GD.Randi() % (uint)Item.alcohol.Length ];
+					//GD.Print(copDrink + " " + patronDrink);
+				}
+				
+				PolitcalAffiliation patronPolAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+				while(patronPolAff == copPolAff)
+				{
+					patronPolAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+					//GD.Print(copPolAff + " " + patronPolAff);
+				}
+				
+				CriminalBackground patronCrimBack = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+				while(patronCrimBack == copCrimBack)
+				{
+					patronCrimBack = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+					//GD.Print(copCrimBack + " " + patronCrimBack);
+				}
+				
+				// Then 
+				for (int j = 0; j < ACT_COUNT; ++j)
+				{
+					if(j == uniqueFromoCopAct[(int)i])
+						continue;
+					
+					ClueType clueType = acts[j].clue.clueType;
+					switch(clueType)
+					{
+						case ClueType.AlcoholClueType:
+						{
+							patronDrink = copDrink;
+							break;
+						}
+						
+						case ClueType.DietClueType:
+						{
+							patronDiet = copDiet;
+							break;
+						}
+						
+						case ClueType.PoliticalClueType:
+						{
+							patronPolAff = copPolAff;
+							break;
+						}
+						
+						case ClueType.CriminalClueType:
+						{
+							patronCrimBack = copCrimBack; 
+							break;
+						}
+						
+						case ClueType.RelationshipClueType:
+						{
+							// TODO!!
+							break;
+						}
+					}
+				}
+				
+				patrons[i] = new PatronDetails(i, false, (ItemType)patronDrink, patronDiet, patronPolAff, patronCrimBack );
+			}
+		}
+
+		CreatePatronRelationships();
 		
 		// Debug!
 		for (uint i = 0; i < ACT_COUNT; ++i)
 		{
 			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
 		}
-		
-		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
-		
-		// Build a bunch of lists for good random distrubution!
-		uint alcoholOffset = GD.Randi() % (uint)Item.alcohol.Length;
-		
-		List<ItemType> alcoholList = new List<ItemType>();
-		alcoholList.Add(Item.alcohol[alcoholOffset]);
-		alcoholList.Add(Item.alcohol[alcoholOffset]);
-		alcoholList.Add(Item.alcohol[(alcoholOffset + 1) % (uint)Item.alcohol.Length]);
-		alcoholList.Add(Item.alcohol[(alcoholOffset + 1) % (uint)Item.alcohol.Length]);
-		alcoholList.Add(Item.alcohol[(alcoholOffset + 2) % (uint)Item.alcohol.Length]);
-		alcoholList.Add(Item.alcohol[(alcoholOffset + 2) % (uint)Item.alcohol.Length]);
-		alcoholList.Shuffle();
-		
-		List<DietType> dietList = new List<DietType>();
-		dietList.Add(DietType.Carnivore);
-		dietList.Add(DietType.Carnivore);
-		dietList.Add(DietType.Herbivore);
-		dietList.Add(DietType.Herbivore);
-		dietList.Add(DietType.Omnivore);
-		dietList.Add(DietType.Omnivore);
-		dietList.Shuffle();
-		
-		List<PolitcalAffiliation> polList = new List<PolitcalAffiliation>();
-		polList.Add(PolitcalAffiliation.BearParty);
-		polList.Add(PolitcalAffiliation.BearParty);
-		polList.Add(PolitcalAffiliation.RabbitParty);
-		polList.Add(PolitcalAffiliation.RabbitParty);
-		polList.Add(PolitcalAffiliation.LeopardParty);
-		polList.Add(PolitcalAffiliation.LeopardParty);
-		polList.Shuffle();
-		
-		uint offset = GD.Randi() % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT;
-		List<uint> crimList = new List<uint>();
-		crimList.Add(offset);
-		crimList.Add(offset);
-		crimList.Add((offset + 1) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
-		crimList.Add((offset + 1) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
-		crimList.Add((offset + 2) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
-		crimList.Add((offset + 2) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
-		
-		crimList.Shuffle();
-		
-		for (int i = 0; i < (int)PatronType.PATRON_COUNT; ++i)
-		{
-			patrons[(uint)i] = new PatronDetails(i, (bool)(copIndex == i), (ItemType)alcoholList[i], dietList[i], polList[i], (CriminalBackground)crimList[i]);
-		}
-		
-		CreatePatronRelationships();
-		
+
 		for (uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
 		{
 			patrons[i].DebugPrintDetails();
@@ -388,6 +456,7 @@ public partial class ClueDirector : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -457,10 +526,34 @@ public partial class ClueDirector : Node2D
 		
 		dialogSystem.GeneratePatronDialog(talker, listener, subject, dialogType, context, acts[actToAbout].clue.clueID);
 	}
-	
+
+
+	double timer = 0;
+	double randomOrderTime;
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(timer > randomOrderTime){
+
+			var shuffled = Spawners.patrons.Clone() as Patron[];
+			shuffled.Shuffle();
+			
+			for(int i = 0; i < 6; i++){
+				var p = shuffled[i];
+				if(p.currentState == Patron.State.IDLE){
+					var item = p.GetRandomOrderableItem();
+					p.CreateOrder(item);
+					timer = 0;
+					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+					break;
+				}
+			}
+		}
+		
+
+		timer += delta;
+		
+
 		/*
 		while(currentAct < ACT_COUNT)
 		{

@@ -5,7 +5,7 @@ using System;
 public enum PatronType
 {
 	None = -1,
-	//EscapeArtist,
+	EscapeArtist,
 	JazzMusician,
 	Spritualist,
 	Journalist,
@@ -124,7 +124,8 @@ public partial class Patron : Sprite2D
 		desiredItem = Item.GetRandomItem();
 		RandomTimedOrder(Item.GetRandomItem());
 		EnterState( State.IDLE );
-		//Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
+		type =(PatronType)(GD.Randi() % 6);
+		Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
 	}
 
 	void ResetDialog()

@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=13 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="TileSet" uid="uid://foc2j2gl6bxf" path="res://ground.tres" id="1_28s4n"]
+[ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
 [ext_resource type="PackedScene" uid="uid://cwqcpw2bmnp2u" path="res://ItemSource.tscn" id="5_0rmxv"]
 [ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="5_6jqew"]
@@ -9,10 +10,29 @@
 [ext_resource type="Script" path="res://AudioDirector.cs" id="6_vv36t"]
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
+[ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
+[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
 
 [node name="world" type="Node2D"]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-69, 65)
+
+[node name="Suspicion" parent="." instance=ExtResource("9_vwhiw")]
+offset_left = -84.0
+offset_top = 156.0
+offset_right = -84.0
+offset_bottom = 156.0
+suspicionRate = 1.0
+
+[node name="LevelArt" parent="." instance=ExtResource("1_guobj")]
+z_index = -15
+y_sort_enabled = true
+position = Vector2(-318, -113)
+
 [node name="TileMap" type="TileMap" parent="."]
+visible = false
+z_index = -13
 tile_set = ExtResource("1_28s4n")
 format = 2
 layer_0/name = "floor"
@@ -26,49 +46,14 @@ layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(-12, 131072, 3, -13, 0, 3, 196597, 131072, 2, 131061, 131072, 0, 196596, 65536, 2, 131060, 65536, 0, 196595, 0, 2, 131059, 0, 0, 458741, 262144, 3, 393205, 196608, 1, 458742, 65536, 3, 458743, 131072, 3, 327669, 458752, 0, 327668, 65536, 3, 327667, 0, 3, -196617, 131072, 3, -196618, 0, 3)
 
 [node name="Trash" parent="." instance=ExtResource("4_1fmxv")]
+visible = false
 position = Vector2(83, 15)
 
-[node name="ItemSource" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(89, 80)
-
-[node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(48, 81)
-itemType = 1
-
-[node name="ItemSource3" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(67, 51)
-itemType = 5
-
-[node name="ItemSource4" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(107, 53)
-itemType = 6
-
-[node name="ItemSource5" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(127, 81)
-itemType = 0
-
-[node name="ItemSource6" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(148, 50)
-itemType = 4
-
-[node name="ItemSource7" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(140, 9)
-itemType = 2
-
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
-position = Vector2(14, 28)
+position = Vector2(-46, 161)
 Speed = 100.0
 firstItemPosition = Vector2(5, -10)
 secondItemPosition = Vector2(-5, -10)
-
-[node name="Camera2D" type="Camera2D" parent="Waiter"]
-
-[node name="Suspicion" parent="Waiter/Camera2D" instance=ExtResource("9_vwhiw")]
-offset_left = -65.0
-offset_top = -119.0
-offset_right = -65.0
-offset_bottom = -119.0
-suspicionRate = 1.0
 
 [node name="Music" type="Node2D" parent="." node_paths=PackedStringArray("Bass", "Treble")]
 position = Vector2(-184, 30)
@@ -86,4 +71,104 @@ autoplay = true
 max_distance = 600.0
 
 [node name="Patron" parent="." instance=ExtResource("5_6jqew")]
+visible = false
 position = Vector2(-58, 42)
+
+[node name="Spawners" type="Node" parent="."]
+script = ExtResource("10_4tikp")
+
+[node name="SpawnPoint" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-262, 130)
+
+[node name="SpawnPoint2" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-198, 115)
+
+[node name="SpawnPoint3" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-213, 82)
+
+[node name="SpawnPoint4" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-199, 19)
+
+[node name="SpawnPoint5" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-149, 25)
+
+[node name="SpawnPoint6" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-118, 24)
+
+[node name="SpawnPoint7" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-86, 24)
+
+[node name="SpawnPoint8" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-54, 26)
+
+[node name="SpawnPoint9" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-21, 26)
+
+[node name="SpawnPoint10" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(11, 25)
+
+[node name="SpawnPoint11" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-101, 113)
+
+[node name="SpawnPoint12" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-65, 113)
+
+[node name="SpawnPoint13" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(-37, 147)
+
+[node name="SpawnPoint14" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(138, -28)
+
+[node name="SpawnPoint15" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(115, 113)
+
+[node name="SpawnPoint16" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(89, 112)
+
+[node name="SpawnPoint17" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(79, -2)
+
+[node name="SpawnPoint18" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(80, 26)
+
+[node name="SpawnPoint19" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(132, 32)
+
+[node name="SpawnPoint20" parent="Spawners" instance=ExtResource("11_o2jjd")]
+position = Vector2(133, 0)
+
+[node name="Item Sources" type="Node" parent="."]
+
+[node name="ItemSource" parent="Item Sources" instance=ExtResource("5_0rmxv")]
+visible = false
+position = Vector2(89, 80)
+
+[node name="ItemSource2" parent="Item Sources" instance=ExtResource("5_0rmxv")]
+visible = false
+position = Vector2(48, 81)
+itemType = 1
+
+[node name="ItemSource3" parent="Item Sources" instance=ExtResource("5_0rmxv")]
+visible = false
+position = Vector2(67, 51)
+itemType = 5
+
+[node name="ItemSource4" parent="Item Sources" instance=ExtResource("5_0rmxv")]
+visible = false
+position = Vector2(107, 53)
+itemType = 6
+
+[node name="ItemSource5" parent="Item Sources" instance=ExtResource("5_0rmxv")]
+visible = false
+position = Vector2(127, 81)
+itemType = 0
+
+[node name="ItemSource6" parent="Item Sources" instance=ExtResource("5_0rmxv")]
+visible = false
+position = Vector2(148, 50)
+itemType = 4
+
+[node name="ItemSource7" parent="Item Sources" instance=ExtResource("5_0rmxv")]
+visible = false
+position = Vector2(140, 9)
+itemType = 2

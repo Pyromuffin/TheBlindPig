@@ -5,7 +5,7 @@ using System;
 public enum PatronType
 {
 	None = -1,
-	EscapeArtist,
+	//EscapeArtist,
 	JazzMusician,
 	Spritualist,
 	Journalist,
@@ -94,12 +94,13 @@ public partial class Patron : Sprite2D
 	public Node2D waiter;
 	public Sprite2D icon, tail;
 	
-
-
 	public bool hasOrder = false;
 	public ItemType desiredItem;
 	
 	Texture2D questionIcon;
+
+	[Export]
+	PatronType type;
 
 	public PatronDetails details;
 
@@ -118,6 +119,10 @@ public partial class Patron : Sprite2D
 		tail.Hide();
 
 		RandomTimedOrder(Item.GetRandomItem());
+		//type = (PatronType)(GD.Randi() % 5);
+		
+		Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
+				
 	}
 
 	public async void RandomTimedOrder(ItemType item){

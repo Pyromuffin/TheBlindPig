@@ -16,12 +16,13 @@ using System;
 public enum PatronType
 {
 	None = -1,
-	//EscapeArtist,
+	EscapeArtist,
 	JazzMusician,
 	Spritualist,
 	Journalist,
 	BaseballPlayer,
 	Flapper,
+	PATRON_COUNT
 }
 
 public enum CriminalBackground
@@ -35,10 +36,18 @@ public enum CriminalBackground
 
 public enum PolitcalAffiliation
 {
-	HippoParty,
 	BearParty,
 	RabbitParty,
 	LeopardParty,
+}
+
+
+public enum RelationshipType
+{
+	Rival,
+	Lover,
+	Ex,
+	None,
 }
 
 public class PatronDetails {
@@ -57,9 +66,10 @@ public class PatronDetails {
 	
 	public uint loudness;
 	
-	public PatronType futureRelationshipMechanic;
+	public PatronType relationPatron;
+	public RelationshipType relationshipType;
 	
-	public PatronDetails(uint _patronIndex, bool _isCop, uint _randomPatron)
+	public PatronDetails(uint _patronIndex, bool _isCop)
    	{
 		patronType = (PatronType)_patronIndex;
 		isTheCop = _isCop;
@@ -72,8 +82,12 @@ public class PatronDetails {
 		politcalAffiliation = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
 		criminalBackground = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
 		
-		futureRelationshipMechanic = (PatronType)_randomPatron;
-				
+		relationPatron = PatronType.None;
+		relationshipType = RelationshipType.None;
+	}
+	
+	public void DebugPrintDetails()
+	{
 		GD.Print("{ " + patronType + " }");
 		
 		GD.Print("Loudness: " + loudness);
@@ -81,7 +95,7 @@ public class PatronDetails {
 		GD.Print("Hated Drink: " + hatedDrink);
 		GD.Print("Politcal Affiliation: " + politcalAffiliation );
 		GD.Print("Criminal Background: " + criminalBackground);
-		GD.Print("Connection to: " + (futureRelationshipMechanic != patronType ? futureRelationshipMechanic : "NONE"));
+		GD.Print(relationshipType + " to " + relationPatron );
 		GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
 		GD.Print("======================");
 	}

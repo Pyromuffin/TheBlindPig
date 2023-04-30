@@ -3,10 +3,17 @@ using System;
 
 public enum DialogType
 {
+	TalkAboutSelf,
+	GossipAboutSomeoneElse,
+}
+
+public enum DialogContext
+{
 	FlavorDialog,
-	ItemDialog,
+	//ItemDialog, // Don't talk about food or drinks, you must observe it.
 	PoliticalDialog,
 	CriminalDialog,
+	RelationshipDialog,
 }
 
 public partial class DialogSystem : Node
@@ -22,10 +29,53 @@ public partial class DialogSystem : Node
 	}
 	
 	
-	public void GenerateDialog(PatronType _patron1, PatronType _patron2, DialogType _dialogType)
+	public void GenerateRadioMessage(DialogContext _dialogContext)
 	{
+		GD.Print("The radio broadcasts information about " + _dialogContext);
+	}
+	
+	public void GeneratePatronDialog(PatronType _patron1, PatronType _patron2, PatronType _patronSubject, DialogType _dialogType, DialogContext _dialogContext, uint _clueID)
+	{
+		string debugPrefixText = "";
+		switch(_dialogType)
+		{
+			case DialogType.TalkAboutSelf:
+			{					
+				debugPrefixText = _patron1 + " talks abouts themselves to " + _patron2 + " about";
+				break;
+			}
+			
+			case DialogType.GossipAboutSomeoneElse:
+			{
+				debugPrefixText = _patron1 + " talks to " + _patron2 + " about " + _patronSubject;
+				break;
+			}
+		}
 		
-		
-		GD.Print("DIALOG: "+ _dialogType);
+		string debugSuffixText = "";
+		switch(_dialogContext)
+		{
+			case DialogContext.FlavorDialog:
+			{					
+				debugSuffixText = " a random tidbit!";
+				break;
+			}
+			
+			case DialogContext.CriminalDialog:
+			{
+				CriminalBackground criminalID = (CriminalBackground)_clueID;
+				debugSuffixText = " " + criminalID;
+				break;
+			}
+			
+			case DialogContext.PoliticalDialog:
+			{
+				PolitcalAffiliation politcalID = (PolitcalAffiliation)_clueID;
+				debugSuffixText = " " + politcalID;
+				break;
+			}
+		}
+
+		GD.Print(debugPrefixText + debugSuffixText);
 	}
 }

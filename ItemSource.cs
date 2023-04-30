@@ -55,7 +55,7 @@ public partial class ItemSource : Sprite2D
 	public override void _Process(double delta)
 	{
 		if(overlapper != null && Input.IsActionJustPressed("ui_accept")){
-			var waiter = overlapper as Watier;
+			var waiter = overlapper as Waiter;
 			var item = itemScene.Instantiate() as Item;
 			item.Texture = smallIcons[(int)itemType] as Texture2D;
 			item.itemType = itemType;

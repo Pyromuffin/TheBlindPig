@@ -24,6 +24,7 @@ public partial class Waiter : CharacterBody2D
 	}
 
 
+
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
@@ -77,17 +78,17 @@ public partial class Waiter : CharacterBody2D
 	
 	
 	
-	public Node2D firstItem;
-	public Node2D secondItem;
+	public Item firstItem;
+	public Item secondItem;
 
 	public void PickUpItem(Node2D item){
 		
 		if(firstItem == null){
-			firstItem = item;
+			firstItem = item as Item;
 			AddChild(firstItem);
 			firstItem.Position = firstItemPosition;
 		} else if(secondItem == null) {
-			secondItem = item;
+			secondItem = item as Item;
 			AddChild(secondItem);
 			secondItem.Position = secondItemPosition;
 		}
@@ -95,6 +96,25 @@ public partial class Waiter : CharacterBody2D
 	}
 	
 	
+	public void DeliverItem(Patron p){
+		if(firstItem?.itemType == p.desiredItem){
+			firstItem.QueueFree();
+			firstItem = null;
+
+			if(secondItem != null){
+				firstItem = secondItem;
+				firstItem.Position = firstItemPosition;
+				secondItem = null;
+			}
+		}
+
+		else if(secondItem?.itemType == p.desiredItem){
+			secondItem.QueueFree();
+			secondItem = null;
+		}
+	}
+
+
 	public void Trash(){
 		
 		if(secondItem != null){

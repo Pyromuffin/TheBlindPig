@@ -14,8 +14,7 @@ public partial class Patron : Sprite2D
 	public Node2D waiter;
 	public Sprite2D icon;
 
-	[Export]
-	public Texture2D desired;
+	public ItemType desiredItem;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -23,6 +22,7 @@ public partial class Patron : Sprite2D
 		dialogBubble = GetNode<NinePatchRect>("Request text");
 		icon = GetNode<Sprite2D>("IconQuestionMark24");
 		waiter = GetParent().GetNode<Node2D>("Waiter");
+		desiredItem = Item.GetRandomItem();
 	}
 
 	bool fading = false;
@@ -47,6 +47,12 @@ public partial class Patron : Sprite2D
 			Fade();
 		}
 
+		if(overlapper != null && Input.IsActionJustPressed("ui_accept")){
+			var waiter = overlapper as Waiter;
+			waiter.DeliverItem(this);
+		}
+
+
 	}
 
 
@@ -61,7 +67,7 @@ public partial class Patron : Sprite2D
 		}
 
 		timer = 0.0;
-		icon.Texture = desired;
+		icon.Texture = Item.GetLargeIcon(desiredItem);
 
 		while(timer < iconTransitionTime){
 			var fraction = timer / iconTransitionTime;
@@ -73,4 +79,22 @@ public partial class Patron : Sprite2D
 		fading = false;
 		revealed = true;
 	}
+	
+	
+	
+	public Node2D overlapper;
+	
+	private void _on_area_2d_body_entered(Node2D body)
+	{
+		overlapper = body;
+	}
+
+
+	private void _on_area_2d_body_exited(Node2D body)
+	{
+		overlapper = null;
+	}
 }
+
+
+

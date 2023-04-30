@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://cq17s7yw3dumh"
-path="res://.godot/imported/Pepp-07.mp3-a694adf9e4704b8bb66b89108bf584f3.mp3str"
+path="res://.godot/imported/Pepp-07.mp3-26f4daa6cc5787fe830f091e0218542b.mp3str"
 
 [deps]
 
-source_file="res://assets/sounds/Pepp-07.mp3"
-dest_files=["res://.godot/imported/Pepp-07.mp3-a694adf9e4704b8bb66b89108bf584f3.mp3str"]
+source_file="res://assets/sounds/Voices/journalist/Pepp-07.mp3"
+dest_files=["res://.godot/imported/Pepp-07.mp3-26f4daa6cc5787fe830f091e0218542b.mp3str"]
 
 [params]
 

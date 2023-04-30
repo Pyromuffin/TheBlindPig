@@ -93,7 +93,7 @@ class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " does some " + (CriminalBackground)clueID + " on the side";
+		return " pretends to be a " + (CriminalBackground)clueID + " on the side";
 	}
 }
 
@@ -245,59 +245,79 @@ public partial class ClueDirector : Node2D
 		numberList.Add(0);
 		numberList.Add(1);
 		numberList.Add(2);
-		numberList.Add(3);
+		
+		// Every game either has a drink or food clue!
+		// Decide which act it is here
+		long actWithItemClue = GD.Randi() % ACT_COUNT;
 		
 		for (uint i = 0; i < ACT_COUNT; ++i)
 		{
-			long clueIndex = GD.Randi() % (int)numberList.Count;
-			int clueType = numberList[ (int)clueIndex ];
-			
-			if(clueType == 0)
+			// Check if this is the act with the Item clue
+			if(i == actWithItemClue)
 			{
-				PoliticalClue clue = new PoliticalClue();
-				clue.SetClueID((uint)patrons[copIndex].politcalAffiliation);
-			
-				acts[i] = new Act(clue);
-			}
-			else if(clueType == 1)
-			{
+				// 50/50 if its hated drink or type of diet
 				bool coinFlip = (GD.Randi() % 2) == 0;
 				if(coinFlip)
 				{
 					DietClue clue = new DietClue();
-					clue.SetClueID((uint)patrons[copIndex].dietType);
+					DietType randomDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
+					clue.SetClueID((uint)randomDiet);
 					acts[i] = new Act(clue);
 				}
 				else
 				{
 					AlcoholClue clue = new AlcoholClue();
-					clue.SetClueID((uint)patrons[copIndex].hatedDrink);
+					uint randomDrink = GD.Randi() % (uint)Item.alcohol.Length;
+					clue.SetClueID(randomDrink);
 					acts[i] = new Act(clue);
 				}
 			}
-			else if(clueType == 2)
+			else
 			{
-				CriminalClue clue = new CriminalClue();
-				clue.SetClueID((uint)patrons[copIndex].criminalBackground);
+				long clueIndex = GD.Randi() % (int)numberList.Count;
+				int clueType = numberList[ (int)clueIndex ];
 			
-				acts[i] = new Act(clue);
+				if(clueType == 0)
+				{
+					PoliticalClue clue = new PoliticalClue();
+					PolitcalAffiliation randomPolAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+					clue.SetClueID((uint)randomPolAff);
+				
+					acts[i] = new Act(clue);
+				}
+				else if(clueType == 1)
+				{
+					CriminalClue clue = new CriminalClue();
+					CriminalBackground randomCrimBack = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+					clue.SetClueID((uint)randomCrimBack);
+				
+					acts[i] = new Act(clue);
+				}
+				else if(clueType == 2)
+				{
+					RelationshipClue clue = new RelationshipClue();
+					RelationshipType randomRelationType = (RelationshipType)(typeof(RelationshipType).GetRandomEnumValue());
+					clue.SetClueID((uint)randomRelationType);
+				
+					acts[i] = new Act(clue);
+				}
+				
+				numberList.RemoveAt((int)clueIndex);
 			}
-			else if(clueType == 3)
-			{
-				RelationshipClue clue = new RelationshipClue();
-				clue.SetClueID((uint)patrons[copIndex].relationshipType);
-			
-				acts[i] = new Act(clue);
-			}
-			
-			
-			numberList.RemoveAt((int)clueIndex);
 		}
 	}
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		CreateClues();
+		
+		// Debug!
+		for (uint i = 0; i < ACT_COUNT; ++i)
+		{
+			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
+		}
+		
 		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
 		
 		// Build a bunch of lists for good random distrubution!
@@ -353,13 +373,6 @@ public partial class ClueDirector : Node2D
 			patrons[i].DebugPrintDetails();
 		}
 		
-		CreateClues();
-		
-		// Debug!
-		for (uint i = 0; i < ACT_COUNT; ++i)
-		{
-			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
-		}
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -433,6 +446,7 @@ public partial class ClueDirector : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		/*
 		while(currentAct < ACT_COUNT)
 		{
 			StartCurrentAct();
@@ -460,6 +474,7 @@ public partial class ClueDirector : Node2D
 		
 			GoToNextAct();
 		 }
+		*/
 	}
 	
 }

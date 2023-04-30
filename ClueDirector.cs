@@ -28,9 +28,9 @@ abstract class Clue
 	public abstract string GetClueText();
 }
 
-class AlchoholClue : Clue
+class AlcoholClue : Clue
 {
-	public AlchoholClue()
+	public AlcoholClue()
 	{
 		//dialogContext = DialogContext.ItemDialog;
 	}
@@ -270,7 +270,7 @@ public partial class ClueDirector : Node2D
 				}
 				else
 				{
-					AlchoholClue clue = new AlchoholClue();
+					AlcoholClue clue = new AlcoholClue();
 					clue.SetClueID((uint)patrons[copIndex].hatedDrink);
 					acts[i] = new Act(clue);
 				}
@@ -301,16 +301,16 @@ public partial class ClueDirector : Node2D
 		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
 		
 		// Build a bunch of lists for good random distrubution!
-		uint alchoholOffset = GD.Randi() % (uint)Item.alcohol.Length;
+		uint alcoholOffset = GD.Randi() % (uint)Item.alcohol.Length;
 		
-		List<ItemType> alchoholList = new List<ItemType>();
-		alchoholList.Add(Item.alcohol[alchoholOffset]);
-		alchoholList.Add(Item.alcohol[alchoholOffset]);
-		alchoholList.Add(Item.alcohol[(alchoholOffset + 1) % (uint)Item.alcohol.Length]);
-		alchoholList.Add(Item.alcohol[(alchoholOffset + 1) % (uint)Item.alcohol.Length]);
-		alchoholList.Add(Item.alcohol[(alchoholOffset + 2) % (uint)Item.alcohol.Length]);
-		alchoholList.Add(Item.alcohol[(alchoholOffset + 2) % (uint)Item.alcohol.Length]);
-		alchoholList.Shuffle();
+		List<ItemType> alcoholList = new List<ItemType>();
+		alcoholList.Add(Item.alcohol[alcoholOffset]);
+		alcoholList.Add(Item.alcohol[alcoholOffset]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 1) % (uint)Item.alcohol.Length]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 1) % (uint)Item.alcohol.Length]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 2) % (uint)Item.alcohol.Length]);
+		alcoholList.Add(Item.alcohol[(alcoholOffset + 2) % (uint)Item.alcohol.Length]);
+		alcoholList.Shuffle();
 		
 		List<DietType> dietList = new List<DietType>();
 		dietList.Add(DietType.Carnivore);
@@ -343,7 +343,7 @@ public partial class ClueDirector : Node2D
 		
 		for (int i = 0; i < (int)PatronType.PATRON_COUNT; ++i)
 		{
-			patrons[(uint)i] = new PatronDetails(i, (bool)(copIndex == i), (ItemType)alchoholList[i], dietList[i], polList[i], (CriminalBackground)crimList[i]);
+			patrons[(uint)i] = new PatronDetails(i, (bool)(copIndex == i), (ItemType)alcoholList[i], dietList[i], polList[i], (CriminalBackground)crimList[i]);
 		}
 		
 		CreatePatronRelationships();

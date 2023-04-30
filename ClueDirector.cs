@@ -93,7 +93,7 @@ class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " does some " + (CriminalBackground)clueID + " on the side";
+		return " pretends to be a " + (CriminalBackground)clueID + " on the side";
 	}
 }
 
@@ -260,13 +260,15 @@ public partial class ClueDirector : Node2D
 				if(coinFlip)
 				{
 					DietClue clue = new DietClue();
-					clue.SetClueID((uint)patrons[copIndex].dietType);
+					DietType randomDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
+					clue.SetClueID((uint)randomDiet);
 					acts[i] = new Act(clue);
 				}
 				else
 				{
 					AlcoholClue clue = new AlcoholClue();
-					clue.SetClueID((uint)patrons[copIndex].hatedDrink);
+					uint randomDrink = GD.Randi() % (uint)Item.alcohol.Length;
+					clue.SetClueID(randomDrink);
 					acts[i] = new Act(clue);
 				}
 			}
@@ -278,21 +280,24 @@ public partial class ClueDirector : Node2D
 				if(clueType == 0)
 				{
 					PoliticalClue clue = new PoliticalClue();
-					clue.SetClueID((uint)patrons[copIndex].politcalAffiliation);
+					PolitcalAffiliation randomPolAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+					clue.SetClueID((uint)randomPolAff);
 				
 					acts[i] = new Act(clue);
 				}
 				else if(clueType == 1)
 				{
 					CriminalClue clue = new CriminalClue();
-					clue.SetClueID((uint)patrons[copIndex].criminalBackground);
+					CriminalBackground randomCrimBack = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+					clue.SetClueID((uint)randomCrimBack);
 				
 					acts[i] = new Act(clue);
 				}
 				else if(clueType == 2)
 				{
 					RelationshipClue clue = new RelationshipClue();
-					clue.SetClueID((uint)patrons[copIndex].relationshipType);
+					RelationshipType randomRelationType = (RelationshipType)(typeof(RelationshipType).GetRandomEnumValue());
+					clue.SetClueID((uint)randomRelationType);
 				
 					acts[i] = new Act(clue);
 				}
@@ -305,6 +310,14 @@ public partial class ClueDirector : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		CreateClues();
+		
+		// Debug!
+		for (uint i = 0; i < ACT_COUNT; ++i)
+		{
+			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
+		}
+		
 		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
 		
 		// Build a bunch of lists for good random distrubution!
@@ -360,13 +373,6 @@ public partial class ClueDirector : Node2D
 			patrons[i].DebugPrintDetails();
 		}
 		
-		CreateClues();
-		
-		// Debug!
-		for (uint i = 0; i < ACT_COUNT; ++i)
-		{
-			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
-		}
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -440,6 +446,7 @@ public partial class ClueDirector : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		/*
 		while(currentAct < ACT_COUNT)
 		{
 			StartCurrentAct();
@@ -467,6 +474,7 @@ public partial class ClueDirector : Node2D
 		
 			GoToNextAct();
 		 }
+		*/
 	}
 	
 }

@@ -2,8 +2,38 @@ using Godot;
 using System;
 
 
+public enum PatronType
+{
+	None = -1,
+	EscapeArtist,
+	JazzMusician,
+	Spritualist,
+	Journalist,
+	BaseballPlayer,
+	Flapper,
+}
+
+public enum CriminalBackground
+{
+	Bootlegger,
+	RumRunner,
+	Moonshiner,
+	Bribery,
+	Smuggling,
+}
+
+public enum PolitcalAffiliation
+{
+	HippoParty,
+	BearParty,
+	RabbitParty,
+	LeopardParty,
+}
+
+
 public partial class Patron : Sprite2D
 {
+
 	[Export] public Vector2 minimumDialogBoxSize;
 	[Export] public Vector2 targetDialogBoxSize;
 	[Export] public float beginDialogGrowDistance;
@@ -16,12 +46,56 @@ public partial class Patron : Sprite2D
 	public NinePatchRect dialogBubble;
 	public Node2D waiter;
 	public Sprite2D icon, tail;
+	
+	// Patron details
+	public PatronType patronType;
+	public DietType dietType;
+	public ItemType hatedDrink;
+	
+	
+	// ARE THEY THE COP!?
+	public bool isTheCop;
+	
+	// Properties for clues and dialog
+	public PolitcalAffiliation politcalAffiliation;
+	public CriminalBackground criminalBackground;
+	
+	public uint loudness;
+	
+	PatronType futureRelationshipMechanic;
 
 	public bool hasOrder = false;
 	public ItemType desiredItem;
 	
 	Texture2D questionIcon;
 
+	public Patron(uint _patronIndex, bool _isCop, uint _randomPatron)
+   	{
+		patronType = (PatronType)_patronIndex;
+		isTheCop = _isCop;
+		
+		loudness = GD.Randi() % 5 + 5;
+		
+		hatedDrink = Item.GetRandomDrink();
+		dietType = Item.GetRandomDiet();
+		
+		politcalAffiliation = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+		criminalBackground = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
+		
+		futureRelationshipMechanic = (PatronType)_randomPatron;
+				
+		GD.Print("{ " + patronType + " }");
+		
+		GD.Print("Loudness: " + loudness);
+		GD.Print("Diet Type: " + dietType);
+		GD.Print("Hated Drink: " + hatedDrink);
+		GD.Print("Politcal Affiliation: " + politcalAffiliation );
+		GD.Print("Criminal Background: " + criminalBackground);
+		GD.Print("Connection to: " + (futureRelationshipMechanic != patronType ? futureRelationshipMechanic : "NONE"));
+		GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
+		GD.Print("======================");
+	}
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

@@ -11,6 +11,11 @@ public enum ItemType {
 	Wine,
 }
 
+public enum DietType {
+	Carnivore,
+	Herbivore,
+	Omnivore,
+}
 
 
 public partial class Item : Sprite2D
@@ -27,6 +32,10 @@ public partial class Item : Sprite2D
 
 	public static ItemType[] veggies = {
 		ItemType.Carrot, ItemType.Cake,
+	};
+	
+	public static ItemType[] foods = {
+		ItemType.Meat, ItemType.Carrot, ItemType.Cake,
 	};
 
 	public static ItemType[] alcohol = {
@@ -45,10 +54,54 @@ public partial class Item : Sprite2D
 	}
 
 	public static ItemType GetRandomItem(){
-		var index = Random.Shared.Next() % 7;
+		var index = GD.Randi() % 7;
 		return (ItemType)index;
 	}
-
+	
+	public static ItemType GetRandomDrink(){
+		var index = GD.Randi() % alcohol.Length;
+		return (ItemType)alcohol[index];
+	}
+	
+	public static DietType GetRandomDiet(){
+		return (DietType)(GD.Randi() % 3);
+	}
+	
+	public static ItemType GetCarnivoreFood(){
+		var index = GD.Randi() % meats.Length;
+		return (ItemType)meats[index];
+	}
+	public static ItemType GetOmnivoreFood(){
+		var index = GD.Randi() % foods.Length;
+		return (ItemType)foods[index];
+	}
+	public static ItemType GetHerbivoreFood(){
+		var index = GD.Randi() % veggies.Length;
+		return (ItemType)veggies[index];
+	}
+	
+	public static ItemType GetRandomFoodIEat(DietType _diet)
+	{ 
+		switch(_diet)
+		{
+			case DietType.Carnivore:
+			{
+				return GetCarnivoreFood();
+			}
+			
+			case DietType.Herbivore:
+			{
+				return GetHerbivoreFood();
+			}
+			
+			case DietType.Omnivore:
+			{
+				return GetOmnivoreFood();
+			}
+		}
+		
+		return (ItemType)0;
+	}
 	
 	public ItemType itemType;
 

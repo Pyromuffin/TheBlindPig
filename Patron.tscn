@@ -9,7 +9,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvnn8"]
 radius = 24.0208
 
-[node name="Patron" type="Sprite2D"]
+[node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "PreviewIcon", "TailIcon")]
 texture = ExtResource("1_8tbdv")
 script = ExtResource("2_38pbh")
 minimumDialogBoxSize = Vector2(16, 16)
@@ -20,16 +20,22 @@ iconScale = 2.6
 iconTransitionTime = 1.0
 deliverySuspicionReduction = 10.0
 randomTime = 10.0
+dialogBubble = NodePath("Dialog/Request text")
+PreviewIcon = NodePath("Dialog/PreviewIcon")
+TailIcon = NodePath("Dialog/BubbleTail")
 
-[node name="Request text" type="NinePatchRect" parent="."]
+[node name="Dialog" type="Node2D" parent="."]
+
+[node name="Request text" type="NinePatchRect" parent="Dialog"]
 anchors_preset = -1
 anchor_left = 0.156
 anchor_top = -0.146
 anchor_right = 0.156
 anchor_bottom = -0.125
-offset_left = -5.992
-offset_top = -14.992
-offset_right = 10.008
+offset_left = -1.0
+offset_top = -22.0
+offset_right = 15.0
+offset_bottom = -7.008
 rotation = -3.14159
 texture = ExtResource("3_16ayf")
 patch_margin_left = 7
@@ -37,11 +43,11 @@ patch_margin_top = 4
 patch_margin_right = 7
 patch_margin_bottom = 5
 
-[node name="BubbleTail" type="Sprite2D" parent="."]
+[node name="BubbleTail" type="Sprite2D" parent="Dialog"]
 position = Vector2(-7, -20)
 texture = ExtResource("4_wn67f")
 
-[node name="IconQuestionMark24" type="Sprite2D" parent="."]
+[node name="PreviewIcon" type="Sprite2D" parent="Dialog"]
 position = Vector2(-4, -25)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("5_3xh7d")

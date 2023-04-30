@@ -9,7 +9,8 @@ public partial class Patron : Sprite2D
 	[Export] public float endDialogGrowDistance;
 	[Export] public float iconScale;
 	[Export] public float iconTransitionTime;
-	
+	[Export] public float deliverySuspicionReduction;
+
 	public NinePatchRect dialogBubble;
 	public Node2D waiter;
 	public Sprite2D icon;

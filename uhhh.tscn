@@ -54,13 +54,13 @@ max_distance = 600.0
 script = ExtResource("10_4tikp")
 
 [node name="SpawnPoint" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-262, 130)
+position = Vector2(-262, 125)
 
 [node name="SpawnPoint2" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-198, 115)
+position = Vector2(-197, 110)
 
 [node name="SpawnPoint3" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-213, 82)
+position = Vector2(-214, 77)
 
 [node name="SpawnPoint4" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-199, 19)
@@ -84,28 +84,28 @@ position = Vector2(-21, 26)
 position = Vector2(11, 25)
 
 [node name="SpawnPoint11" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-101, 113)
+position = Vector2(-104, 108)
 
 [node name="SpawnPoint12" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-65, 113)
+position = Vector2(-63, 108)
 
 [node name="SpawnPoint13" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-37, 147)
 
 [node name="SpawnPoint14" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(138, -28)
+position = Vector2(139, -34)
 
 [node name="SpawnPoint15" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(115, 113)
+position = Vector2(114, 106)
 
 [node name="SpawnPoint16" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(89, 112)
+position = Vector2(81, 106)
 
 [node name="SpawnPoint17" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(79, -2)
 
 [node name="SpawnPoint18" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(80, 26)
+position = Vector2(79, 31)
 
 [node name="SpawnPoint19" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(132, 32)

@@ -10,7 +10,7 @@
 [ext_resource type="FontFile" uid="uid://cxrgewehxhlie" path="res://assets/InstrumentSerif-Regular.ttf" id="8_cp3sn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvnn8"]
-radius = 24.0208
+radius = 31.0161
 
 [node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "DialogIcon", "TailIcon", "patronVoice", "patronText")]
 z_index = 4

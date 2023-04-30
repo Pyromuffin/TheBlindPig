@@ -3,6 +3,8 @@ using System;
 
 public partial class TitleScreen : Control
 {
+	private string state = "title";
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -16,17 +18,39 @@ public partial class TitleScreen : Control
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		const float duration = 0.8f;
 		if (@event is InputEventKey eventKey)
 		{
 			if (eventKey.Pressed && eventKey.Keycode == Key.Space)
 			{
-				const float alpha = 1.0f;
-				const float duration = 0.8f;
-				Tween tween = GetTree().CreateTween();
-				tween.TweenProperty(GetNode("Panel"), "modulate:a", alpha, duration);
-				tween.TweenCallback(Callable.From(this.GoToGameScene));
+				if (state == "title")
+				{
+					state = "title_to_instructions";
+					Tween tween = GetTree().CreateTween();
+					tween.TweenProperty(GetNode("Panel"), "modulate:a", 1.0f, duration);
+					tween.TweenCallback(Callable.From(this.ShowInstructions));
+					tween.TweenProperty(GetNode("Panel"), "modulate:a", 0.0f, duration);
+					tween.TweenCallback(Callable.From(this.GotoInstructions));
+				}
+				else if (state == "instructions")
+				{
+					state = "instructions_to_game";
+					Tween tween = GetTree().CreateTween();
+					tween.TweenProperty(GetNode("Panel"), "modulate:a", 1.0f, duration);
+					tween.TweenCallback(Callable.From(this.GoToGameScene));
+				}
 			}
 		}
+	}
+
+	public void ShowInstructions()
+	{
+		(GetNode("Image") as TextureRect).Texture = GD.Load("res://assets/ui/instructions.png") as Texture2D;
+	}
+
+	public void GotoInstructions()
+	{
+		this.state = "instructions";
 	}
 
 	public void GoToGameScene()

@@ -347,8 +347,6 @@ y_sort_enabled = true
 texture = ExtResource("1_8tbdv")
 script = ExtResource("2_38pbh")
 minimumDialogBoxSize = Vector2(16, 16)
-targetDialogBoxSize = Vector2(32, 32)
-targetTalkDialogBoxSize = Vector2(161, 37)
 beginDialogGrowDistance = 60.0
 endDialogGrowDistance = 30.0
 iconScale = 2.6
@@ -362,7 +360,6 @@ questionIcon = ExtResource("5_3xh7d")
 dotsIcon = ExtResource("5_vyp4j")
 patronVoice = NodePath("Dialog/Voice")
 patronText = NodePath("Dialog/Label")
-rightTargetXAnchors = Vector2(146, 0)
 animationPlayer = NodePath("Dialog/AnimationPlayer")
 
 [node name="Dialog" type="Node2D" parent="."]

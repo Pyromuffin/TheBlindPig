@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
 
 [node name="world" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-69, 65)
@@ -24,15 +25,11 @@ offset_bottom = 156.0
 suspicionRate = 1.0
 
 [node name="LevelArt" parent="." instance=ExtResource("1_guobj")]
-z_index = -15
 y_sort_enabled = true
 position = Vector2(-318, -113)
 
-[node name="Trash" parent="." instance=ExtResource("4_1fmxv")]
-visible = false
-position = Vector2(83, 15)
-
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
+z_index = 4
 position = Vector2(-46, 161)
 Speed = 100.0
 firstItemPosition = Vector2(5, -10)
@@ -144,3 +141,7 @@ itemType = 4
 [node name="ItemSource7" parent="Item Sources" instance=ExtResource("5_0rmxv")]
 position = Vector2(-228, 97)
 itemType = 2
+
+[node name="Trash" parent="." instance=ExtResource("4_1fmxv")]
+z_index = 4
+position = Vector2(35, -37)

@@ -24,8 +24,11 @@ public partial class Trash : Sprite2D
 	
 	private void _on_area_2d_body_entered(Node2D body)
 	{
-		overlapper = body;
-		overlapped = true;
+		if(body is Waiter){
+			overlapper = body;
+			overlapped = true;
+		}
+		
 	}
 
 

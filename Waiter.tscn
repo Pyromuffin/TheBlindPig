@@ -115,7 +115,6 @@ radius = 5.0
 height = 12.0
 
 [node name="Waiter" type="CharacterBody2D"]
-y_sort_enabled = true
 script = ExtResource("1_soig6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

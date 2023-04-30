@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cucowd5iend2x"]
+[gd_scene load_steps=10 format=3 uid="uid://cucowd5iend2x"]
 
 [ext_resource type="Texture2D" uid="uid://bofc7qyp1hmcq" path="res://assets/characters/flapper.png" id="1_8tbdv"]
 [ext_resource type="Script" path="res://Patron.cs" id="2_38pbh"]
@@ -7,12 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://cbw45m4bkhhrn" path="res://assets/ui/icon_question_mark_24.png" id="5_3xh7d"]
 [ext_resource type="Texture2D" uid="uid://558bng4640xv" path="res://assets/ui/icon_dots_24.png" id="5_vyp4j"]
 [ext_resource type="PackedScene" uid="uid://cuavbbtf6ko2h" path="res://prefabs/voice.tscn" id="7_070qc"]
-[ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="8_ejq3t"]
+[ext_resource type="FontFile" uid="uid://cxrgewehxhlie" path="res://assets/InstrumentSerif-Regular.ttf" id="8_cp3sn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvnn8"]
 radius = 24.0208
 
 [node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "DialogIcon", "TailIcon", "patronVoice", "patronText")]
+z_index = 4
 y_sort_enabled = true
 texture = ExtResource("1_8tbdv")
 script = ExtResource("2_38pbh")
@@ -33,8 +34,11 @@ patronVoice = NodePath("Dialog/Voice")
 patronText = NodePath("Dialog/Label")
 
 [node name="Dialog" type="Node2D" parent="."]
+z_index = 100
+z_as_relative = false
 
 [node name="Request text" type="NinePatchRect" parent="Dialog"]
+z_index = 10
 anchors_preset = -1
 anchor_left = 0.156
 anchor_top = -0.146
@@ -52,10 +56,12 @@ patch_margin_right = 7
 patch_margin_bottom = 5
 
 [node name="BubbleTail" type="Sprite2D" parent="Dialog"]
+z_index = 10
 position = Vector2(-7, -20)
 texture = ExtResource("4_wn67f")
 
 [node name="DialogIcon" type="Sprite2D" parent="Dialog"]
+z_index = 10
 position = Vector2(-4, -25)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("5_3xh7d")
@@ -63,6 +69,7 @@ centered = false
 offset = Vector2(-24, -24)
 
 [node name="Voice" parent="Dialog" instance=ExtResource("7_070qc")]
+MIN_PITCH = 0.9
 
 [node name="Label" type="Label" parent="Dialog"]
 offset_left = -12.0
@@ -70,7 +77,9 @@ offset_top = -57.0
 offset_right = 231.0
 offset_bottom = -23.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_ejq3t")
+theme_override_constants/line_spacing = -3
+theme_override_fonts/font = ExtResource("8_cp3sn")
+theme_override_font_sizes/font_size = 12
 text = "I heard giraffes only eat cake at night.
 I'm more of a carrot person myself."
 

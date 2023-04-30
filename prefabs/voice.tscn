@@ -16,10 +16,11 @@
 [node name="Voice" type="Node2D" node_paths=PackedStringArray("VoicePlayer", "VoiceCoolDown")]
 script = ExtResource("1_x6o3e")
 VoiceStreams = Array[AudioStream]([ExtResource("2_44wh1"), ExtResource("3_bnnj3"), ExtResource("4_bwqrb"), ExtResource("5_t0jdl"), ExtResource("6_44jvj"), ExtResource("7_ppeej"), ExtResource("8_18smo"), ExtResource("9_6dbe8"), ExtResource("10_7mcyg"), ExtResource("11_fv8kc"), ExtResource("12_shnrn"), ExtResource("2_44wh1"), ExtResource("3_bnnj3"), ExtResource("4_bwqrb"), ExtResource("5_t0jdl"), ExtResource("6_44jvj"), ExtResource("7_ppeej"), ExtResource("8_18smo"), ExtResource("9_6dbe8"), ExtResource("11_fv8kc"), ExtResource("12_shnrn")])
-VoicePlayer = NodePath("AudioStreamPlayer2D")
+VoicePlayer = NodePath("AudioStreamPlayer")
 VoiceCoolDown = NodePath("Timer")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -4.162
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5

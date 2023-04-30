@@ -126,7 +126,8 @@ public partial class Patron : Sprite2D
 	{
 		IDLE,
 		ORDERING,
-		TALKING
+		TALKING,
+		HEARD_TALKING
 	}
 	State currentState;
 	
@@ -170,7 +171,6 @@ public partial class Patron : Sprite2D
 		DialogIcon.Hide();
 		TailIcon.Hide();
 		patronText.Hide();
-		patronVoice.SetPlaying( false );
 	}
 
 	void EnterState( State newState )
@@ -227,7 +227,12 @@ public partial class Patron : Sprite2D
 		var size = minimumDialogBoxSize.Lerp(targetDialogBoxSize, 1 - fraction);
 		dialogBubble.Size = size;
 		DialogIcon.Scale = initialIconScale.Lerp(initialIconScale * iconScale, 1 - fraction);
-
+		if( currentState == State.TALKING )
+		{
+			patronVoice.SetPlaying( fraction < 1 );
+			patronVoice.SetVolume( fraction );
+		}
+		
 		if(!fading && !revealed && fraction == 0){
 			fading = true;
 			Fade();
@@ -280,7 +285,6 @@ public partial class Patron : Sprite2D
 		DialogIcon.Show();
 		TailIcon.Show();
 		DialogIcon.Texture = dotsIcon;
-		patronVoice.SetPlaying( true );
 	}
 	
 	public void CreateOrder(ItemType item){

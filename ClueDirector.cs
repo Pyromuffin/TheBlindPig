@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-
 public static class EnumExtensions
 {
 	public static Enum GetRandomEnumValue(this Type t)
@@ -18,6 +17,7 @@ public static class EnumExtensions
 abstract class Clue 
 {
 	public uint clueID;
+	public DialogType dialogType;
 	
 	public void SetClueID(uint _clueID)
 	{
@@ -30,6 +30,11 @@ abstract class Clue
 
 class AlchoholClue : Clue
 {
+	public AlchoholClue()
+	{
+		dialogType = DialogType.ItemDialog;
+	}
+	
 	public override uint GetClueValue() 
 	{
 		return (uint)clueID;
@@ -43,6 +48,10 @@ class AlchoholClue : Clue
 
 class DietClue : Clue
 {
+	public DietClue()
+	{
+		dialogType = DialogType.ItemDialog;
+	}
 	public override uint GetClueValue() 
 	{
 		return (uint)clueID;
@@ -56,6 +65,10 @@ class DietClue : Clue
 
 class PoliticalClue : Clue
 {
+	public PoliticalClue()
+	{
+		dialogType = DialogType.PoliticalDialog;
+	}
 	public override uint GetClueValue() 
 	{
 		return (uint)clueID;
@@ -69,6 +82,10 @@ class PoliticalClue : Clue
 
 class CriminalClue : Clue
 {
+	public CriminalClue()
+	{
+		dialogType = DialogType.CriminalDialog;
+	}
 	public override uint GetClueValue() 
 	{
 		return (uint)clueID;
@@ -97,7 +114,11 @@ public partial class ClueDirector : Node2D
 	
 	const uint PATRON_COUNT = 6;
 	const uint ACT_COUNT = 3;
+	
+	uint currentAct = 0;
 	uint copIndex;
+	
+	DialogSystem dialogSystem = new DialogSystem();
 	
 	Patron[] patrons = new Patron[PATRON_COUNT];
 	Act[] acts = new Act[ACT_COUNT];
@@ -169,5 +190,8 @@ public partial class ClueDirector : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		DialogType dialogType = acts[currentAct].clue.dialogType;
+		
+		dialogSystem.GenerateDialog(PatronType.EscapeArtist, PatronType.JazzMusician, dialogType);
 	}
 }

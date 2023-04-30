@@ -22,9 +22,7 @@ public partial class AudioDirector : Node
 
 	public async void SetupMusic()
 	{
-		GD.Print( "fuck" );
 		await ToSignal(Treble, "finished");
-		GD.Print( "this" );
 		Treble.Stream = TrebleSound;
 		Treble.Play();
 		Bass.Play();

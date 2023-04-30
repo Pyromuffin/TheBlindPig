@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=12 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
 [ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
 
 [node name="world" type="Node2D"]
 y_sort_enabled = true
@@ -53,17 +54,11 @@ max_distance = 600.0
 [node name="Spawners" type="Node" parent="."]
 script = ExtResource("10_4tikp")
 
-[node name="SpawnPoint" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-262, 125)
-
 [node name="SpawnPoint2" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-197, 110)
 
 [node name="SpawnPoint3" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-214, 77)
-
-[node name="SpawnPoint4" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-199, 19)
 
 [node name="SpawnPoint5" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-149, 25)
@@ -88,12 +83,6 @@ position = Vector2(-104, 108)
 
 [node name="SpawnPoint12" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-63, 108)
-
-[node name="SpawnPoint13" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-37, 147)
-
-[node name="SpawnPoint14" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(139, -34)
 
 [node name="SpawnPoint15" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(114, 106)
@@ -145,3 +134,5 @@ itemType = 2
 [node name="Trash" parent="." instance=ExtResource("4_1fmxv")]
 z_index = 4
 position = Vector2(35, -37)
+
+[node name="director" parent="." instance=ExtResource("11_s5m15")]

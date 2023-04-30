@@ -106,7 +106,6 @@ public partial class Patron : Sprite2D
 {
 
 	[Export] public Vector2 minimumDialogBoxSize;
-	[Export] public Vector2 targetDialogBoxSize;
 	[Export] public float beginDialogGrowDistance;
 	[Export] public float endDialogGrowDistance;
 	[Export] public float iconScale;
@@ -120,14 +119,13 @@ public partial class Patron : Sprite2D
 	[Export]
 	public Sprite2D DialogIcon, TailIcon;
 
-	enum State
+	public enum State
 	{
 		IDLE,
 		ORDERING,
-		TALKING,
-		HEARD_TALKING
+		TALKING
 	}
-	State currentState;
+	public State currentState;
 	
 	public ItemType desiredItem;
 	string currentDialog;
@@ -138,12 +136,12 @@ public partial class Patron : Sprite2D
 	Texture2D dotsIcon;
 
 	[Export]
-	PatronType type;
-
-	[Export]
 	PatronVoice patronVoice;
 	[Export]
 	Label patronText;
+
+	[Export]
+	AnimationPlayer animationPlayer;
 
 	public PatronDetails details;
 
@@ -151,11 +149,15 @@ public partial class Patron : Sprite2D
 	public override void _Ready()
 	{
 		waiter = GetParent().GetNode<Node2D>("Waiter");
-		desiredItem = Item.GetRandomItem();
-		RandomTimedOrder(Item.GetRandomItem());
+		//desiredItem = Item.GetRandomItem();
+		//RandomTimedOrder(Item.GetRandomItem());
 		EnterState( State.IDLE );
-		type =(PatronType)(GD.Randi() % 6);
-		Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
+		//type =(PatronType)(GD.Randi() % 6);
+	} 
+
+	public void Init(PatronDetails d) {
+		details = d;
+		Texture = GD.Load<Texture2D>("res://assets/characters/" + details.patronType.ToString().ToLower() + ".png");
 	}
 
 	void ResetDialog()
@@ -186,11 +188,7 @@ public partial class Patron : Sprite2D
 		currentState = newState;
 	}
 
-	public async void RandomTimedOrder(ItemType item){
 
-		await ToSignal(GetTree().CreateTimer(GD.Randf() * randomTime), "timeout");
-		CreateOrder(item);
-	}
 
 	bool fading = false;
 	bool revealed = false;
@@ -222,18 +220,20 @@ public partial class Patron : Sprite2D
 		float totalDistance = beginDialogGrowDistance - endDialogGrowDistance;
 		float fraction = (distanceToWaiter - endDialogGrowDistance) / totalDistance;
 		fraction = Mathf.Clamp(fraction, 0, 1);
-		var size = minimumDialogBoxSize.Lerp(targetDialogBoxSize, 1 - fraction);
-		dialogBubble.Size = size;
-		DialogIcon.Scale = initialIconScale.Lerp(initialIconScale * iconScale, 1 - fraction);
+		
 		if( currentState == State.TALKING )
 		{
 			patronVoice.SetPlaying( fraction < 1 );
 			patronVoice.SetVolume( fraction );
+			animationPlayer.Play( "TalkBoxRight" );
+			animationPlayer.Seek( ( 1 - fraction ) * 1.8f );
 		}
-		
-		if(!fading && !revealed && fraction == 0){
-			fading = true;
-			Fade();
+		else if( currentState == State.ORDERING )
+		{
+			animationPlayer.Play( "IconBoxRight" );
+			animationPlayer.Seek( 1 - fraction );
+			if( 1 - fraction == 1 )
+				DialogIcon.Texture = Item.GetLargeIcon(desiredItem);
 		}
 	}
 
@@ -285,6 +285,53 @@ public partial class Patron : Sprite2D
 		DialogIcon.Texture = dotsIcon;
 	}
 	
+
+	bool IsItemDrink(ItemType item){
+		return item == ItemType.Absinthe || item == ItemType.Bourbon || item == ItemType.Cocktail || item == ItemType.Wine;
+	}
+
+	bool IsAcceptableForDiet(ItemType item, DietType diet){
+		
+		if(IsItemDrink(item)){
+			return true;
+		}
+
+		if(diet == DietType.Carnivore){
+			return item == ItemType.Meat;
+		}
+
+		if(diet == DietType.Herbivore){
+			return item == ItemType.Cake || item == ItemType.Carrot;
+		}
+
+		return true;
+	}
+
+	public ItemType GetRandomOrderableItem(){
+		var diet = details.dietType;
+		var hated = details.hatedDrink;
+
+		var items = new ItemType[] {	
+			ItemType.Absinthe,
+			ItemType.Bourbon,
+			ItemType.Cake,
+			ItemType.Carrot,
+			ItemType.Cocktail,
+			ItemType.Meat,
+			ItemType.Wine};
+
+		items.Shuffle();
+
+		foreach(var i in items){
+			if(IsAcceptableForDiet(i, diet) && i != hated){
+				return i;
+			}
+		}
+
+		GD.Print("huge error");
+		throw new InvalidOperationException();
+	}
+
 	public void CreateOrder(ItemType item){
 		desiredItem = item;
 		EnterState( State.ORDERING );

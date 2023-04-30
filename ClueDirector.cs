@@ -182,6 +182,10 @@ class Act
 
 public partial class ClueDirector : Node2D
 {
+
+	[Export] float minimumOrderTime = 8;
+	[Export] float maximumOrderTime = 20;
+
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
@@ -190,7 +194,7 @@ public partial class ClueDirector : Node2D
 	uint currentAct = 0;
 	uint copIndex = 0;
 	
-	PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
+	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
 	
 	DialogSystem dialogSystem = new DialogSystem();
 	
@@ -201,6 +205,18 @@ public partial class ClueDirector : Node2D
 		GD.Print("================");
 		GD.Print("Start of Act " + (currentAct + 1));
 		GD.Print("-------------");
+
+		var act = acts[currentAct];
+		var randomPairs = Spawners.GetRandomSpawnPairs();
+
+		for(int i = 0; i < 3; i++){
+			var first = act._couples[i,0];
+			var second = act._couples[i,1];
+
+			Spawners.patrons[(int)first].Position = randomPairs[i].first.Position;
+			Spawners.patrons[(int)second].Position = randomPairs[i].second.Position;
+		}
+
 	}
 	
 	public void GoToNextAct()
@@ -440,7 +456,7 @@ public partial class ClueDirector : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 CreateMystery();
+		randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -510,10 +526,34 @@ public partial class ClueDirector : Node2D
 		
 		dialogSystem.GeneratePatronDialog(talker, listener, subject, dialogType, context, acts[actToAbout].clue.clueID);
 	}
-	
+
+
+	double timer = 0;
+	double randomOrderTime;
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(timer > randomOrderTime){
+
+			var shuffled = Spawners.patrons.Clone() as Patron[];
+			shuffled.Shuffle();
+			
+			for(int i = 0; i < 6; i++){
+				var p = shuffled[i];
+				if(p.currentState == Patron.State.IDLE){
+					var item = p.GetRandomOrderableItem();
+					p.CreateOrder(item);
+					timer = 0;
+					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+					break;
+				}
+			}
+		}
+		
+
+		timer += delta;
+		
+
 		/*
 		while(currentAct < ACT_COUNT)
 		{

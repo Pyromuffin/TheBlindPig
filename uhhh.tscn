@@ -55,20 +55,6 @@ itemType = 4
 position = Vector2(140, 9)
 itemType = 2
 
-[node name="Patron" parent="." instance=ExtResource("5_6jqew")]
-position = Vector2(-67, 28)
-endDialogGrowDistance = 25.0
-iconTransitionTime = 0.5
-deliverySuspicionReduction = 10.0
-randomTime = 10.0
-
-[node name="Patron2" parent="." instance=ExtResource("5_6jqew")]
-position = Vector2(-144, -16)
-endDialogGrowDistance = 25.0
-iconTransitionTime = 0.5
-deliverySuspicionReduction = 10.0
-randomTime = 10.0
-
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 position = Vector2(14, 28)
 Speed = 100.0
@@ -98,3 +84,6 @@ offset_top = -53.0
 offset_right = -58.0
 offset_bottom = -53.0
 suspicionRate = 1.0
+
+[node name="Patron" parent="." instance=ExtResource("5_6jqew")]
+position = Vector2(-58, 42)

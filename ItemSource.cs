@@ -1,16 +1,6 @@
 using Godot;
 using System;
 
-public enum ItemType {
-	Absinthe,
-	Bourbon,
-	Cake,
-	Carrot,
-	Cocktail,
-	Meat,
-	Wine,
-}
-
 
 
 
@@ -18,26 +8,10 @@ public enum ItemType {
 public partial class ItemSource : Sprite2D
 {
 	
-	/*
-	public static ItemType[] foods = {
-		ItemType.Cake, ItemType.Carrot, ItemType.Meat
-	}
-	
-	public static ItemType[] drinks = {
-		ItemType.Absinthe, ItemType.Bourbon, ItemType.Cocktail, ItemType.Wine
-	}
-	*/
-	
 	
 	[Export]
 	public ItemType itemType;
-	
-	[Export]
-	public Resource[] icons;
-	
-	[Export]
-	public Resource[] smallIcons;
-	
+
 	
 	PackedScene itemScene = GD.Load<PackedScene>("res://Item.tscn");
 	
@@ -47,7 +21,7 @@ public partial class ItemSource : Sprite2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		this.Texture = icons[(int)itemType] as Texture2D;
+		this.Texture = Item.GetLargeIcon(itemType);
 		
 	}
 
@@ -57,9 +31,8 @@ public partial class ItemSource : Sprite2D
 		if(overlapper != null && Input.IsActionJustPressed("ui_accept")){
 			var waiter = overlapper as Waiter;
 			var item = itemScene.Instantiate() as Item;
-			item.Texture = smallIcons[(int)itemType] as Texture2D;
+			item.Texture = Item.GetSmallIcon(itemType);
 			item.itemType = itemType;
-			
 			waiter.PickUpItem(item);
 		}
 	}

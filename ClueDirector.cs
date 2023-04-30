@@ -65,7 +65,6 @@ class Patron
 	// Ordering Observation Task
 	public Drink hatedDrink;
 	public Food hatedFood;
-	
 	//public Drink favoriteDrink;
 	//public Food favoriteFood;
 	
@@ -84,6 +83,7 @@ class Patron
 		hatedFood = (Food)(typeof(Food).GetRandomEnumValue());
 		
 		polAff = (PolitcalAffiliation)(typeof(PolitcalAffiliation).GetRandomEnumValue());
+		criminalBackground = (CriminalBackground)(typeof(CriminalBackground).GetRandomEnumValue());
 		
 		futureRelationshipMechanic = (PatronType)_randomPatron;
 		
@@ -105,14 +105,40 @@ class Patron
 	}
 }
 
-class Clue
+abstract class Clue 
 {
-		
+	public uint clueID;
+	
+	public  void SetClueID(uint _clueID)
+	{
+		clueID = _clueID;
+	}
+	
+	public abstract uint GetClueValue();
+	public abstract string GetClueText();
+}
+
+class DietaryClue : Clue
+{
+	public override uint GetClueValue() 
+	{
+		return (uint)clueID;
+	}
+	
+	public override string GetClueText()
+	{
+		return "The cop will never order " + (Food)clueID;
+	}
 }
 
 class Act 
 {
+	public Clue clue;
 	
+	public Act(Clue _clue)
+	{
+		clue = _clue;
+	}
 }
 
 public partial class ClueDirector : Node2D
@@ -122,24 +148,39 @@ public partial class ClueDirector : Node2D
 	
 	const uint PATRON_COUNT = 6;
 	const uint ACT_COUNT = 2;
+	uint copIndex;
+	
+	Patron[] patrons = new Patron[PATRON_COUNT];
+	Act[] acts = new Act[ACT_COUNT];
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		uint copIndex = GD.Randi() % PATRON_COUNT;
-		Patron[] patrons = new Patron[PATRON_COUNT];
+		copIndex = GD.Randi() % PATRON_COUNT;
 		for (uint i = 0; i < PATRON_COUNT; ++i)
 		{
 			uint randomPatron = GD.Randi() % PATRON_COUNT;
 			patrons[i] = new Patron(i, (bool)(copIndex == i), randomPatron) ;
 		}
 		
-		Act[] acts = new Act[ACT_COUNT];
 		for (uint i = 0; i < ACT_COUNT; ++i)
 		{
-			acts[i] = new Act() ;
+			DietaryClue clue = new DietaryClue();
+			clue.SetClueID((uint)patrons[copIndex].hatedFood);
+			
+			acts[i] = new Act(clue);
 		}
 		
+		// Debug!
+		for (uint i = 0; i < ACT_COUNT; ++i)
+		{
+			GD.Print(GetClueText(i));
+		}
+	}
+	
+	public String GetClueText(uint actIndex = 0)
+	{
+		return acts[actIndex].clue.GetClueText();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

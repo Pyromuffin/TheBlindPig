@@ -16,7 +16,7 @@ using System;
 public enum PatronType
 {
 	None = -1,
-	EscapeArtist,
+	//EscapeArtist,
 	JazzMusician,
 	Spritualist,
 	Journalist,
@@ -41,24 +41,8 @@ public enum PolitcalAffiliation
 	LeopardParty,
 }
 
-
-public partial class Patron : Sprite2D
-{
-
-	[Export] public Vector2 minimumDialogBoxSize;
-	[Export] public Vector2 targetDialogBoxSize;
-	[Export] public float beginDialogGrowDistance;
-	[Export] public float endDialogGrowDistance;
-	[Export] public float iconScale;
-	[Export] public float iconTransitionTime;
-	[Export] public float deliverySuspicionReduction;
-	[Export] public float randomTime;
-
-	public NinePatchRect dialogBubble;
-	public Node2D waiter;
-	public Sprite2D icon, tail;
-	
-	// Patron details
+public class PatronDetails {
+		// Patron details
 	public PatronType patronType;
 	public DietType dietType;
 	public ItemType hatedDrink;
@@ -73,14 +57,9 @@ public partial class Patron : Sprite2D
 	
 	public uint loudness;
 	
-	PatronType futureRelationshipMechanic;
-
-	public bool hasOrder = false;
-	public ItemType desiredItem;
+	public PatronType futureRelationshipMechanic;
 	
-	Texture2D questionIcon;
-
-	public Patron(uint _patronIndex, bool _isCop, uint _randomPatron)
+	public PatronDetails(uint _patronIndex, bool _isCop, uint _randomPatron)
    	{
 		patronType = (PatronType)_patronIndex;
 		isTheCop = _isCop;
@@ -107,6 +86,35 @@ public partial class Patron : Sprite2D
 		GD.Print("======================");
 	}
 	
+}
+
+
+public partial class Patron : Sprite2D
+{
+
+	[Export] public Vector2 minimumDialogBoxSize;
+	[Export] public Vector2 targetDialogBoxSize;
+	[Export] public float beginDialogGrowDistance;
+	[Export] public float endDialogGrowDistance;
+	[Export] public float iconScale;
+	[Export] public float iconTransitionTime;
+	[Export] public float deliverySuspicionReduction;
+	[Export] public float randomTime;
+
+	public NinePatchRect dialogBubble;
+	public Node2D waiter;
+	public Sprite2D icon, tail;
+	
+	public bool hasOrder = false;
+	public ItemType desiredItem;
+	
+	Texture2D questionIcon;
+
+	[Export]
+	PatronType type;
+
+	public PatronDetails details;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -122,6 +130,10 @@ public partial class Patron : Sprite2D
 		tail.Hide();
 
 		RandomTimedOrder(Item.GetRandomItem());
+		//type = (PatronType)(GD.Randi() % 5);
+		
+		Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
+				
 	}
 
 	public async void RandomTimedOrder(ItemType item){
@@ -196,7 +208,6 @@ public partial class Patron : Sprite2D
 	}
 	
 	
-	
 	public void CreateOrder(ItemType item){
 		dialogBubble.Show();
 		icon.Show();
@@ -209,17 +220,18 @@ public partial class Patron : Sprite2D
 
 	public Node2D overlapper;
 	
-	private void _on_area_2d_body_entered(Node2D body)
+	private void Enter(Node2D body)
 	{
 		overlapper = body;
 	}
 
-
-	private void _on_area_2d_body_exited(Node2D body)
+	private void Exit(Node2D body)
 	{
 		overlapper = null;
 	}
 }
+
+
 
 
 

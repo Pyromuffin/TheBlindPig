@@ -109,6 +109,7 @@ class Act
 
 public partial class ClueDirector : Node2D
 {
+
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
@@ -118,9 +119,9 @@ public partial class ClueDirector : Node2D
 	uint currentAct = 0;
 	uint copIndex;
 	
+	PatronDetails[] patrons = new PatronDetails[PATRON_COUNT];
 	DialogSystem dialogSystem = new DialogSystem();
 	
-	Patron[] patrons = new Patron[PATRON_COUNT];
 	Act[] acts = new Act[ACT_COUNT];
 	
 	// Called when the node enters the scene tree for the first time.
@@ -130,7 +131,7 @@ public partial class ClueDirector : Node2D
 		for (uint i = 0; i < PATRON_COUNT; ++i)
 		{
 			uint randomPatron = GD.Randi() % PATRON_COUNT;
-			patrons[i] = new Patron(i, (bool)(copIndex == i), randomPatron) ;
+			patrons[i] = new PatronDetails(i, (bool)(copIndex == i), randomPatron) ;
 		}
 		List<int> numberList = new List<int>();
 		numberList.Add(0);
@@ -194,4 +195,5 @@ public partial class ClueDirector : Node2D
 		
 		dialogSystem.GenerateDialog(PatronType.EscapeArtist, PatronType.JazzMusician, dialogType);
 	}
+	
 }

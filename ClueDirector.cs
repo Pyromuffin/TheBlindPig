@@ -54,7 +54,7 @@ public enum PolitcalAffiliation
 	RabbitParty,
 }
 
-class Patron
+class Patronus
 {	
 	PatronType patronType;
 	bool isTheCop;
@@ -73,7 +73,7 @@ class Patron
 	public PolitcalAffiliation polAff;
 	public CriminalBackground criminalBackground;
 	
-	public Patron(uint _patronIndex, bool _isCop, uint _randomPatron)
+	public Patronus(uint _patronIndex, bool _isCop, uint _randomPatron)
    	{
 		patronType = (PatronType)_patronIndex;
 		isTheCop = _isCop;
@@ -127,11 +127,11 @@ public partial class ClueDirector : Node2D
 	public override void _Ready()
 	{
 		uint copIndex = GD.Randi() % PATRON_COUNT;
-		Patron[] patrons = new Patron[PATRON_COUNT];
+		Patronus[] patrons = new Patronus[PATRON_COUNT];
 		for (uint i = 0; i < PATRON_COUNT; ++i)
 		{
 			uint randomPatron = GD.Randi() % PATRON_COUNT;
-			patrons[i] = new Patron(i, (bool)(copIndex == i), randomPatron) ;
+			patrons[i] = new Patronus(i, (bool)(copIndex == i), randomPatron) ;
 		}
 		
 		Act[] acts = new Act[ACT_COUNT];

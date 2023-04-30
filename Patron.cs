@@ -129,7 +129,6 @@ public partial class Patron : Sprite2D
 
 	void ResetDialog()
 	{
-		GD.Print( "Hide" );
 		dialogBubble.Size = minimumDialogBoxSize;
 		PreviewIcon.Scale = Vector2.One * 0.4f;
 		fading =  false;
@@ -226,7 +225,6 @@ public partial class Patron : Sprite2D
 
 	void EnterOrder()
 	{
-		GD.Print( "Show" );
 		dialogBubble.Show();
 		PreviewIcon.Show();
 		TailIcon.Show();

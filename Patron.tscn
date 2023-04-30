@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://cucowd5iend2x"]
+
+[ext_resource type="Texture2D" uid="uid://bofc7qyp1hmcq" path="res://assets/characters/flapper.png" id="1_8tbdv"]
+[ext_resource type="Script" path="res://Patron.cs" id="2_38pbh"]
+[ext_resource type="Texture2D" uid="uid://cqj2g7exnqpqm" path="res://assets/ui/bubble_9_slice.png" id="3_16ayf"]
+[ext_resource type="Texture2D" uid="uid://b6t5falyqjvwg" path="res://assets/ui/bubble_tail.png" id="4_wn67f"]
+[ext_resource type="Texture2D" uid="uid://cbw45m4bkhhrn" path="res://assets/ui/icon_question_mark_24.png" id="5_3xh7d"]
+
+[node name="Patron" type="Sprite2D"]
+texture = ExtResource("1_8tbdv")
+script = ExtResource("2_38pbh")
+
+[node name="Request text" type="NinePatchRect" parent="."]
+offset_left = -25.0
+offset_top = -41.0
+offset_right = 1.0
+offset_bottom = -21.0
+texture = ExtResource("3_16ayf")
+region_rect = Rect2(0, 0, 22, 15)
+patch_margin_left = 13
+patch_margin_top = 4
+patch_margin_right = 13
+patch_margin_bottom = 5
+
+[node name="BubbleTail" type="Sprite2D" parent="."]
+position = Vector2(-7, -20)
+texture = ExtResource("4_wn67f")
+
+[node name="IconQuestionMark24" type="Sprite2D" parent="."]
+position = Vector2(-12, -32)
+scale = Vector2(0.416667, 0.416667)
+texture = ExtResource("5_3xh7d")

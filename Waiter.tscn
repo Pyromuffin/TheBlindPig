@@ -1,54 +1,54 @@
-[gd_scene load_steps=17 format=3 uid="uid://5gxvaa2jppmm"]
+[gd_scene load_steps=17 format=3 uid="uid://csf2hnr4t0o7x"]
 
-[ext_resource type="Script" path="res://Watier.cs" id="1_y5mux"]
-[ext_resource type="Texture2D" uid="uid://dywauqvck6svf" path="res://assets/characters/waiter_spritesheet.png" id="2_0m4qf"]
+[ext_resource type="Script" path="res://Waiter.cs" id="1_soig6"]
+[ext_resource type="Texture2D" uid="uid://dywauqvck6svf" path="res://assets/characters/waiter_spritesheet.png" id="2_6ua33"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xb2jb"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(0, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_882ke"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(32, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_12yng"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(64, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbxhw"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(96, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1fkc1"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(128, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f0e2v"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(160, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhum6"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(0, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wjptb"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(32, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kxl56"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(64, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6vfkx"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(96, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d1xjl"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(128, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qa8w3"]
-atlas = ExtResource("2_0m4qf")
+atlas = ExtResource("2_6ua33")
 region = Rect2(160, 0, 32, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n2ujr"]
@@ -114,8 +114,8 @@ animations = [{
 radius = 5.0
 height = 12.0
 
-[node name="Watier" type="CharacterBody2D"]
-script = ExtResource("1_y5mux")
+[node name="Waiter" type="CharacterBody2D"]
+script = ExtResource("1_soig6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n2ujr")

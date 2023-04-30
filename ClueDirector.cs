@@ -167,7 +167,6 @@ class Act
 
 public partial class ClueDirector : Node2D
 {
-
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
@@ -182,14 +181,14 @@ public partial class ClueDirector : Node2D
 	
 	Act[] acts = new Act[ACT_COUNT];
 	
-	public void StartAct()
+	public void StartCurrentAct()
 	{
 		GD.Print("================");
 		GD.Print("Start of Act " + (currentAct + 1));
 		GD.Print("-------------");
 	}
 	
-	public void EndAct()
+	public void GoToNextAct()
 	{
 		GD.Print("-------------");
 		GD.Print("End of Act " + (currentAct + 1));
@@ -301,15 +300,50 @@ public partial class ClueDirector : Node2D
 	{
 		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
 		
-		// First up we make the cop!
-		patrons[copIndex] = new PatronDetails(copIndex, true);
+		// Build a bunch of lists for good random distrubution!
+		uint alchoholOffset = GD.Randi() % (uint)Item.alcohol.Length;
 		
-		for (uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		List<ItemType> alchoholList = new List<ItemType>();
+		alchoholList.Add(Item.alcohol[alchoholOffset]);
+		alchoholList.Add(Item.alcohol[alchoholOffset]);
+		alchoholList.Add(Item.alcohol[(alchoholOffset + 1) % (uint)Item.alcohol.Length]);
+		alchoholList.Add(Item.alcohol[(alchoholOffset + 1) % (uint)Item.alcohol.Length]);
+		alchoholList.Add(Item.alcohol[(alchoholOffset + 2) % (uint)Item.alcohol.Length]);
+		alchoholList.Add(Item.alcohol[(alchoholOffset + 2) % (uint)Item.alcohol.Length]);
+		alchoholList.Shuffle();
+		
+		List<DietType> dietList = new List<DietType>();
+		dietList.Add(DietType.Carnivore);
+		dietList.Add(DietType.Carnivore);
+		dietList.Add(DietType.Herbivore);
+		dietList.Add(DietType.Herbivore);
+		dietList.Add(DietType.Omnivore);
+		dietList.Add(DietType.Omnivore);
+		dietList.Shuffle();
+		
+		List<PolitcalAffiliation> polList = new List<PolitcalAffiliation>();
+		polList.Add(PolitcalAffiliation.BearParty);
+		polList.Add(PolitcalAffiliation.BearParty);
+		polList.Add(PolitcalAffiliation.RabbitParty);
+		polList.Add(PolitcalAffiliation.RabbitParty);
+		polList.Add(PolitcalAffiliation.LeopardParty);
+		polList.Add(PolitcalAffiliation.LeopardParty);
+		polList.Shuffle();
+		
+		uint offset = GD.Randi() % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT;
+		List<uint> crimList = new List<uint>();
+		crimList.Add(offset);
+		crimList.Add(offset);
+		crimList.Add((offset + 1) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		crimList.Add((offset + 1) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		crimList.Add((offset + 2) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		crimList.Add((offset + 2) % (uint)CriminalBackground.CRIMINALBACKGROUND_COUNT);
+		
+		crimList.Shuffle();
+		
+		for (int i = 0; i < (int)PatronType.PATRON_COUNT; ++i)
 		{
-			if(copIndex == i)
-				continue;
-				
-			patrons[i] = new PatronDetails(i, false);
+			patrons[(uint)i] = new PatronDetails(i, (bool)(copIndex == i), (ItemType)alchoholList[i], dietList[i], polList[i], (CriminalBackground)crimList[i]);
 		}
 		
 		CreatePatronRelationships();
@@ -401,7 +435,7 @@ public partial class ClueDirector : Node2D
 	{
 		while(currentAct < ACT_COUNT)
 		{
-			StartAct();
+			StartCurrentAct();
 		
 			while(!acts[currentAct].IsActOver())
 			{
@@ -424,7 +458,7 @@ public partial class ClueDirector : Node2D
 				}
 			}
 		
-			EndAct();
+			GoToNextAct();
 		 }
 	}
 	

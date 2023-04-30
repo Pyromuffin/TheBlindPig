@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://33n5y5eow8vi"
-path="res://.godot/imported/baseball.png-d030139456f2ebf74136e1fb7e281895.ctex"
+uid="uid://qgtdvh2c6cs1"
+path="res://.godot/imported/escapeartist.png-04a86dd69cfaa7b4ed674ea7be3ea44c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/baseball.png"
-dest_files=["res://.godot/imported/baseball.png-d030139456f2ebf74136e1fb7e281895.ctex"]
+source_file="res://assets/characters/escapeartist.png"
+dest_files=["res://.godot/imported/escapeartist.png-04a86dd69cfaa7b4ed674ea7be3ea44c.ctex"]
 
 [params]
 

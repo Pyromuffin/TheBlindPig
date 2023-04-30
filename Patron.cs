@@ -32,7 +32,6 @@ public enum CriminalBackground
 	Moonshiner,
 	Bribery,
 	Smuggling,
-	CRIMINALBACKGROUND_COUNT
 }
 
 public enum PolitcalAffiliation
@@ -70,14 +69,13 @@ public class PatronDetails {
 	public PatronType relationPatron;
 	public RelationshipType relationshipType;
 	
-	public PatronDetails(int _patronIndex, bool _isCop, ItemType _hatedDrink, DietType _dietType, PolitcalAffiliation _polAff, CriminalBackground _crimBackground)
+	public PatronDetails(uint _patronIndex, bool _isCop, ItemType _hatedDrink, DietType _dietType, PolitcalAffiliation _polAff, CriminalBackground _crimBackground)
    	{
 		patronType = (PatronType)_patronIndex;
 		isTheCop = _isCop;
-		
 		loudness = GD.Randi() % 5 + 5;
 		
-		hatedDrink =_hatedDrink;
+		hatedDrink = _hatedDrink;
 		dietType = _dietType;
 		
 		politcalAffiliation = _polAff;

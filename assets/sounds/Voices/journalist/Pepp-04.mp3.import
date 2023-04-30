@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/Pepp-04.mp3-5043b7ad38ad64c85a6ad859499b6bab.
 [params]
 
 loop=false
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4

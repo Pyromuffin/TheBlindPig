@@ -63,6 +63,13 @@ secondItemPosition = Vector2(-5, -10)
 
 [node name="Camera2D" type="Camera2D" parent="Waiter"]
 
+[node name="Suspicion" parent="Waiter/Camera2D" instance=ExtResource("9_vwhiw")]
+offset_left = -65.0
+offset_top = -119.0
+offset_right = -65.0
+offset_bottom = -119.0
+suspicionRate = 1.0
+
 [node name="Music" type="Node2D" parent="." node_paths=PackedStringArray("Bass", "Treble")]
 position = Vector2(-184, 30)
 script = ExtResource("6_vv36t")
@@ -77,13 +84,6 @@ max_distance = 600.0
 stream = ExtResource("8_rg0r7")
 autoplay = true
 max_distance = 600.0
-
-[node name="Suspicion" parent="." instance=ExtResource("9_vwhiw")]
-offset_left = -58.0
-offset_top = -53.0
-offset_right = -58.0
-offset_bottom = -53.0
-suspicionRate = 1.0
 
 [node name="Patron" parent="." instance=ExtResource("5_6jqew")]
 position = Vector2(-58, 42)

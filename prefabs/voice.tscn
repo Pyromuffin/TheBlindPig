@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bsrp40fkfdros"]
+[gd_scene load_steps=13 format=3 uid="uid://cuavbbtf6ko2h"]
 
 [ext_resource type="Script" path="res://PatronVoice.cs" id="1_x6o3e"]
 [ext_resource type="AudioStream" uid="uid://b2n100c1jjuon" path="res://assets/sounds/Voices/journalist/Pepp-01.mp3" id="2_44wh1"]
@@ -9,13 +9,13 @@
 [ext_resource type="AudioStream" uid="uid://wvkjhalo4owq" path="res://assets/sounds/Voices/journalist/Pepp-06.mp3" id="7_ppeej"]
 [ext_resource type="AudioStream" uid="uid://cq17s7yw3dumh" path="res://assets/sounds/Voices/journalist/Pepp-07.mp3" id="8_18smo"]
 [ext_resource type="AudioStream" uid="uid://cc8fcnq11smut" path="res://assets/sounds/Voices/journalist/Pepp-08.mp3" id="9_6dbe8"]
-[ext_resource type="AudioStream" uid="uid://b64rinhqp2pno" path="res://assets/sounds/Voices/journalist/Pepp-09.mp3" id="10_kkqs1"]
+[ext_resource type="AudioStream" uid="uid://b64rinhqp2pno" path="res://assets/sounds/Voices/journalist/Deprecated/Pepp-09.mp3" id="10_7mcyg"]
 [ext_resource type="AudioStream" uid="uid://bj6qfwe13hlt7" path="res://assets/sounds/Voices/journalist/Pepp-10.mp3" id="11_fv8kc"]
 [ext_resource type="AudioStream" uid="uid://ck4if15dgbha8" path="res://assets/sounds/Voices/journalist/Pepp-11.mp3" id="12_shnrn"]
 
 [node name="Voice" type="Node2D" node_paths=PackedStringArray("VoicePlayer", "VoiceCoolDown")]
 script = ExtResource("1_x6o3e")
-VoiceStreams = Array[AudioStream]([ExtResource("2_44wh1"), ExtResource("3_bnnj3"), ExtResource("4_bwqrb"), ExtResource("5_t0jdl"), ExtResource("6_44jvj"), ExtResource("7_ppeej"), ExtResource("8_18smo"), ExtResource("9_6dbe8"), ExtResource("10_kkqs1"), ExtResource("11_fv8kc"), ExtResource("12_shnrn")])
+VoiceStreams = Array[AudioStream]([ExtResource("2_44wh1"), ExtResource("3_bnnj3"), ExtResource("4_bwqrb"), ExtResource("5_t0jdl"), ExtResource("6_44jvj"), ExtResource("7_ppeej"), ExtResource("8_18smo"), ExtResource("9_6dbe8"), ExtResource("10_7mcyg"), ExtResource("11_fv8kc"), ExtResource("12_shnrn"), ExtResource("2_44wh1"), ExtResource("3_bnnj3"), ExtResource("4_bwqrb"), ExtResource("5_t0jdl"), ExtResource("6_44jvj"), ExtResource("7_ppeej"), ExtResource("8_18smo"), ExtResource("9_6dbe8"), ExtResource("11_fv8kc"), ExtResource("12_shnrn")])
 VoicePlayer = NodePath("AudioStreamPlayer2D")
 VoiceCoolDown = NodePath("Timer")
 

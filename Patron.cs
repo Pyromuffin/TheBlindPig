@@ -115,14 +115,27 @@ public partial class Patron : Sprite2D
 	[Export] public float deliverySuspicionReduction;
 	[Export] public float randomTime;
 
+	[Export]
 	public NinePatchRect dialogBubble;
 	public Node2D waiter;
-	public Sprite2D icon, tail;
+	[Export]
+	public Sprite2D PreviewIcon, TailIcon;
+
+	enum State
+	{
+		IDLE,
+		ORDERING,
+		TALKING
+	}
+	State currentState;
 	
-	public bool hasOrder = false;
 	public ItemType desiredItem;
+	string currentDialog;
 	
+	[Export]
 	Texture2D questionIcon;
+	[Export]
+	Texture2D dotsIcon;
 
 	[Export]
 	PatronType type;
@@ -132,22 +145,38 @@ public partial class Patron : Sprite2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		dialogBubble = GetNode<NinePatchRect>("Request text");
-		icon = GetNode<Sprite2D>("IconQuestionMark24");
-		questionIcon = icon.Texture;
 		waiter = GetParent().GetNode<Node2D>("Waiter");
 		desiredItem = Item.GetRandomItem();
-		tail = GetNode<Sprite2D>("BubbleTail");
+		RandomTimedOrder(Item.GetRandomItem());
+		EnterState( State.IDLE );
+		//Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
+	}
+
+	void ResetDialog()
+	{
+		dialogBubble.Size = minimumDialogBoxSize;
+		PreviewIcon.Scale = Vector2.One * 0.4f;
+		fading =  false;
+		revealed = false;
 
 		dialogBubble.Hide();
-		icon.Hide();
-		tail.Hide();
+		PreviewIcon.Hide();
+		TailIcon.Hide();
+	}
 
-		RandomTimedOrder(Item.GetRandomItem());
-		//type = (PatronType)(GD.Randi() % 5);
-		
-		Texture = GD.Load<Texture2D>("res://assets/characters/" + type.ToString().ToLower() + ".png");
-				
+	void EnterState( State newState )
+	{
+		ResetDialog();
+		switch( newState )
+		{
+			case( State.ORDERING ):
+				EnterOrder();
+				break;
+			case( State.TALKING ):
+				EnterTalking();
+				break;
+		}
+		currentState = newState;
 	}
 
 	public async void RandomTimedOrder(ItemType item){
@@ -159,40 +188,37 @@ public partial class Patron : Sprite2D
 	bool fading = false;
 	bool revealed = false;
 
-	public void ResetOrder(){
-		dialogBubble.Size = minimumDialogBoxSize;
-		icon.Scale = Vector2.One * 0.4f;
-		fading =  false;
-		revealed = false;
-		hasOrder = false;
-		dialogBubble.Hide();
-		icon.Hide();
-		tail.Hide();
+	public void ResetOrder() 
+	{
+		EnterState( State.IDLE );
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		Vector2 initialIconScale = Vector2.One * 0.4f;
-
-		if(hasOrder){
-			float distanceToWaiter =  (waiter.Position - Position).Length();
-			float totalDistance = beginDialogGrowDistance - endDialogGrowDistance;
-			float fraction = (distanceToWaiter - endDialogGrowDistance) / totalDistance;
-			fraction = Mathf.Clamp(fraction, 0, 1);
-			var size = minimumDialogBoxSize.Lerp(targetDialogBoxSize, 1 - fraction);
-			dialogBubble.Size = size;
-			icon.Scale = initialIconScale.Lerp(initialIconScale * iconScale, 1 - fraction);
-
-			if(!fading && !revealed && fraction == 0){
-				fading = true;
-				Fade();
-			}
-
+		if( currentState == State.ORDERING ){
+			growDialog();
 			if(overlapper != null && Input.IsActionJustPressed("ui_accept")){
 				var waiter = overlapper as Waiter;
 				waiter.DeliverItem(this);
 			}
+		}
+	}
+
+	void growDialog()
+	{
+		Vector2 initialIconScale = Vector2.One * 0.4f;
+		float distanceToWaiter =  (waiter.Position - Position).Length();
+		float totalDistance = beginDialogGrowDistance - endDialogGrowDistance;
+		float fraction = (distanceToWaiter - endDialogGrowDistance) / totalDistance;
+		fraction = Mathf.Clamp(fraction, 0, 1);
+		var size = minimumDialogBoxSize.Lerp(targetDialogBoxSize, 1 - fraction);
+		dialogBubble.Size = size;
+		PreviewIcon.Scale = initialIconScale.Lerp(initialIconScale * iconScale, 1 - fraction);
+
+		if(!fading && !revealed && fraction == 0){
+			fading = true;
+			Fade();
 		}
 	}
 
@@ -202,17 +228,17 @@ public partial class Patron : Sprite2D
 
 		while(timer < iconTransitionTime){
 			var fraction = timer / iconTransitionTime;
-			icon.Modulate = new Color(1,1,1, 1- ((float)fraction));
+			PreviewIcon.Modulate = new Color(1,1,1, 1- ((float)fraction));
 			timer += GetProcessDeltaTime();
 			await ToSignal(GetTree(), "process_frame");		
 		}
 
 		timer = 0.0;
-		icon.Texture = Item.GetLargeIcon(desiredItem);
+		PreviewIcon.Texture = Item.GetLargeIcon(desiredItem);
 
 		while(timer < iconTransitionTime){
 			var fraction = timer / iconTransitionTime;
-			icon.Modulate = new Color(1,1,1, (float)fraction);
+			PreviewIcon.Modulate = new Color(1,1,1, (float)fraction);
 			timer += GetProcessDeltaTime();
 			await ToSignal(GetTree(), "process_frame");		
 		}
@@ -220,15 +246,32 @@ public partial class Patron : Sprite2D
 		fading = false;
 		revealed = true;
 	}
-	
+
+
+	void EnterOrder()
+	{
+		dialogBubble.Show();
+		PreviewIcon.Show();
+		TailIcon.Show();
+		PreviewIcon.Texture = questionIcon;
+	}
+
+	void EnterTalking()
+	{
+		dialogBubble.Show();
+		PreviewIcon.Show();
+		TailIcon.Show();
+		PreviewIcon.Texture = dotsIcon;
+	}
 	
 	public void CreateOrder(ItemType item){
-		dialogBubble.Show();
-		icon.Show();
-		tail.Show();
-		icon.Texture = questionIcon;
 		desiredItem = item;
-		hasOrder = true;
+		EnterState( State.ORDERING );
+	}
+
+	public void CreateDialog(string text){
+		currentDialog = text;
+		EnterState( State.TALKING );
 	}
 
 

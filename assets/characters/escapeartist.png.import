@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgkd15uo75i1s"
-path="res://.godot/imported/suspicion_fill.png-c6eb4bad47703bc5a020dbe22e1220b9.ctex"
+uid="uid://qgtdvh2c6cs1"
+path="res://.godot/imported/escapeartist.png-04a86dd69cfaa7b4ed674ea7be3ea44c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/suspicion_fill.png"
-dest_files=["res://.godot/imported/suspicion_fill.png-c6eb4bad47703bc5a020dbe22e1220b9.ctex"]
+source_file="res://assets/characters/escapeartist.png"
+dest_files=["res://.godot/imported/escapeartist.png-04a86dd69cfaa7b4ed674ea7be3ea44c.ctex"]
 
 [params]
 

@@ -25,6 +25,71 @@ public enum ClueType
 
 public abstract class Clue 
 {
+	public string GetContextString(DialogContext _context, uint _ID)
+	{
+		switch(_context)
+		{
+			case DialogContext.PoliticalDialog:
+			{
+				PolitcalAffiliation polAff = (PolitcalAffiliation)_ID;
+				switch(polAff)
+				{
+					case PolitcalAffiliation.LeopardParty:
+					{
+						return "Leopard Party ";
+					}
+					case PolitcalAffiliation.RabbitParty:
+					{
+						return "Rabbit Party";
+					}
+					case PolitcalAffiliation.BearParty:
+					{
+						return "Bear Party";
+					}
+					default:
+						return "UNKNOWN";
+				}
+			}
+			case DialogContext.CriminalDialog:
+			{
+				CriminalBackground crimBackground = (CriminalBackground)_ID;
+				switch(crimBackground)
+				{
+					case CriminalBackground.Bootlegger:
+					{
+						return "Bootlegger";
+					}
+					case CriminalBackground.RumRunner:
+					{
+						return "Rum Runner";
+					}
+					case CriminalBackground.Moonshiner:
+					{
+						return "Moonshiner";
+					}
+					case CriminalBackground.Bribery:
+					{
+						return "Money Launderer";
+					}
+					case CriminalBackground.Smuggling:
+					{
+						return "Smuggler";
+					}
+					default:
+						return "UNKNOWN";
+				}
+			}
+			case DialogContext.RelationshipDialog:
+			{
+				return "";
+			}
+			
+			default:
+				return "";
+		}
+	}
+	
+	
 	public uint clueID;
 	public ClueType clueType;
 	public DialogContext dialogContext;
@@ -89,7 +154,8 @@ public class PoliticalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " is a member of the " + (PolitcalAffiliation)clueID;
+		string objectName = GetContextString(DialogContext.PoliticalDialog, clueID);
+		return " is a member of the " + objectName;
 	}
 }
 
@@ -107,7 +173,8 @@ public class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return "'s cover story is that they are a " + (CriminalBackground)clueID;
+		string objectName = GetContextString(DialogContext.CriminalDialog, clueID);
+		return "'s cover story is that they are a " + objectName;
 	}
 }
 
@@ -126,6 +193,7 @@ public class RelationshipClue : Clue
 	
 	public override string GetClueText()
 	{
+		//string objectName = GetContextString(DialogContext.RelationshipDialog, clueID);
 		return " has a " + (RelationshipType)clueID;
 	}
 }

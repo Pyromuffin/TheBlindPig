@@ -26,7 +26,10 @@ public partial class ActManager : Node
 	void ShowActTransition(){
 
 		clueText.Show();
-		clueText.Text = "The undercover cop" + director.acts[director.currentAct].clue.GetClueText();
+		clueText.Text = "The undercover cop" + director.acts[0].clue.GetClueText() + 
+		"\nThe undercover cop" + director.acts[1].clue.GetClueText() +
+		"\nThe undercover cop" + director.acts[2].clue.GetClueText();
+
 
 		if(director.currentAct == 0){
 			splash1.Show();
@@ -47,10 +50,11 @@ public partial class ActManager : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		/*
 		if(actTimer > actLength){
 			actTimer = 0;
 			showingActTransition = true;
-			director.currentAct++;
+			// director.currentAct++;
 			ShowActTransition();
 			director.StartCurrentAct();
 		}
@@ -58,11 +62,28 @@ public partial class ActManager : Node
 		if(!showingActTransition){
 			actTimer += delta;
 		}
+		*/
 
 		if(showingActTransition && Input.IsActionJustPressed("ui_accept")){
 			HideTransitions();
 			showingActTransition = false;
 		}
+
+
+		if(!showingActTransition){
+			if(Input.IsActionJustPressed("ui_focus_next")){
+				showingActTransition = true;
+				ShowActTransition();
+			}
+		} else {
+			if(Input.IsActionJustPressed("ui_focus_next")){
+				showingActTransition = false;
+				HideTransitions();
+			}
+		}
+		
+
+
 	}
 }
 

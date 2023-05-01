@@ -192,6 +192,10 @@ public partial class Patron : Sprite2D
 	public PatronDetails details;
 	[Export]
 	public float characterAnimationSpeedScale;
+	[Export]
+	public bool isPig;
+	[Export]
+	public ActManager actManager;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -283,6 +287,41 @@ public partial class Patron : Sprite2D
 	{
 		if (ActManager.showingActTransition)
 		{
+			return;
+		}
+
+		if (ActManager.isEnding)
+		{
+			if (currentState != State.IDLE)
+				EnterState( State.IDLE );
+
+			if (overlapper != null && Input.IsActionJustPressed("ui_accept"))
+			{
+				if( details.isTheCop )
+				{
+					GD.Print( "A goddamn cop" );
+				}
+				else
+				{
+					GD.Print( "Not a cop" );
+				}
+
+				var waiter = overlapper as Waiter;
+				waiter.DeliverItem(this);
+			}
+			return;
+		}
+
+		if( isPig )
+		{
+			if (overlapper != null )
+			{
+				if (Input.IsActionJustPressed("ui_accept"))
+				{
+					actManager.StartEnding();
+				}
+			}
+			
 			return;
 		}
 

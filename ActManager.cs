@@ -15,6 +15,7 @@ public partial class ActManager : Node
 
 	double actTimer = 0;
 	public static bool showingActTransition = true;
+	public static bool isEnding = false;
 
 	void HideTransitions(){
 		splash1.Hide();
@@ -40,6 +41,11 @@ public partial class ActManager : Node
 		if(director.currentAct == 2){
 			splash3.Show();
 		}
+	}
+
+	public void StartEnding()
+	{
+		isEnding = true;
 	}
 
 	public override void _Ready(){

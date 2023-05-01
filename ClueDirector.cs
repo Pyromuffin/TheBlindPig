@@ -593,37 +593,6 @@ public partial class ClueDirector : Node2D
 
 		orderTimer += delta;
 		dialogTimer += delta;
-		
-
-		/*
-		while(currentAct < ACT_COUNT)
-		{
-			StartCurrentAct();
-		
-			while(!acts[currentAct].IsActOver())
-			{
-				// When we dish out clues is controlled by Game Flow
-				bool isClue = GD.Randi() % 3 == 0;
-				
-				if(isClue)
-				{
-					acts[currentAct].clueCount--;
-				}
-				
-				// The radio will be controlled by the Game Flow
-				if(GD.Randi() % 6 == 0)
-				{
-					GenerateRadioMessage(isClue);
-				}
-				else
-				{
-					GeneratePatronDialog(isClue);
-				}
-			}
-		
-			GoToNextAct();
-		 }
-		*/
 	}
 	
 }

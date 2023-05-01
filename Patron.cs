@@ -223,6 +223,7 @@ public partial class Patron : Sprite2D
 	{
 		dialogBubble.Size = minimumDialogBoxSize;
 		DialogIcon.Scale = Vector2.One * 0.4f;
+		DialogIcon.Modulate = new Color(1,1,1,1);
 		fading =  false;
 		revealed = false;
 
@@ -235,6 +236,8 @@ public partial class Patron : Sprite2D
 	void EnterState( State newState )
 	{
 		ResetDialog();
+		patronVoice.SetPlaying( false );
+
 		switch( newState )
 		{
 			case( State.ORDERING ):
@@ -261,7 +264,10 @@ public partial class Patron : Sprite2D
 	}
 
 	bool dialogHeard = false;
-	double dialogAdvanceTimer = 0;
+
+	[Export]
+	double dialogMissTime, dialogFadeTime;
+	double dialogMissTimer, dialogFadeTimer;
 
 
 
@@ -278,12 +284,19 @@ public partial class Patron : Sprite2D
 		else if( currentState == State.TALKING ){
 			growDialog();
 			if(dialogHeard){
-				if(dialogAdvanceTimer > dialogAdvanceTime){
-					
+				if(dialogFadeTimer > dialogFadeTime){
+					ResetOrder();
+					dialogHeard = false;
+					dialogFadeTimer = 0;					
 				}
-
-				dialogAdvanceTimer += delta;
-
+				dialogFadeTimer += delta;
+			} else {
+				if(dialogMissTimer > dialogMissTime){
+					ResetOrder();
+					dialogHeard = false;
+					dialogMissTimer = 0;
+				}
+				dialogMissTimer += delta;
 			}
 		}
 	}

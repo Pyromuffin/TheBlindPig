@@ -8,7 +8,9 @@ public partial class ActManager : Node
 	[Export] public float actLength;
 	[Export] public float fadeTime;
 
-	[Export] AnimatedSprite2D splash1;
+	[Export] Sprite2D splash1;
+	[Export] Sprite2D splash2;
+	[Export] Sprite2D splash3;
 	[Export] Label clueText;
 	[Export] Sprite2D clueWindow;
 	[Export] Suspicion suspicion;
@@ -26,6 +28,8 @@ public partial class ActManager : Node
 
 	void HideTransitions(){
 		splash1.Hide();
+		splash2.Hide();
+		splash3.Hide();
 		clueText.Hide();
 		clueWindow.Hide();
 	}
@@ -39,8 +43,16 @@ public partial class ActManager : Node
 		"\n* The cop" + director.acts[2].clue.GetClueText() + "." +
 		"\nCome back when you find the weasel!";
 
-		splash1.Show();
-		splash1.Play();
+
+		if(director.currentAct == 0){
+			splash1.Show();
+		}
+		if(director.currentAct == 1){
+			splash2.Show();
+		}
+		if(director.currentAct == 2){
+			splash3.Show();
+		}
 	}
 
 	public void StartEnding()

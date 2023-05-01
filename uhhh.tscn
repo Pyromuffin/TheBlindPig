@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=27 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -9,33 +9,18 @@
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
-[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
-[ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
-[ext_resource type="Texture2D" uid="uid://baxegnld8admm" path="res://assets/ui/frame1.png" id="12_2fy1d"]
+[ext_resource type="Texture2D" uid="uid://83c1apqury6m" path="res://assets/ui/act_splash.png" id="11_7nf8j"]
+[ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
 [ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="12_ceb2j"]
 [ext_resource type="Texture2D" uid="uid://dg2yscj785udo" path="res://assets/ui/clue_window.png" id="12_mldqr"]
-[ext_resource type="Texture2D" uid="uid://0so6f44gssw6" path="res://assets/ui/frame2.png" id="13_7sj0c"]
-[ext_resource type="Texture2D" uid="uid://0utrqvocmis5" path="res://assets/characters/blindpig.png" id="13_mgit7"]
+[ext_resource type="Texture2D" uid="uid://crx5p3xet2i05" path="res://assets/characters/blindpig.png" id="13_mgit7"]
 [ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="16_ckbph"]
 [ext_resource type="Script" path="res://ActManager.cs" id="17_ufhtv"]
 [ext_resource type="Texture2D" uid="uid://cqj2g7exnqpqm" path="res://assets/ui/bubble_9_slice.png" id="18_2d7ig"]
-[ext_resource type="Texture2D" uid="uid://wc654i0jjvmi" path="res://assets/ui/choose_cop.png" id="18_n5g8r"]
+[ext_resource type="Texture2D" uid="uid://ca4agkunofe56" path="res://assets/ui/choose_cop.png" id="18_n5g8r"]
 [ext_resource type="Script" path="res://FingerPrompt.cs" id="19_n73yp"]
 [ext_resource type="FontFile" uid="uid://cxrgewehxhlie" path="res://assets/InstrumentSerif-Regular.ttf" id="20_040hn"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_k765l"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("12_2fy1d")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_7sj0c")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
 height = 86.0
@@ -132,21 +117,37 @@ z_index = 4
 position = Vector2(35, -37)
 
 [node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
-z_index = 100
+z_index = 103
 position = Vector2(-69, 63)
 waiterStartPos = NodePath("../waiter start pos")
 waiter = NodePath("../Waiter")
 
-[node name="ClueWindow" type="Sprite2D" parent="director"]
+[node name="Sprite2D" type="Sprite2D" parent="director"]
 visible = false
-z_index = 1
+texture = ExtResource("11_7nf8j")
+
+[node name="Sprite2D2" type="Sprite2D" parent="director"]
+visible = false
+texture = ExtResource("11_7nf8j")
+
+[node name="Sprite2D3" type="Sprite2D" parent="director"]
+visible = false
+texture = ExtResource("11_7nf8j")
+
+[node name="ClueWindow" type="Sprite2D" parent="director"]
 position = Vector2(96, -108)
 texture = ExtResource("12_mldqr")
 
-[node name="Splash" type="AnimatedSprite2D" parent="director"]
-visible = false
-sprite_frames = SubResource("SpriteFrames_k765l")
-frame_progress = 0.526556
+[node name="Clue text" type="Label" parent="director"]
+z_index = 1000
+offset_left = -28.0
+offset_top = -151.0
+offset_right = 218.0
+offset_bottom = -55.0
+theme_override_fonts/font = ExtResource("16_ckbph")
+theme_override_font_sizes/font_size = 16
+text = "SECRET CLUE"
+autowrap_mode = 3
 
 [node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
@@ -225,24 +226,15 @@ shape = SubResource("CircleShape2D_2gp8y")
 [node name="waiter start pos" type="Node2D" parent="."]
 position = Vector2(-66, -8)
 
-[node name="Clue text" type="Label" parent="."]
-z_index = 1000
-offset_left = -97.0
-offset_top = -88.0
-offset_right = 149.0
-offset_bottom = 8.0
-theme_override_fonts/font = ExtResource("16_ckbph")
-theme_override_font_sizes/font_size = 16
-text = "SECRET CLUE"
-autowrap_mode = 3
-
-[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "clueText", "clueWindow", "suspicion", "chooseCop", "confirmDialog")]
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText", "clueWindow", "suspicion", "chooseCop", "confirmDialog")]
 script = ExtResource("17_ufhtv")
 director = NodePath("../director")
 actLength = 60.0
 fadeTime = 3.0
-splash1 = NodePath("../director/Splash")
-clueText = NodePath("../Clue text")
+splash1 = NodePath("../director/Sprite2D")
+splash2 = NodePath("../director/Sprite2D2")
+splash3 = NodePath("../director/Sprite2D3")
+clueText = NodePath("../director/Clue text")
 clueWindow = NodePath("../director/ClueWindow")
 suspicion = NodePath("../Suspicion")
 chooseCop = NodePath("../ChooseCop")

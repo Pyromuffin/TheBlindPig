@@ -257,7 +257,7 @@ public partial class ClueDirector : Node2D
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
-	const bool DEBUG_SYSTEM = true;
+	const bool DEBUG_SYSTEM = false;
 	
 	const uint ACT_COUNT = 3;
 	const uint FLAVOR_COUNT = 6;
@@ -769,6 +769,8 @@ public partial class ClueDirector : Node2D
 
 	double dialogTimer = 0;
 	double randomDialogTime;
+	
+	bool orderDrink = true;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -784,10 +786,11 @@ public partial class ClueDirector : Node2D
 			
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
-				if(p.currentState == Patron.State.IDLE){
-					var item = p.GetRandomOrderableItem();
+				if(p.currentState == Patron.State.IDLE) {
+					var item = p.GetRandomOrderableItem(orderDrink);
 					p.CreateOrder(item);
 					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+					orderDrink = !orderDrink;
 					break;
 				}
 			}

@@ -299,6 +299,15 @@ z_index = 10
 position = Vector2(-71, -51)
 texture = ExtResource("18_n5g8r")
 
+[node name="Label" type="Label" parent="."]
+offset_left = -290.0
+offset_top = -99.0
+offset_right = -141.0
+offset_bottom = -73.0
+theme_override_fonts/font = ExtResource("16_ckbph")
+theme_override_font_sizes/font_size = 16
+text = "Press Tab for clues!"
+
 [connection signal="pressed" from="Finger Prompt/Yes" to="Finger Prompt" method="_on_yes_pressed"]
 [connection signal="pressed" from="Finger Prompt/No" to="Finger Prompt" method="_on_no_pressed"]
 

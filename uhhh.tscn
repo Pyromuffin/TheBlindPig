@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=19 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
 [ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
 [ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="12_ceb2j"]
-[ext_resource type="Script" path="res://Pig.cs" id="13_8b2wg"]
 [ext_resource type="Texture2D" uid="uid://crx5p3xet2i05" path="res://assets/characters/blindpig.png" id="13_mgit7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
@@ -165,10 +164,6 @@ dotsIcon = null
 characterAnimationSpeedScale = 0.2
 dialogMissTime = 0.0
 dialogFadeTime = 0.0
-
-[node name="Dialog" parent="Patron" index="1" node_paths=PackedStringArray("patron")]
-script = ExtResource("13_8b2wg")
-patron = NodePath("..")
 
 [node name="Request text" parent="Patron/Dialog" index="0"]
 visible = false

@@ -34,9 +34,9 @@ public partial class ActManager : Node
 
 		clueWindow.Show();
 		clueText.Show();
-		clueText.Text = "* The cop" + director.acts[0].clue.GetClueText() + "!" + 
-		"\n* The cop" + director.acts[1].clue.GetClueText() +"!"+
-		"\n* The cop" + director.acts[2].clue.GetClueText() + "!" +
+		clueText.Text = "* The cop" + director.acts[0].clue.GetClueText() + "." + 
+		"\n* The cop" + director.acts[1].clue.GetClueText() +"."+
+		"\n* The cop" + director.acts[2].clue.GetClueText() + "." +
 		"\nCome back when you ID the cop!";
 
 

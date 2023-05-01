@@ -155,7 +155,7 @@ public class PoliticalClue : Clue
 	public override string GetClueText()
 	{
 		string objectName = GetContextString(DialogContext.PoliticalDialog, clueID);
-		return " is a member of the " + objectName;
+		return " works for the " + objectName;
 	}
 }
 
@@ -174,7 +174,7 @@ public class CriminalClue : Clue
 	public override string GetClueText()
 	{
 		string objectName = GetContextString(DialogContext.CriminalDialog, clueID);
-		return " pretends they are a " + objectName;
+		return " hides as a " + objectName;
 	}
 }
 

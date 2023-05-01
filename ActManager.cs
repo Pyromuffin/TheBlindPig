@@ -12,6 +12,7 @@ public partial class ActManager : Node
 	[Export] Sprite2D splash2;
 	[Export] Sprite2D splash3;
 	[Export] Label clueText;
+	[Export] Sprite2D clueWindow;
 	[Export] Suspicion suspicion;
 
 	[Export] NinePatchRect confirmDialog;
@@ -29,14 +30,17 @@ public partial class ActManager : Node
 		splash2.Hide();
 		splash3.Hide();
 		clueText.Hide();
+		clueWindow.Hide();
 	}
 
 	void ShowActTransition(){
 
+		clueWindow.Show();
 		clueText.Show();
-		clueText.Text = "The cop" + director.acts[0].clue.GetClueText() + 
-		"\nThe cop" + director.acts[1].clue.GetClueText() +
-		"\nThe cop" + director.acts[2].clue.GetClueText();
+		clueText.Text = "* The cop" + director.acts[0].clue.GetClueText() + "." + 
+		"\n* The cop" + director.acts[1].clue.GetClueText() +"."+
+		"\n* The cop" + director.acts[2].clue.GetClueText() + "." +
+		"\nCome back when you find the weasel!";
 
 
 		if(director.currentAct == 0){

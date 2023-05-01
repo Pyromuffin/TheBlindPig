@@ -9,13 +9,13 @@
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
-[ext_resource type="Texture2D" uid="uid://csh64mgn5hjek" path="res://assets/ui/act1.png" id="11_3kgy0"]
-[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="Texture2D" uid="uid://hkyxca6wwjp3" path="res://assets/ui/act_splash.png" id="11_7nf8j"]
+[ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
 [ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
 [ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="12_ceb2j"]
-[ext_resource type="Texture2D" uid="uid://pavdjnosvnwf" path="res://assets/ui/act2.png" id="12_kwi2p"]
-[ext_resource type="Texture2D" uid="uid://0utrqvocmis5" path="res://assets/characters/blindpig.png" id="13_mgit7"]
-[ext_resource type="Texture2D" uid="uid://bmjnkgmeee5x6" path="res://assets/ui/act3.png" id="13_q7k32"]
+[ext_resource type="Texture2D" uid="uid://dg2yscj785udo" path="res://assets/ui/clue_window.png" id="12_mldqr"]
+[ext_resource type="Texture2D" uid="uid://ddjed0w55mf7u" path="res://assets/characters/blindpig.png" id="13_mgit7"]
+[ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="16_ckbph"]
 [ext_resource type="Script" path="res://ActManager.cs" id="17_ufhtv"]
 [ext_resource type="Texture2D" uid="uid://cqj2g7exnqpqm" path="res://assets/ui/bubble_9_slice.png" id="18_2d7ig"]
 [ext_resource type="Script" path="res://FingerPrompt.cs" id="19_n73yp"]
@@ -121,15 +121,19 @@ waiter = NodePath("../Waiter")
 
 [node name="Sprite2D" type="Sprite2D" parent="director"]
 visible = false
-texture = ExtResource("11_3kgy0")
+texture = ExtResource("11_7nf8j")
 
 [node name="Sprite2D2" type="Sprite2D" parent="director"]
 visible = false
-texture = ExtResource("12_kwi2p")
+texture = ExtResource("11_7nf8j")
 
 [node name="Sprite2D3" type="Sprite2D" parent="director"]
 visible = false
-texture = ExtResource("13_q7k32")
+texture = ExtResource("11_7nf8j")
+
+[node name="ClueWindow" type="Sprite2D" parent="director"]
+position = Vector2(96, -108)
+texture = ExtResource("12_mldqr")
 
 [node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
@@ -210,14 +214,16 @@ position = Vector2(-66, -8)
 
 [node name="Clue text" type="Label" parent="."]
 z_index = 1000
-offset_left = -239.0
-offset_top = -69.0
-offset_right = 104.0
-offset_bottom = 143.0
+offset_left = -97.0
+offset_top = -88.0
+offset_right = 149.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("16_ckbph")
+theme_override_font_sizes/font_size = 16
 text = "SECRET CLUE"
 autowrap_mode = 3
 
-[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText", "suspicion", "confirmDialog")]
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText", "clueWindow", "suspicion", "confirmDialog")]
 script = ExtResource("17_ufhtv")
 director = NodePath("../director")
 actLength = 60.0
@@ -226,6 +232,7 @@ splash1 = NodePath("../director/Sprite2D")
 splash2 = NodePath("../director/Sprite2D2")
 splash3 = NodePath("../director/Sprite2D3")
 clueText = NodePath("../Clue text")
+clueWindow = NodePath("../director/ClueWindow")
 suspicion = NodePath("../Suspicion")
 confirmDialog = NodePath("../Finger Prompt")
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=31 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://ca4agkunofe56" path="res://assets/ui/choose_cop.png" id="18_n5g8r"]
 [ext_resource type="Script" path="res://FingerPrompt.cs" id="19_n73yp"]
 [ext_resource type="FontFile" uid="uid://cxrgewehxhlie" path="res://assets/InstrumentSerif-Regular.ttf" id="20_040hn"]
+[ext_resource type="Shader" path="res://vignette.gdshader" id="23_44qm2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rlwwe"]
 animations = [{
@@ -51,6 +52,12 @@ height = 86.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2gp8y"]
 radius = 29.1548
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lseix"]
+shader = ExtResource("23_44qm2")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/multiplier = 0.2
+shader_parameter/softness = 0.7
 
 [node name="world" type="Node2D"]
 y_sort_enabled = true
@@ -135,6 +142,7 @@ position = Vector2(35, -37)
 [node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
 z_index = 103
 position = Vector2(-69, 63)
+maximumOrderTime = 8.0
 waiterStartPos = NodePath("../waiter start pos")
 waiter = NodePath("../Waiter")
 
@@ -214,7 +222,7 @@ iconTransitionTime = 0.0
 deliverySuspicionReduction = 0.0
 questionIcon = null
 dotsIcon = null
-characterAnimationSpeedScale = 0.2
+characterAnimationSpeedScale = 0.3
 isPig = true
 actManager = NodePath("../Act manager")
 
@@ -239,7 +247,7 @@ shape = SubResource("CircleShape2D_2gp8y")
 [node name="waiter start pos" type="Node2D" parent="."]
 position = Vector2(-66, -8)
 
-[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "clueText", "clueWindow", "suspicion", "chooseCop", "confirmDialog")]
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "clueText", "clueWindow", "suspicion", "chooseCop", "confirmDialog", "crisis")]
 script = ExtResource("17_ufhtv")
 director = NodePath("../director")
 actLength = 60.0
@@ -250,6 +258,7 @@ clueWindow = NodePath("../director/ClueWindow")
 suspicion = NodePath("../Suspicion")
 chooseCop = NodePath("../ChooseCop")
 confirmDialog = NodePath("../Finger Prompt")
+crisis = NodePath("../CanvasLayer")
 
 [node name="Finger Prompt" type="NinePatchRect" parent="." node_paths=PackedStringArray("actManager")]
 visible = false
@@ -308,6 +317,25 @@ offset_bottom = -73.0
 theme_override_fonts/font = ExtResource("16_ckbph")
 theme_override_font_sizes/font_size = 16
 text = "Press Tab for clues!"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+z_index = 1000
+material = SubResource("ShaderMaterial_lseix")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -308.0
+offset_top = -112.0
+offset_right = -308.0
+offset_bottom = -112.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [connection signal="pressed" from="Finger Prompt/Yes" to="Finger Prompt" method="_on_yes_pressed"]
 [connection signal="pressed" from="Finger Prompt/No" to="Finger Prompt" method="_on_no_pressed"]

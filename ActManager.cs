@@ -15,6 +15,7 @@ public partial class ActManager : Node
 	[Export] Sprite2D chooseCop;
 
 	[Export] NinePatchRect confirmDialog;
+	[Export] CanvasLayer crisis;
 
 	double actTimer = 0;
 	public static bool showingActTransition = true;
@@ -46,6 +47,7 @@ public partial class ActManager : Node
 
 	public void StartEnding()
 	{
+		crisis.Show();
 		isEnding = true;
 		suspicion.Hide();
 		chooseCop.Show();

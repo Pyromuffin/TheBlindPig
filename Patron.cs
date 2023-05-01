@@ -196,6 +196,8 @@ public partial class Patron : Sprite2D
 	public bool isPig;
 	[Export]
 	public ActManager actManager;
+	bool hasStartedAnimating = false;
+	float animStartTime;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -246,6 +248,7 @@ public partial class Patron : Sprite2D
 		DialogIcon.Hide();
 		TailIcon.Hide();
 		patronText.Hide();
+		hasStartedAnimating = false;
 	}
 
 	void EnterState(State newState)
@@ -395,6 +398,18 @@ public partial class Patron : Sprite2D
 			if (1 - fraction == 1)
 				DialogIcon.Texture = Item.GetLargeIcon(desiredItem);
 		}
+
+		if( animStartTime != 0 )
+		{
+			animStartTime = 0;
+			ShowDialog(currentState == State.TALKING);
+		}
+
+		if( !hasStartedAnimating )
+		{
+			animStartTime = Time.GetTicksMsec();
+			hasStartedAnimating = true;
+		}	
 	}
 
 
@@ -431,21 +446,30 @@ public partial class Patron : Sprite2D
 		revealed = true;
 	}
 
-
-	void EnterOrder()
+	void ShowDialog( bool showText )
 	{
 		dialogBubble.Show();
 		DialogIcon.Show();
 		TailIcon.Show();
+
+		if ( showText )
+			patronText.Show();
+	}
+
+
+	void EnterOrder()
+	{
+		if( hasStartedAnimating )
+			ShowDialog( false );
+
 		DialogIcon.Texture = questionIcon;
 	}
 
 	void EnterTalking()
 	{
-		dialogBubble.Show();
-		DialogIcon.Show();
-		TailIcon.Show();
-		patronText.Show();
+		if( hasStartedAnimating )
+			ShowDialog( true );
+
 		DialogIcon.Texture = dotsIcon;
 	}
 

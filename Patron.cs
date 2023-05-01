@@ -48,95 +48,96 @@ public enum RelationshipType
 	None,
 }
 
-public class PatronDetails {
-		// Patron details
+public class PatronDetails
+{
+	// Patron details
 	public PatronType patronType;
 	public DietType dietType;
 	public ItemType hatedDrink;
 	public string patronName;
-	
+
 	// ARE THEY THE COP!?
 	public bool isTheCop;
-	
+
 	// Properties for clues and dialog
 	public PolitcalAffiliation politcalAffiliation;
 	public CriminalBackground criminalBackground;
-	
+
 	public uint loudness;
-	
+
 	public PatronType relationPatron;
 	public RelationshipType relationshipType;
 
 	public float idleSpeedScale;
-	
+
 	const bool DEBUG_SYSTEM = false;
-	
+
 	public PatronDetails(uint _patronIndex, bool _isCop, ItemType _hatedDrink, DietType _dietType, PolitcalAffiliation _polAff, CriminalBackground _crimBackground)
-   	{
+	{
 		patronType = (PatronType)_patronIndex;
 		isTheCop = _isCop;
 		loudness = GD.Randi() % 5 + 5;
-		
+
 		hatedDrink = _hatedDrink;
 		dietType = _dietType;
-		
+
 		politcalAffiliation = _polAff;
 		criminalBackground = _crimBackground;
-		
+
 		relationPatron = PatronType.EscapeArtist;
 		relationshipType = RelationshipType.None;
-		
-		switch(patronType)
+
+		switch (patronType)
 		{
 			case PatronType.EscapeArtist:
-			{
-				patronName = "Sharky";
-				break;
-			}
+				{
+					patronName = "Sharky";
+					break;
+				}
 			case PatronType.JazzMusician:
-			{
-				patronName = "Lionel";
-				break;
-			}
+				{
+					patronName = "Lionel";
+					break;
+				}
 			case PatronType.Spiritualist:
-			{
-				patronName = "Birdie";
-				break;
-			}
+				{
+					patronName = "Birdie";
+					break;
+				}
 			case PatronType.Journalist:
-			{
-				patronName = "Pupperoni";
-				break;
-			}
+				{
+					patronName = "Pupperoni";
+					break;
+				}
 			case PatronType.BaseballPlayer:
-			{
-				patronName = "Gee Raffe";
-				break;
-			}
+				{
+					patronName = "Gee Raffe";
+					break;
+				}
 			case PatronType.Flapper:
-			{
-				patronName = "Bunnie";
-				break;
-			}
+				{
+					patronName = "Bunnie";
+					break;
+				}
 			default:
 				patronName = "";
 				break;
 		}
 	}
-	
+
 	public void DebugPrintDetails()
 	{
-		if(DEBUG_SYSTEM)
+		if (DEBUG_SYSTEM)
 		{
 			GD.Print("{ " + patronType + " }");
-			
+
 			GD.Print("Loudness: " + loudness);
 			GD.Print("Diet Type: " + dietType);
 			GD.Print("Hated Drink: " + hatedDrink);
-			GD.Print("Politcal Affiliation: " + politcalAffiliation );
+			GD.Print("Politcal Affiliation: " + politcalAffiliation);
 			GD.Print("Criminal Background: " + criminalBackground);
-			GD.Print(relationshipType + " to " + relationPatron );
-			GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
+			GD.Print(relationshipType + " to " + relationPatron);
+			GD.Print(isTheCop ? "IM THE FUCKING COP" : "Not the cop");
 			GD.Print("======================");
 		}
 	}
@@ -166,10 +167,10 @@ public partial class Patron : Sprite2D
 		TALKING
 	}
 	public State currentState;
-	
+
 	public ItemType desiredItem;
 	string currentDialog;
-	
+
 	[Export] float dialogAdvanceTime;
 
 	[Export]
@@ -196,32 +197,33 @@ public partial class Patron : Sprite2D
 	public override void _Ready()
 	{
 		waiter = GetParent().GetNode<Node2D>("Waiter");
-		EnterState( State.IDLE );
+		EnterState(State.IDLE);
 		characterAnimation.SpeedScale = characterAnimationSpeedScale;
-	} 
+	}
 
-	public void Init(PatronDetails d) {
+	public void Init(PatronDetails d)
+	{
 		details = d;
 		Texture = GD.Load<Texture2D>("res://assets/characters/" + details.patronType.ToString().ToLower() + ".png");
-		patronVoice.Init( details.patronType );
-		switch ( details.patronType )
+		patronVoice.Init(details.patronType);
+		switch (details.patronType)
 		{
-			case(PatronType.Journalist):
+			case (PatronType.Journalist):
 				characterAnimationSpeedScale = 1.1f;
 				break;
-			case(PatronType.BaseballPlayer):
+			case (PatronType.BaseballPlayer):
 				characterAnimationSpeedScale = 0.67f;
 				break;
-			case(PatronType.Flapper):
+			case (PatronType.Flapper):
 				characterAnimationSpeedScale = 1.3f;
 				break;
-			case(PatronType.Spiritualist):
+			case (PatronType.Spiritualist):
 				characterAnimationSpeedScale = 0.43f;
 				break;
-			case(PatronType.EscapeArtist):
+			case (PatronType.EscapeArtist):
 				characterAnimationSpeedScale = 0.33f;
 				break;
-			case(PatronType.JazzMusician):
+			case (PatronType.JazzMusician):
 				characterAnimationSpeedScale = 0.53f;
 				break;
 		}
@@ -232,8 +234,8 @@ public partial class Patron : Sprite2D
 	{
 		dialogBubble.Size = minimumDialogBoxSize;
 		DialogIcon.Scale = Vector2.One * 0.4f;
-		DialogIcon.Modulate = new Color(1,1,1,1);
-		fading =  false;
+		DialogIcon.Modulate = new Color(1, 1, 1, 1);
+		fading = false;
 		revealed = false;
 
 		dialogBubble.Hide();
@@ -242,20 +244,20 @@ public partial class Patron : Sprite2D
 		patronText.Hide();
 	}
 
-	void EnterState( State newState )
+	void EnterState(State newState)
 	{
 		ResetDialog();
-		patronVoice.SetPlaying( false );
+		patronVoice.SetPlaying(false);
 
-		switch( newState )
+		switch (newState)
 		{
-			case( State.ORDERING ):
+			case (State.ORDERING):
 				EnterOrder();
 				break;
-			case( State.TALKING ):
+			case (State.TALKING):
 				EnterTalking();
 				break;
-			case( State.IDLE ):
+			case (State.IDLE):
 				EnterIdle();
 				break;
 		}
@@ -267,40 +269,44 @@ public partial class Patron : Sprite2D
 	bool fading = false;
 	bool revealed = false;
 
-	public void ResetOrder() 
+	public void ResetOrder()
 	{
-		EnterState( State.IDLE );
+		EnterState(State.IDLE);
 	}
 
 	bool dialogHeard = false;
 
-	[Export]
-	double dialogMissTime, dialogFadeTime;
 	double dialogMissTimer, dialogFadeTimer;
-
-
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if( currentState == State.ORDERING ){
+		if (currentState == State.ORDERING)
+		{
 			growDialog();
-			if(overlapper != null && Input.IsActionJustPressed("ui_accept")){
+			if (overlapper != null && Input.IsActionJustPressed("ui_accept"))
+			{
 				var waiter = overlapper as Waiter;
 				waiter.DeliverItem(this);
 			}
 		}
-		else if( currentState == State.TALKING ){
+		else if (currentState == State.TALKING)
+		{
 			growDialog();
-			if(dialogHeard){
-				if(dialogFadeTimer > dialogFadeTime){
+			if (dialogHeard)
+			{
+				if (dialogFadeTimer > 5)
+				{
 					ResetOrder();
 					dialogHeard = false;
-					dialogFadeTimer = 0;					
+					dialogFadeTimer = 0;
 				}
 				dialogFadeTimer += delta;
-			} else {
-				if(dialogMissTimer > dialogMissTime){
+			}
+			else
+			{
+				if (dialogMissTimer > 15)
+				{
 					ResetOrder();
 					dialogHeard = false;
 					dialogMissTimer = 0;
@@ -313,22 +319,22 @@ public partial class Patron : Sprite2D
 	void growDialog()
 	{
 		Vector2 initialIconScale = Vector2.One * 0.4f;
-		float distanceToWaiter =  (waiter.Position - Position).Length();
+		float distanceToWaiter = (waiter.Position - Position).Length();
 		float totalDistance = beginDialogGrowDistance - endDialogGrowDistance;
 		float fraction = (distanceToWaiter - endDialogGrowDistance) / totalDistance;
 		fraction = Mathf.Clamp(fraction, 0, 1);
-		
-		if( currentState == State.TALKING )
+
+		if (currentState == State.TALKING)
 		{
-			patronVoice.SetPlaying( fraction < 1 );
-			patronVoice.SetVolume( fraction );
-			if( Position.X < -72 )
-				animationPlayer.Play( "TalkBoxRight" );
+			patronVoice.SetPlaying(fraction < 1);
+			patronVoice.SetVolume(fraction);
+			if (Position.X < -72)
+				animationPlayer.Play("TalkBoxRight");
 			else
-				animationPlayer.Play( "TalkBoxLeft" );
-			
-			animationPlayer.Seek( ( 1 - fraction ) * 1.8f );
-			if(1 - fraction == 1)
+				animationPlayer.Play("TalkBoxLeft");
+
+			animationPlayer.Seek((1 - fraction) * 1.8f);
+			if (1 - fraction == 1)
 			{
 				dialogHeard = true;
 				characterAnimation.SpeedScale = 2.5f;
@@ -338,40 +344,43 @@ public partial class Patron : Sprite2D
 				characterAnimation.SpeedScale = characterAnimationSpeedScale;
 			}
 		}
-		else if( currentState == State.ORDERING )
+		else if (currentState == State.ORDERING)
 		{
-			animationPlayer.Play( "IconBoxRight" );
-			animationPlayer.Seek( 1 - fraction );
-			if( 1 - fraction == 1 )
+			animationPlayer.Play("IconBoxRight");
+			animationPlayer.Seek(1 - fraction);
+			if (1 - fraction == 1)
 				DialogIcon.Texture = Item.GetLargeIcon(desiredItem);
 		}
 	}
 
 
-	async void Fade(){
+	async void Fade()
+	{
 		var timer = 0.0;
 
-		while(timer < iconTransitionTime){
+		while (timer < iconTransitionTime)
+		{
 			var fraction = timer / iconTransitionTime;
-			DialogIcon.Modulate = new Color(1,1,1, 1- ((float)fraction));
+			DialogIcon.Modulate = new Color(1, 1, 1, 1 - ((float)fraction));
 			timer += GetProcessDeltaTime();
-			await ToSignal(GetTree(), "process_frame");		
+			await ToSignal(GetTree(), "process_frame");
 		}
 
 		timer = 0.0;
 		DialogIcon.Texture = Item.GetLargeIcon(desiredItem);
-		patronText.Modulate = new Color(1,1,1, 0);
+		patronText.Modulate = new Color(1, 1, 1, 0);
 		patronText.Show();
 
-		while(timer < iconTransitionTime){
+		while (timer < iconTransitionTime)
+		{
 			var fraction = timer / iconTransitionTime;
-			if( currentState == State.ORDERING )
-				DialogIcon.Modulate = new Color(1,1,1, (float)fraction);
-			else if( currentState == State.TALKING )
-				patronText.Modulate = new Color(1,1,1, (float)fraction);
+			if (currentState == State.ORDERING)
+				DialogIcon.Modulate = new Color(1, 1, 1, (float)fraction);
+			else if (currentState == State.TALKING)
+				patronText.Modulate = new Color(1, 1, 1, (float)fraction);
 
 			timer += GetProcessDeltaTime();
-			await ToSignal(GetTree(), "process_frame");		
+			await ToSignal(GetTree(), "process_frame");
 		}
 
 		fading = false;
@@ -398,36 +407,42 @@ public partial class Patron : Sprite2D
 
 	void EnterIdle()
 	{
-		characterAnimation.Play( "Idle" );
+		characterAnimation.Play("Idle");
 	}
-	
 
-	bool IsItemDrink(ItemType item){
+
+	bool IsItemDrink(ItemType item)
+	{
 		return item == ItemType.Absinthe || item == ItemType.Bourbon || item == ItemType.Cocktail || item == ItemType.Wine;
 	}
 
-	bool IsAcceptableForDiet(ItemType item, DietType diet){
-		
-		if(IsItemDrink(item)){
+	bool IsAcceptableForDiet(ItemType item, DietType diet)
+	{
+
+		if (IsItemDrink(item))
+		{
 			return true;
 		}
 
-		if(diet == DietType.Carnivore){
+		if (diet == DietType.Carnivore)
+		{
 			return item == ItemType.Meat;
 		}
 
-		if(diet == DietType.Herbivore){
+		if (diet == DietType.Herbivore)
+		{
 			return item == ItemType.Cake || item == ItemType.Carrot;
 		}
 
 		return true;
 	}
 
-	public ItemType GetRandomOrderableItem(){
+	public ItemType GetRandomOrderableItem()
+	{
 		var diet = details.dietType;
 		var hated = details.hatedDrink;
 
-		var items = new ItemType[] {	
+		var items = new ItemType[] {
 			ItemType.Absinthe,
 			ItemType.Bourbon,
 			ItemType.Cake,
@@ -438,8 +453,10 @@ public partial class Patron : Sprite2D
 
 		items.Shuffle();
 
-		foreach(var i in items){
-			if(IsAcceptableForDiet(i, diet) && i != hated){
+		foreach (var i in items)
+		{
+			if (IsAcceptableForDiet(i, diet) && i != hated)
+			{
 				return i;
 			}
 		}
@@ -447,27 +464,31 @@ public partial class Patron : Sprite2D
 		throw new InvalidOperationException();
 	}
 
-	public void CreateOrder(ItemType item){
+	public void CreateOrder(ItemType item)
+	{
 		desiredItem = item;
-		EnterState( State.ORDERING );
+		EnterState(State.ORDERING);
 	}
 
-	public void CreateDialog(string text){
+	public void CreateDialog(string text)
+	{
 		currentDialog = text;
 		patronText.Text = text;
-		EnterState( State.TALKING );
+		EnterState(State.TALKING);
 	}
 
-	public void StartIdle() {
-		EnterState( State.IDLE );
+	public void StartIdle()
+	{
+		EnterState(State.IDLE);
 	}
 
 
 	public Node2D overlapper;
-	
+
 	private void Enter(Node2D body)
 	{
-		if(body is Waiter){
+		if (body is Waiter)
+		{
 			overlapper = body;
 		}
 	}

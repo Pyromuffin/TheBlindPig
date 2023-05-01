@@ -27,9 +27,9 @@ public partial class ActManager : Node
 	void ShowActTransition(){
 
 		clueText.Show();
-		clueText.Text = "The undercover cop" + director.acts[0].clue.GetClueText() + 
-		"\nThe undercover cop" + director.acts[1].clue.GetClueText() +
-		"\nThe undercover cop" + director.acts[2].clue.GetClueText();
+		clueText.Text = "The cop" + director.acts[0].clue.GetClueText() + 
+		"\nThe cop" + director.acts[1].clue.GetClueText() +
+		"\nThe cop" + director.acts[2].clue.GetClueText();
 
 
 		if(director.currentAct == 0){

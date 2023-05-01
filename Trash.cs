@@ -15,6 +15,10 @@ public partial class Trash : Sprite2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(ActManager.showingActTransition){
+			return;
+		}
+		
 		if(overlapped && Input.IsActionJustPressed("ui_accept")){
 			var waiter = overlapper as Waiter;
 			waiter.Trash();

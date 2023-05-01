@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=20 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -11,6 +11,10 @@
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
 [ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
 [ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
+[ext_resource type="Script" path="res://ActManager.cs" id="12_hxffc"]
+[ext_resource type="Texture2D" uid="uid://csh64mgn5hjek" path="res://assets/ui/act1.png" id="13_5chv1"]
+[ext_resource type="Texture2D" uid="uid://pavdjnosvnwf" path="res://assets/ui/act2.png" id="14_ffdkw"]
+[ext_resource type="Texture2D" uid="uid://bmjnkgmeee5x6" path="res://assets/ui/act3.png" id="15_ijel2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
 height = 86.0
@@ -43,7 +47,7 @@ position = Vector2(-318, -113)
 
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 z_index = 4
-position = Vector2(-46, 161)
+position = Vector2(-88, -18)
 Speed = 100.0
 firstItemPosition = Vector2(5, -10)
 secondItemPosition = Vector2(-5, -10)
@@ -102,7 +106,9 @@ position = Vector2(79, 31)
 z_index = 4
 position = Vector2(35, -37)
 
-[node name="director" parent="." instance=ExtResource("11_s5m15")]
+[node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
+waiterStartPos = NodePath("../Waiter Start Pos")
+waiter = NodePath("../Waiter")
 
 [node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
@@ -144,6 +150,35 @@ itemType = 0
 
 [node name="CollisionShape2D" parent="ItemSource/Area2D" index="0"]
 shape = SubResource("CapsuleShape2D_x33om")
+
+[node name="ActManager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3")]
+script = ExtResource("12_hxffc")
+director = NodePath("../director")
+actLength = 10.0
+splash1 = NodePath("act 1 splash")
+splash2 = NodePath("act 2 splash")
+splash3 = NodePath("act 3 splash")
+
+[node name="act 1 splash" type="Sprite2D" parent="ActManager"]
+visible = false
+z_index = 100
+position = Vector2(-70, 62)
+texture = ExtResource("13_5chv1")
+
+[node name="act 2 splash" type="Sprite2D" parent="ActManager"]
+visible = false
+z_index = 100
+position = Vector2(-70, 63)
+texture = ExtResource("14_ffdkw")
+
+[node name="act 3 splash" type="Sprite2D" parent="ActManager"]
+visible = false
+z_index = 100
+position = Vector2(-71, 63)
+texture = ExtResource("15_ijel2")
+
+[node name="Waiter Start Pos" type="Node2D" parent="."]
+position = Vector2(-83, -3)
 
 [editable path="ItemSource2"]
 [editable path="ItemSource4"]

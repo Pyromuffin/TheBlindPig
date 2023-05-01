@@ -185,7 +185,6 @@ public partial class ClueDirector : Node2D
 
 	[Export] float minimumOrderTime = 8;
 	[Export] float maximumOrderTime = 20;
-	[Export] float dialogAdvanceTime = 3;
 
 	[Signal]
 	public delegate void SendDialogEventHandler();
@@ -193,10 +192,13 @@ public partial class ClueDirector : Node2D
 	const uint ACT_COUNT = 3;
 	const uint FLAVOR_COUNT = 6;
 	
-	uint currentAct = 0;
+	public uint currentAct = 0;
 	uint copIndex = 0;
 	int currentDialog = 0;
-	
+
+	[Export] Node2D waiterStartPos;
+	[Export] Node2D waiter;
+
 	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
 	
 	DialogSystem dialogSystem = new DialogSystem();
@@ -221,16 +223,14 @@ public partial class ClueDirector : Node2D
 			Spawners.patrons[(int)second].Position = randomPairs[i].second.Position;
 		}
 
+		Suspicion.currentSuspicion = 0;
+		foreach(var p in Spawners.patrons){
+			p.ResetOrder();
+		}
+
+		waiter.Position = waiterStartPos.Position;
 	}
 	
-	public void GoToNextAct()
-	{
-		GD.Print("-------------");
-		GD.Print("End of Act " + (currentAct + 1));
-		GD.Print("================");
-		
-		currentAct++;
-	}
 	
 	public void CreatePatronRelationships()
 	{
@@ -604,7 +604,7 @@ public partial class ClueDirector : Node2D
 		
 		DialogData thisDialog =  diaglogData[currentDialog];
 		
-		PatronType subject = thisDialog.subject;
+		PatronType  subject = thisDialog.subject;
 		DialogContext context = thisDialog.dialogContext;
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
@@ -643,7 +643,6 @@ public partial class ClueDirector : Node2D
 		}
 
 		var formatString = dialogFormatStrings[(int)_talker];
-
 		string subjectName = patrons[(int)subject].patronName;
 		string objectName = GetContextString(context, thisDialog.clueID);
 		var s = formatString.Replace("$subject", subjectName);
@@ -664,6 +663,10 @@ public partial class ClueDirector : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(ActManager.showingActTransition){
+			return;
+		}
+
 		if(orderTimer > randomOrderTime){
 			orderTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];

@@ -149,7 +149,6 @@ static class ExtensionsClass
 class Act 
 {
 	public Clue clue;
-	public uint clueCount = 5;
 	
 	public PatronType[,] _couples;
 	
@@ -162,7 +161,8 @@ class Act
 	
 	public bool IsActOver()
 	{
-		return clueCount <= 0;
+		// TODO: REMOVE?
+		return true;
 	}
 		
 	public void CreateCouples()
@@ -198,6 +198,7 @@ public partial class ClueDirector : Node2D
 	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
 	
 	DialogSystem dialogSystem = new DialogSystem();
+	List<DialogData> diaglogData = new List<DialogData>();
 	
 	Act[] acts = new Act[ACT_COUNT];
 	
@@ -348,6 +349,12 @@ public partial class ClueDirector : Node2D
 		// Spawn the cop!
 		patrons[copIndex] = new PatronDetails(copIndex, true, copDrink, copDiet, copPolAff, copCrimBack);
 		
+		DialogData diaglogClueCopPolAff = new DialogData((PatronType)copIndex, DialogContext.PoliticalDialog, (uint)copPolAff);
+		diaglogData.Add(diaglogClueCopPolAff);
+		
+		DialogData diaglogClueCrimBack = new DialogData((PatronType)copIndex, DialogContext.CriminalDialog, (uint)copCrimBack);
+		diaglogData.Add(diaglogClueCrimBack);
+		
 		// Create the clues because
 		CreateClues();
 		
@@ -365,7 +372,6 @@ public partial class ClueDirector : Node2D
 			if(i != copIndex)
 			{
 				// Create our desired properties
-				// TODO: NEED TO REDO IF THE SAME AS COP
 				
 				DietType patronDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
 				while(patronDiet == copDiet)
@@ -419,18 +425,30 @@ public partial class ClueDirector : Node2D
 						case ClueType.PoliticalClueType:
 						{
 							patronPolAff = copPolAff;
+							
+							DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.PoliticalDialog, (uint)patronPolAff);
+							diaglogData.Add(diaglogClue);
+							
 							break;
 						}
 						
 						case ClueType.CriminalClueType:
 						{
-							patronCrimBack = copCrimBack; 
+							patronCrimBack = copCrimBack;
+							 
+							DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.CriminalDialog, (uint)patronCrimBack);
+							diaglogData.Add(diaglogClue);
+							
 							break;
 						}
 						
 						case ClueType.RelationshipClueType:
 						{
 							// TODO!!
+							
+							//DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.RelationshipDialog, ;
+							//diaglogData.Add(diaglogClue);
+							
 							break;
 						}
 					}
@@ -440,7 +458,11 @@ public partial class ClueDirector : Node2D
 			}
 		}
 
+		// Make this work with the 4 on 2 off rules and move up to above the clues...
 		CreatePatronRelationships();
+		
+		// Clue dialogs happen in a random order
+		diaglogData.Shuffle();
 		
 		// Debug!
 		for (uint i = 0; i < ACT_COUNT; ++i)
@@ -451,6 +473,11 @@ public partial class ClueDirector : Node2D
 		for (uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
 		{
 			patrons[i].DebugPrintDetails();
+		}
+		
+		foreach(DialogData dData in diaglogData)
+		{
+			GeneratePatronDialog(true, dData );
 		}
 	}
 	
@@ -478,56 +505,47 @@ public partial class ClueDirector : Node2D
 		dialogSystem.GenerateRadioMessage(context);
 	}
 	
-	public void GeneratePatronDialog(bool _isAClue)
+	public void GeneratePatronDialog(bool _isAClue, DialogData _dialogData)
 	{
 		uint randomCouple = GD.Randi() % 3; // Will be one of the three couples!
 		uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
 		uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
 		
-		uint actToAbout = GD.Randi() % 3;
+		PatronType subject = _dialogData.subject;
+		
+		/*
+		// This means we are talking about someone else
+		// Figure out which of the remaining four we are talking about!
+		List<PatronType> patronList = new List<PatronType>();
+		for(uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		{
+			if( acts[currentAct]._couples[randomCouple, 0] != (PatronType)i &&
+				acts[currentAct]._couples[randomCouple, 1] != (PatronType)i )
+			{
+				patronList.Add((PatronType)i);
+			}
+		}
+		long subjectIndex = GD.Randi() % (int)patronList.Count;
+		subject = patronList[ (int)subjectIndex ];
+		*/
 		
 		PatronType talker = acts[currentAct]._couples[randomCouple, talkerIndex];
 		PatronType listener = acts[currentAct]._couples[randomCouple, listenerIndex];
 		
-		PatronType subject;
-		DialogContext context;
+		DialogContext context = _dialogData.dialogContext;
 		
-		DialogType dialogType = (DialogType)(typeof(DialogType).GetRandomEnumValue());
-		
-		if(dialogType == DialogType.TalkAboutSelf)
+		if(listener == subject)
 		{
-			// If I'm talking about myself, the subjust is ME!
-			subject = talker;
-		}	
-		else
-		{
-			// This means we are talking about someone else
-			// Figure out which of the remaining four we are talking about!
-			List<PatronType> patronList = new List<PatronType>();
-			for(uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
-			{
-				if( acts[currentAct]._couples[randomCouple, 0] != (PatronType)i &&
-					acts[currentAct]._couples[randomCouple, 1] != (PatronType)i )
-				{
-					patronList.Add((PatronType)i);
-				}
-			}
-			long subjectIndex = GD.Randi() % (int)patronList.Count;
-			subject = patronList[ (int)subjectIndex ];
+			// We are not going to write dialog where the listener is talked about
+			PatronType temp = talker;
+			talker = listener;
+			listener = temp;
 		}
 		
-		if(_isAClue)
-		{
-			context = acts[actToAbout].clue.dialogContext;
-		}
-		else
-		{
-			context = (DialogContext)(typeof(DialogContext).GetRandomEnumValue());
-		}
+		DialogType dialogType = talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
 		
-		
-		dialogSystem.GeneratePatronDialog(talker, listener, subject, dialogType, context, acts[actToAbout].clue.clueID);
-	}
+		dialogSystem.GeneratePatronDialog(talker, listener, subject, dialogType, context, _dialogData.clueID);
+	} 
 
 
 	double orderTimer = 0;
@@ -555,7 +573,6 @@ public partial class ClueDirector : Node2D
 				}
 			}
 		}
-		
 
 		if(dialogTimer > randomDialogTime){
 

@@ -36,7 +36,7 @@ public abstract class Clue
 				{
 					case PolitcalAffiliation.LeopardParty:
 					{
-						return "Leopard Party ";
+						return "Leopard Party";
 					}
 					case PolitcalAffiliation.RabbitParty:
 					{

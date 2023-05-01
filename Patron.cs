@@ -505,19 +505,13 @@ public partial class Patron : Sprite2D
 		return true;
 	}
 
-	public ItemType GetRandomOrderableItem()
+	public ItemType GetRandomOrderableItem(bool orderDrink)
 	{
 		var diet = details.dietType;
 		var hated = details.hatedDrink;
 
-		var items = new ItemType[] {
-			ItemType.Absinthe,
-			ItemType.Bourbon,
-			ItemType.Cake,
-			ItemType.Carrot,
-			ItemType.Cocktail,
-			ItemType.Meat,
-			ItemType.Wine};
+
+		var items = orderDrink ? Item.alcohol : Item.foods;
 
 		items.Shuffle();
 

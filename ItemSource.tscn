@@ -1,22 +1,65 @@
-[gd_scene load_steps=4 format=3 uid="uid://cwqcpw2bmnp2u"]
+[gd_scene load_steps=7 format=3 uid="uid://cwqcpw2bmnp2u"]
 
 [ext_resource type="Texture2D" uid="uid://scp1swp55wfe" path="res://assets/ui/icon_absinthe_24.png" id="1_qrvnj"]
 [ext_resource type="Script" path="res://ItemSource.cs" id="2_n34e0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nywl0"]
-height = 46.0
+height = 54.0
 
-[node name="ItemSource" type="Sprite2D"]
+[sub_resource type="Animation" id="Animation_bbhga"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1.042), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_14641"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uescj"]
+_data = {
+"Idle": SubResource("Animation_bbhga"),
+"RESET": SubResource("Animation_14641")
+}
+
+[node name="ItemSource" type="Sprite2D" node_paths=PackedStringArray("animationPlayer")]
 z_index = 4
 y_sort_enabled = true
 texture = ExtResource("1_qrvnj")
 script = ExtResource("2_n34e0")
 itemType = 3
+animationPlayer = NodePath("AnimationPlayer")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CapsuleShape2D_nywl0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_uescj")
+}
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

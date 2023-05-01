@@ -617,9 +617,12 @@ public partial class ClueDirector : Node2D
 		dialogSystem.GenerateRadioMessage(context);
 	}
 	
-	public bool StillHasDialogs()
+	public void LoopDialogIfNeeded()
 	{
-		return currentDialog < diaglogData.Count;
+		if( currentDialog >= diaglogData.Count)
+		{
+			currentDialog = 0;
+		}
 	}
 	
 	public string GetContextString(DialogContext _context, uint _ID)
@@ -791,26 +794,24 @@ public partial class ClueDirector : Node2D
 
 		}
 
-		if(StillHasDialogs())
-		{
-			if(dialogTimer > randomDialogTime){
-				dialogTimer = 0;
-				var shuffled = Spawners.patrons.Clone() as Patron[];
-				shuffled.Shuffle();
-				
-				for(int i = 0; i < 6; i++){
-					var p = shuffled[i];
-					if(p.currentState == Patron.State.IDLE){
-						var s = GeneratePatronDialog(p.details.patronType, currentDialog);
-						p.CreateDialog(s);
-						randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
-						currentDialog++;
-						break;
-					}
+		LoopDialogIfNeeded();
+		
+		if(dialogTimer > randomDialogTime){
+			dialogTimer = 0;
+			var shuffled = Spawners.patrons.Clone() as Patron[];
+			shuffled.Shuffle();
+			
+			for(int i = 0; i < 6; i++){
+				var p = shuffled[i];
+				if(p.currentState == Patron.State.IDLE){
+					var s = GeneratePatronDialog(p.details.patronType, currentDialog);
+					p.CreateDialog(s);
+					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+					currentDialog++;
+					break;
 				}
 			}
 		}
-
 
 		orderTimer += delta;
 		dialogTimer += delta;

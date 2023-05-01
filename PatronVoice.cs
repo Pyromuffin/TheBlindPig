@@ -76,7 +76,6 @@ public partial class PatronVoice : Node2D
 
 	public void SetVolume( float fraction )
 	{
-		GD.Print( ( 1 - fraction * VOLUME_RANGE ) - 80 );
 		VoicePlayer.VolumeDb = ( ( 1 - fraction ) * VOLUME_RANGE ) - 80;
 	}
 

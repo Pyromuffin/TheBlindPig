@@ -487,6 +487,7 @@ public partial class ClueDirector : Node2D
 	{
 		randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 		randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+		dialogSystem.ParseDialog();
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -506,11 +507,13 @@ public partial class ClueDirector : Node2D
 		dialogSystem.GenerateRadioMessage(context);
 	}
 	
-	public string GeneratePatronDialog(PatronType _talker)
+	public bool StillHasDialogs()
 	{
-		if(currentDialog >= diaglogData.Count)
-			return "";
-		
+		return true;
+	}
+	
+	public string GeneratePatronDialog(PatronType _talker)
+	{	
 		PatronType listener = PatronType.EscapeArtist;
 		for(int i = 0; i < 3; i++)
 		{
@@ -534,18 +537,47 @@ public partial class ClueDirector : Node2D
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
 		
-		//TODO: HOOK UP CSV INTERACTION HERE
+		//HOOK UP CSV INTERACTION HERE
 		// _talker is the person talking
 		// subject is the $subject
 		// dialogType is the table (brag vs gossip)
 		// context is the row
 		// dialogData.clueID is $object
 		
-		//dialogSystem.GeneratePatronDialog(_talker, listener, subject, dialogType, context, _dialogData.clueID);
-		
+		string[] dialogFormatStrings = null;
+
+		if(dialogType == DialogType.TalkAboutSelf){
+			if(context == DialogContext.CriminalDialog){
+				dialogFormatStrings = dialogSystem.bragCriminalDialogs;
+			}
+			if(context == DialogContext.FlavorDialog){
+				dialogFormatStrings = dialogSystem.bragFlavorDialogs;
+			}
+			if(context == DialogContext.PoliticalDialog){
+				dialogFormatStrings = dialogSystem.bragPoliticalDialogs;
+			}
+		}
+		else {
+			
+			if(context == DialogContext.CriminalDialog){
+				dialogFormatStrings = dialogSystem.gossipCriminalDialogs;
+			}
+			if(context == DialogContext.FlavorDialog){
+				dialogFormatStrings = dialogSystem.gossipFlavorDialogs;
+			}
+			if(context == DialogContext.PoliticalDialog){
+				dialogFormatStrings = dialogSystem.gossipPoliticalDialogs;
+			}
+		}
+
+		var formatString = dialogFormatStrings[(int)_talker];
+
+		var s = formatString.Replace("$subject", subject.ToString());
+		s = s.Replace("$object", thisDialog.clueID.ToString());
+
 		currentDialog++;
 		
-		return "";
+		return s;
 	} 
 
 
@@ -583,7 +615,10 @@ public partial class ClueDirector : Node2D
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
 				if(p.currentState == Patron.State.IDLE){
-					p.CreateDialog("potato's are the cops favorite food!");
+
+					var s = GeneratePatronDialog(p.details.patronType);
+					
+					p.CreateDialog(s);
 					dialogTimer = 0;
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;

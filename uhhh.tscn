@@ -64,6 +64,7 @@ offset_top = 156.0
 offset_right = -84.0
 offset_bottom = 156.0
 suspicionRate = 1.0
+perOrderIncrease = 0.25
 actManager = NodePath("../Act manager")
 
 [node name="LevelArt" parent="." instance=ExtResource("1_guobj")]
@@ -134,8 +135,6 @@ position = Vector2(35, -37)
 [node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
 z_index = 103
 position = Vector2(-69, 63)
-minimumOrderTime = 4.0
-maximumOrderTime = 10.0
 waiterStartPos = NodePath("../waiter start pos")
 waiter = NodePath("../Waiter")
 

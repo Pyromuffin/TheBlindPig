@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=25 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -10,13 +10,15 @@
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
 [ext_resource type="Texture2D" uid="uid://csh64mgn5hjek" path="res://assets/ui/act1.png" id="11_3kgy0"]
-[ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
-[ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
+[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
 [ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="12_ceb2j"]
 [ext_resource type="Texture2D" uid="uid://pavdjnosvnwf" path="res://assets/ui/act2.png" id="12_kwi2p"]
-[ext_resource type="Texture2D" uid="uid://crx5p3xet2i05" path="res://assets/characters/blindpig.png" id="13_mgit7"]
+[ext_resource type="Texture2D" uid="uid://0utrqvocmis5" path="res://assets/characters/blindpig.png" id="13_mgit7"]
 [ext_resource type="Texture2D" uid="uid://bmjnkgmeee5x6" path="res://assets/ui/act3.png" id="13_q7k32"]
 [ext_resource type="Script" path="res://ActManager.cs" id="17_ufhtv"]
+[ext_resource type="Texture2D" uid="uid://cqj2g7exnqpqm" path="res://assets/ui/bubble_9_slice.png" id="18_2d7ig"]
+[ext_resource type="Script" path="res://FingerPrompt.cs" id="19_n73yp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
 height = 86.0
@@ -215,7 +217,7 @@ offset_bottom = 143.0
 text = "SECRET CLUE"
 autowrap_mode = 3
 
-[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText")]
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText", "suspicion", "confirmDialog")]
 script = ExtResource("17_ufhtv")
 director = NodePath("../director")
 actLength = 60.0
@@ -224,6 +226,50 @@ splash1 = NodePath("../director/Sprite2D")
 splash2 = NodePath("../director/Sprite2D2")
 splash3 = NodePath("../director/Sprite2D3")
 clueText = NodePath("../Clue text")
+suspicion = NodePath("../Suspicion")
+confirmDialog = NodePath("../Finger Prompt")
+
+[node name="Finger Prompt" type="NinePatchRect" parent="." node_paths=PackedStringArray("actManager")]
+visible = false
+z_index = 4096
+offset_left = -179.0
+offset_top = 5.0
+offset_right = 73.0
+offset_bottom = 123.0
+texture = ExtResource("18_2d7ig")
+patch_margin_left = 7
+patch_margin_top = 4
+patch_margin_right = 7
+patch_margin_bottom = 5
+script = ExtResource("19_n73yp")
+actManager = NodePath("../Act manager")
+
+[node name="Label" type="Label" parent="Finger Prompt"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 20.0
+offset_right = 190.0
+offset_bottom = 46.0
+text = "FINGER THE COP?"
+
+[node name="Yes" type="Button" parent="Finger Prompt"]
+layout_mode = 0
+offset_left = 59.0
+offset_top = 57.0
+offset_right = 94.0
+offset_bottom = 88.0
+text = "Yes"
+
+[node name="No" type="Button" parent="Finger Prompt"]
+layout_mode = 0
+offset_left = 149.0
+offset_top = 59.0
+offset_right = 184.0
+offset_bottom = 90.0
+text = "No"
+
+[connection signal="pressed" from="Finger Prompt/Yes" to="Finger Prompt" method="_on_yes_pressed"]
+[connection signal="pressed" from="Finger Prompt/No" to="Finger Prompt" method="_on_no_pressed"]
 
 [editable path="ItemSource2"]
 [editable path="ItemSource4"]

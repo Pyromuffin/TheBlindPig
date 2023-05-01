@@ -295,7 +295,7 @@ public partial class Patron : Sprite2D
 			if (currentState != State.IDLE)
 				EnterState( State.IDLE );
 
-			if (overlapper != null && Input.IsActionJustPressed("ui_accept"))
+			if ( !isPig && overlapper != null && Input.IsActionJustPressed("ui_accept"))
 			{
 				if( details.isTheCop )
 				{
@@ -318,7 +318,7 @@ public partial class Patron : Sprite2D
 			{
 				if (Input.IsActionJustPressed("ui_accept"))
 				{
-					actManager.StartEnding();
+					actManager.ShowEndingConfirmation();
 				}
 			}
 			

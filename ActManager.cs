@@ -12,10 +12,17 @@ public partial class ActManager : Node
 	[Export] Sprite2D splash2;
 	[Export] Sprite2D splash3;
 	[Export] Label clueText;
+	[Export] Suspicion suspicion;
+
+	[Export] NinePatchRect confirmDialog;
 
 	double actTimer = 0;
 	public static bool showingActTransition = true;
 	public static bool isEnding = false;
+
+	public void ShowEndingConfirmation(){
+		confirmDialog.Show();
+	}
 
 	void HideTransitions(){
 		splash1.Hide();
@@ -27,9 +34,9 @@ public partial class ActManager : Node
 	void ShowActTransition(){
 
 		clueText.Show();
-		clueText.Text = "The undercover cop" + director.acts[0].clue.GetClueText() + 
-		"\nThe undercover cop" + director.acts[1].clue.GetClueText() +
-		"\nThe undercover cop" + director.acts[2].clue.GetClueText();
+		clueText.Text = "The cop" + director.acts[0].clue.GetClueText() + 
+		"\nThe cop" + director.acts[1].clue.GetClueText() +
+		"\nThe cop" + director.acts[2].clue.GetClueText();
 
 
 		if(director.currentAct == 0){
@@ -46,6 +53,7 @@ public partial class ActManager : Node
 	public void StartEnding()
 	{
 		isEnding = true;
+		suspicion.Hide();
 	}
 
 	public override void _Ready(){

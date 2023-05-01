@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
-[ext_resource type="PackedScene" uid="uid://cu4m7mq17larc" path="res://Trash.tscn" id="4_1fmxv"]
+[ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
 [ext_resource type="PackedScene" uid="uid://cwqcpw2bmnp2u" path="res://ItemSource.tscn" id="5_0rmxv"]
 [ext_resource type="PackedScene" uid="uid://csf2hnr4t0o7x" path="res://Waiter.tscn" id="5_c2evn"]
 [ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="5_l46sh"]
@@ -100,7 +100,7 @@ position = Vector2(35, -37)
 
 [node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
-position = Vector2(-9, -6)
+position = Vector2(-9, 1)
 itemType = 1
 
 [node name="ItemSource3" parent="." instance=ExtResource("5_0rmxv")]
@@ -108,7 +108,7 @@ position = Vector2(138, -37)
 itemType = 5
 
 [node name="ItemSource4" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(-12, -62)
+position = Vector2(-55, -62)
 itemType = 6
 
 [node name="CollisionShape2D" parent="ItemSource4/Area2D" index="0"]
@@ -118,7 +118,7 @@ shape = SubResource("CapsuleShape2D_wlea1")
 position = Vector2(-37, 139)
 
 [node name="ItemSource6" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(-122, -61)
+position = Vector2(-155, -61)
 itemType = 4
 
 [node name="CollisionShape2D" parent="ItemSource6/Area2D" index="0"]
@@ -130,7 +130,7 @@ itemType = 2
 
 [node name="ItemSource" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
-position = Vector2(-134, -6)
+position = Vector2(-134, 0)
 itemType = 0
 
 [editable path="ItemSource4"]

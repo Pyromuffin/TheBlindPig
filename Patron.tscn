@@ -600,7 +600,7 @@ offset = Vector2(-24, -24)
 [node name="Label" type="Label" parent="Dialog"]
 offset_left = -9.0
 offset_top = -54.0
-offset_right = 234.0
+offset_right = 145.0
 offset_bottom = -20.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = -3
@@ -608,6 +608,7 @@ theme_override_fonts/font = ExtResource("8_cp3sn")
 theme_override_font_sizes/font_size = 12
 text = "I heard giraffes only eat cake at night.
 I'm more of a carrot person myself."
+autowrap_mode = 3
 
 [node name="Voice" parent="Dialog" instance=ExtResource("7_070qc")]
 MIN_PITCH = 0.9

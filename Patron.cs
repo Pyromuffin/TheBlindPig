@@ -91,7 +91,7 @@ public class PatronDetails
 		{
 			case PatronType.EscapeArtist:
 				{
-					patronName = "Sharky";
+					patronName = "Sharksy";
 					break;
 				}
 			case PatronType.JazzMusician:

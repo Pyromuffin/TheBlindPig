@@ -3,7 +3,6 @@ using System;
 
 public partial class Credits : Control
 {
-
 	bool Released = false;
 
 	public override void _Process(double delta)
@@ -24,7 +23,8 @@ public partial class Credits : Control
 		{
 			if (eventKey.Pressed && eventKey.Keycode == Key.Space)
 			{
-				GetTree().ChangeSceneToFile("res://scenes/TitleScreen.tscn");
+				// GetTree().quit();
+				// GetTree().ChangeSceneToFile("res://scenes/TitleScreen.tscn");
 			}
 		}
 	}

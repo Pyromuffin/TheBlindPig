@@ -15,7 +15,7 @@ public partial class Spawners : Node
 	static Node2D[] spawnPoints;
 	public static Patron[] patrons = new Patron[6];
 	public static SpawnPair[] GetRandomSpawnPairs() {
-		var indices = new int[] {0,1,2,3,4,5,6};
+		var indices = new int[] {0,1,2,3,4};
 		indices.Shuffle();
 		var pairs = new SpawnPair[3];
 		pairs[0].first = spawnPoints[indices[0] * 2];

@@ -20,6 +20,7 @@ public partial class ActManager : Node
 		splash1.Hide();
 		splash2.Hide();
 		splash3.Hide();
+		clueText.Hide();
 	}
 
 	void ShowActTransition(){

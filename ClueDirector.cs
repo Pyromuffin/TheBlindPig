@@ -202,7 +202,7 @@ public partial class ClueDirector : Node2D
 	
 	const int PATRON_COUNT = 6;
 	
-	uint currentAct = 0;
+	public uint currentAct = 0;
 	uint copIndex = 0;
 	int currentDialog = 0;
 	

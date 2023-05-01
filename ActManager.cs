@@ -35,6 +35,7 @@ public partial class ActManager : Node
 
 	public override void _Ready(){
 		ShowActTransition();
+		director.StartCurrentAct();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

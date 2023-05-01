@@ -251,8 +251,8 @@ public class Act
 public partial class ClueDirector : Node2D
 {
 
-	[Export] float minimumOrderTime = 4;
-	[Export] float maximumOrderTime = 10;
+	[Export] float minimumOrderTime = 8;
+	[Export] float maximumOrderTime = 20;
 
 	[Signal]
 	public delegate void SendDialogEventHandler();

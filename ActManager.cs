@@ -39,6 +39,7 @@ public partial class ActManager : Node
 		"\n* The cop" + director.acts[2].clue.GetClueText() + "." +
 		"\nCome back when you find the weasel!";
 
+
 		splash1.Show();
 		splash1.Play();
 	}

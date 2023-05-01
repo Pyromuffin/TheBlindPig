@@ -74,7 +74,7 @@ position = Vector2(-318, -113)
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 z_index = 4
 position = Vector2(-46, 161)
-Speed = 100.0
+Speed = 150.0
 firstItemPosition = Vector2(5, -10)
 secondItemPosition = Vector2(-5, -10)
 

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ct6is5tq3e6s7"]
+[gd_scene load_steps=6 format=3 uid="uid://ct6is5tq3e6s7"]
 
 [ext_resource type="Texture2D" uid="uid://d3wtkh3iy2wkc" path="res://assets/ui/ending_correct.png" id="1_apswj"]
 [ext_resource type="Script" path="res://scenes/End.cs" id="1_furwm"]
 [ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="3_uqssv"]
 [ext_resource type="Texture2D" uid="uid://33n5y5eow8vi" path="res://assets/characters/baseballplayer.png" id="4_4t6oa"]
+[ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="5_an5ug"]
 
 [node name="GoodEnd" type="Control" node_paths=PackedStringArray("cop")]
 layout_mode = 3
@@ -28,3 +29,12 @@ autoplay = true
 [node name="cop" type="Sprite2D" parent="."]
 position = Vector2(240, 124)
 texture = ExtResource("4_4t6oa")
+
+[node name="Label" type="Label" parent="cop"]
+offset_left = -41.0
+offset_top = -3.0
+offset_right = -1.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.866667, 0.839216, 0.776471, 1)
+theme_override_fonts/font = ExtResource("5_an5ug")
+text = "COP"

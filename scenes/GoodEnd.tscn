@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqn5cm2qgl0hr"]
+[gd_scene load_steps=3 format=3 uid="uid://ct6is5tq3e6s7"]
 
-[ext_resource type="Script" path="res://scenes/GoodEnd.cs" id="1_0m5ph"]
 [ext_resource type="Texture2D" uid="uid://d3wtkh3iy2wkc" path="res://assets/ui/ending_correct.png" id="1_apswj"]
+[ext_resource type="Script" path="res://scenes/End.cs" id="1_furwm"]
 
 [node name="GoodEnd" type="Control"]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0m5ph")
+script = ExtResource("1_furwm")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0

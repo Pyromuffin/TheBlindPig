@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=16 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -12,11 +12,17 @@
 [ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
 [ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
+height = 86.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wlea1"]
 height = 94.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rec3r"]
 height = 90.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x33om"]
+height = 86.0
 
 [node name="world" type="Node2D"]
 y_sort_enabled = true
@@ -103,6 +109,9 @@ z_index = 5
 position = Vector2(-9, 1)
 itemType = 1
 
+[node name="CollisionShape2D" parent="ItemSource2/Area2D" index="0"]
+shape = SubResource("CapsuleShape2D_ygts5")
+
 [node name="ItemSource3" parent="." instance=ExtResource("5_0rmxv")]
 position = Vector2(138, -37)
 itemType = 5
@@ -133,5 +142,10 @@ z_index = 5
 position = Vector2(-134, 0)
 itemType = 0
 
+[node name="CollisionShape2D" parent="ItemSource/Area2D" index="0"]
+shape = SubResource("CapsuleShape2D_x33om")
+
+[editable path="ItemSource2"]
 [editable path="ItemSource4"]
 [editable path="ItemSource6"]
+[editable path="ItemSource"]

@@ -191,6 +191,7 @@ public partial class ClueDirector : Node2D
 	public delegate void SendDialogEventHandler();
 	
 	const uint ACT_COUNT = 3;
+	const uint FLAVOR_COUNT = 6;
 	
 	uint currentAct = 0;
 	uint copIndex = 0;
@@ -462,6 +463,13 @@ public partial class ClueDirector : Node2D
 		// Make this work with the 4 on 2 off rules and move up to above the clues...
 		CreatePatronRelationships();
 		
+		for(int i = 0; i < FLAVOR_COUNT; ++i)
+		{
+			PatronType patronType = (PatronType)(typeof(PatronType ).GetRandomEnumValue());
+			DialogData diaglogClue = new DialogData(patronType, DialogContext.FlavorDialog, 0);
+			diaglogData.Add(diaglogClue);
+		}
+		
 		// Clue dialogs happen in a random order
 		diaglogData.Shuffle();
 		
@@ -657,7 +665,7 @@ public partial class ClueDirector : Node2D
 	public override void _Process(double delta)
 	{
 		if(orderTimer > randomOrderTime){
-
+			orderTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];
 			shuffled.Shuffle();
 			
@@ -666,26 +674,23 @@ public partial class ClueDirector : Node2D
 				if(p.currentState == Patron.State.IDLE){
 					var item = p.GetRandomOrderableItem();
 					p.CreateOrder(item);
-					orderTimer = 0;
 					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;
 				}
 			}
+
 		}
 
 		if(dialogTimer > randomDialogTime){
-
+			dialogTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];
 			shuffled.Shuffle();
 			
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
 				if(p.currentState == Patron.State.IDLE){
-
 					var s = GeneratePatronDialog(p.details.patronType);
-					
 					p.CreateDialog(s);
-					dialogTimer = 0;
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;
 				}

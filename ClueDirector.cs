@@ -702,19 +702,22 @@ public partial class ClueDirector : Node2D
 
 		}
 
-		if(dialogTimer > randomDialogTime){
-			dialogTimer = 0;
-			var shuffled = Spawners.patrons.Clone() as Patron[];
-			shuffled.Shuffle();
-			
-			for(int i = 0; i < 6; i++){
-				var p = shuffled[i];
-				if(p.currentState == Patron.State.IDLE){
-					var s = GeneratePatronDialog(p.details.patronType, currentDialog);
-					p.CreateDialog(s);
-					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
-					currentDialog++;
-					break;
+		if(StillHasDialogs())
+		{
+			if(dialogTimer > randomDialogTime){
+				dialogTimer = 0;
+				var shuffled = Spawners.patrons.Clone() as Patron[];
+				shuffled.Shuffle();
+				
+				for(int i = 0; i < 6; i++){
+					var p = shuffled[i];
+					if(p.currentState == Patron.State.IDLE){
+						var s = GeneratePatronDialog(p.details.patronType, currentDialog);
+						p.CreateDialog(s);
+						randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+						currentDialog++;
+						break;
+					}
 				}
 			}
 		}

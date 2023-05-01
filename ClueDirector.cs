@@ -429,30 +429,19 @@ public partial class ClueDirector : Node2D
 		// Spawn the cop!
 		patrons[copIndex] = new PatronDetails(copIndex, true, copDrink, copDiet, copPolAff, copCrimBack);
 		
-		DialogData diaglogClueCopPolAff = new DialogData((PatronType)copIndex, DialogContext.PoliticalDialog, (uint)copPolAff);
-		diaglogData.Add(diaglogClueCopPolAff);
-		
-		DialogData diaglogClueCrimBack = new DialogData((PatronType)copIndex, DialogContext.CriminalDialog, (uint)copCrimBack);
-		diaglogData.Add(diaglogClueCrimBack);
-		
 		// Create the clues because
 		CreateClues();
 		
-		List<int> uniqueFromoCopAct = new List<int>();
-		uniqueFromoCopAct.Add(0);
-		uniqueFromoCopAct.Add(0);
-		uniqueFromoCopAct.Add(1);
-		uniqueFromoCopAct.Add(1);
-		uniqueFromoCopAct.Add(2);
-		uniqueFromoCopAct.Add(2);
-		uniqueFromoCopAct.Shuffle();
+		PatronType drinkClone = (PatronType)(typeof(PatronType ).GetRandomEnumValue());
+		PatronType dietClone = (PatronType)((int)(drinkClone + 1) % (int)PATRON_COUNT);
+		PatronType crimBackClone = (PatronType)((int)(drinkClone + 2) % (int)PATRON_COUNT);
+		PatronType polAffClone = (PatronType)((int)(drinkClone + 3) % (int)PATRON_COUNT);
 		
 		for (uint i = 0; i < (uint)PATRON_COUNT; ++i)
-		{
+		{				
 			if(i != copIndex)
 			{
 				// Create our desired properties
-				
 				DietType patronDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
 				while(patronDiet == copDiet)
 				{
@@ -481,43 +470,71 @@ public partial class ClueDirector : Node2D
 					//GD.Print(copCrimBack + " " + patronCrimBack);
 				}
 				
-				// Then 
 				for (int j = 0; j < ACT_COUNT; ++j)
 				{
-					if(j == uniqueFromoCopAct[(int)i])
-						continue;
-					
 					ClueType clueType = acts[j].clue.clueType;
+					bool coinFlip = (GD.Randi() % 2) == 0;
+					
 					switch(clueType)
 					{
 						case ClueType.AlcoholClueType:
 						{
-							patronDrink = copDrink;
+							if(drinkClone == (PatronType)i)
+							{
+								patronDrink = copDrink;
+							}
 							break;
 						}
 						
 						case ClueType.DietClueType:
 						{
-							patronDiet = copDiet;
+							if(dietClone == (PatronType)i)
+							{
+								patronDrink = copDrink;
+							}
 							break;
 						}
 						
 						case ClueType.PoliticalClueType:
 						{
-							patronPolAff = copPolAff;
-							
-							DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.PoliticalDialog, (uint)patronPolAff);
-							diaglogData.Add(diaglogClue);
+							if(polAffClone == (PatronType)i)
+							{
+								patronPolAff = copPolAff;
+								
+								DialogData diaglogClueCopPolAff = new DialogData((PatronType)copIndex, DialogContext.PoliticalDialog, (uint)copPolAff);
+								diaglogData.Add(diaglogClueCopPolAff);
+								diaglogData.Add(diaglogClueCopPolAff);
+								
+								DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.PoliticalDialog, (uint)patronPolAff);
+								diaglogData.Add(diaglogClue);
+							}
+							else if(coinFlip)
+							{
+								DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.PoliticalDialog, (uint)patronPolAff);
+								diaglogData.Add(diaglogClue);
+							}
 							
 							break;
 						}
 						
 						case ClueType.CriminalClueType:
 						{
-							patronCrimBack = copCrimBack;
-							 
-							DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.CriminalDialog, (uint)patronCrimBack);
-							diaglogData.Add(diaglogClue);
+							if(crimBackClone == (PatronType)i)
+							{
+								patronCrimBack = copCrimBack;
+								
+								DialogData diaglogClueCrimBack = new DialogData((PatronType)copIndex, DialogContext.CriminalDialog, (uint)copCrimBack);
+								diaglogData.Add(diaglogClueCrimBack);
+								diaglogData.Add(diaglogClueCrimBack);
+								
+								DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.CriminalDialog, (uint)patronCrimBack);
+								diaglogData.Add(diaglogClue);
+							}
+							else if(coinFlip)
+							{
+								DialogData diaglogClue = new DialogData((PatronType)i, DialogContext.CriminalDialog, (uint)patronCrimBack);
+								diaglogData.Add(diaglogClue);
+							}
 							
 							break;
 						}
@@ -577,7 +594,8 @@ public partial class ClueDirector : Node2D
 			for (int i = 0; i < diaglogData.Count; ++i)
 			{
 				PatronType patronType = (PatronType)(typeof(PatronType).GetRandomEnumValue());
-				GD.Print(GeneratePatronDialog(patronType, i));
+				string dialogText = GeneratePatronDialog(patronType, i);
+				//GD.Print(dialogText);
 			}
 		}
 	}

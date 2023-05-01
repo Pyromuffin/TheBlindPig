@@ -1,0 +1,18 @@
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://c6yliqu0svs6w"]
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_vm8m1"]
+resource_name = "Reverb"
+room_size = 0.4
+hipass = 0.59
+dry = 0.68
+wet = 0.2
+
+[resource]
+bus/1/name = &"fx"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = -6.57885
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectReverb_vm8m1")
+bus/1/effect/0/enabled = true

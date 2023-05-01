@@ -1,7 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://csf2hnr4t0o7x"]
+[gd_scene load_steps=21 format=3 uid="uid://csf2hnr4t0o7x"]
 
 [ext_resource type="Script" path="res://Waiter.cs" id="1_soig6"]
 [ext_resource type="Texture2D" uid="uid://dywauqvck6svf" path="res://assets/characters/waiter_spritesheet.png" id="2_6ua33"]
+[ext_resource type="AudioStream" uid="uid://c168ah6t040ag" path="res://assets/sounds/sfx/pick up.wav" id="2_57h5o"]
+[ext_resource type="AudioStream" uid="uid://cfhsosctwp7" path="res://assets/sounds/sfx/put down.wav" id="3_0d5hp"]
+[ext_resource type="AudioStream" uid="uid://b8kx44bpjkoxj" path="res://assets/sounds/sfx/trash.wav" id="4_64fbf"]
+[ext_resource type="AudioStream" uid="uid://cl2158f3ivu6x" path="res://assets/sounds/sfx/step.wav" id="5_feykr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xb2jb"]
 atlas = ExtResource("2_6ua33")
@@ -114,8 +118,20 @@ animations = [{
 radius = 5.0
 height = 12.0
 
-[node name="Waiter" type="CharacterBody2D"]
+[node name="Waiter" type="CharacterBody2D" node_paths=PackedStringArray("audioPlayer", "stepPlayer")]
 script = ExtResource("1_soig6")
+pickUpSound = ExtResource("2_57h5o")
+deliverSound = ExtResource("3_0d5hp")
+trashSound = ExtResource("4_64fbf")
+audioPlayer = NodePath("sfx")
+stepPlayer = NodePath("step player")
+stepRate = 0.3
+stepRateVariation = 0.05
+
+[node name="step player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_feykr")
+volume_db = -15.0
+bus = &"fx"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n2ujr")
@@ -125,3 +141,7 @@ animation = &"forward_walk"
 position = Vector2(2, 20)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("CapsuleShape2D_ukv2u")
+
+[node name="sfx" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+bus = &"fx"

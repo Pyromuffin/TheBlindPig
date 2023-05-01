@@ -13,6 +13,13 @@ public partial class Waiter : CharacterBody2D
 	[Export]
 	public Vector2 secondItemPosition;
 
+	[Export] public AudioStream pickUpSound, deliverSound, trashSound;
+	[Export] public AudioStreamPlayer audioPlayer;
+	[Export] public AudioStreamPlayer stepPlayer;
+	[Export]public double stepRate, stepRateVariation;
+
+
+
 	private bool facingDown = true;
 	private bool facingRight = false;
 
@@ -21,9 +28,12 @@ public partial class Waiter : CharacterBody2D
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		nextStepTime = stepRate + GD.RandRange(-stepRateVariation, stepRateVariation);
 	}
 
 
+	double stepTimer = 0;
+	double nextStepTime;
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -31,6 +41,8 @@ public partial class Waiter : CharacterBody2D
 		if(ActManager.showingActTransition){
 			return;
 		}
+
+
 
 		Vector2 velocity = Velocity;
 
@@ -50,6 +62,14 @@ public partial class Waiter : CharacterBody2D
 		
 		if(velocity.Length() > animationCutoffSpeed){
 			
+			if(stepTimer > nextStepTime){
+				stepPlayer.PitchScale = (float)GD.RandRange(0.8, 1.2);
+				stepPlayer.Play();
+				stepTimer = 0;
+				nextStepTime = stepRate + GD.RandRange(-stepRateVariation, stepRateVariation);
+			}
+			stepTimer += delta;
+
 			if( Mathf.Abs(velocity.Y) > 0 ){
 				facingDown = velocity.Y > 0;
 			}
@@ -88,10 +108,19 @@ public partial class Waiter : CharacterBody2D
 	public void PickUpItem(Node2D item){
 		
 		if(firstItem == null){
+			audioPlayer.PitchScale = (float)GD.RandRange(.8, 1.2);
+			audioPlayer.Stream = pickUpSound;
+			audioPlayer.Play();
+
 			firstItem = item as Item;
 			AddChild(firstItem);
 			firstItem.Position = firstItemPosition;
 		} else if(secondItem == null) {
+
+			audioPlayer.PitchScale = (float)GD.RandRange(.8, 1.2);
+			audioPlayer.Stream = pickUpSound;
+			audioPlayer.Play();
+
 			secondItem = item as Item;
 			AddChild(secondItem);
 			secondItem.Position = secondItemPosition;
@@ -110,6 +139,10 @@ public partial class Waiter : CharacterBody2D
 				firstItem.Position = firstItemPosition;
 				secondItem = null;
 			}
+
+			audioPlayer.Stream = deliverSound;
+			audioPlayer.PitchScale = (float)GD.RandRange(.8, 1.2);
+			audioPlayer.Play();
 			p.ResetOrder();
 			Suspicion.Reduce(p.deliverySuspicionReduction);
 		}
@@ -117,6 +150,10 @@ public partial class Waiter : CharacterBody2D
 		else if(secondItem?.itemType == p.desiredItem){
 			secondItem.QueueFree();
 			secondItem = null;
+
+			audioPlayer.PitchScale = (float)GD.RandRange(.8, 1.2);
+			audioPlayer.Stream = deliverSound;
+			audioPlayer.Play();
 			p.ResetOrder();
 			Suspicion.Reduce(p.deliverySuspicionReduction);
 		}
@@ -124,7 +161,13 @@ public partial class Waiter : CharacterBody2D
 
 
 	public void Trash(){
-		
+
+		if(secondItem != null || firstItem != null){
+			audioPlayer.PitchScale = (float)GD.RandRange(.8, 1.2);
+			audioPlayer.Stream = trashSound;
+			audioPlayer.Play();
+		}
+
 		if(secondItem != null){
 			secondItem.QueueFree();
 			secondItem = null;

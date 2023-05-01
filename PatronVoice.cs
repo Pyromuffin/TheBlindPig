@@ -17,6 +17,9 @@ public partial class PatronVoice : Node2D
 	[Export]
 	public float MIN_PITCH = 0.8f;
 
+	[Export]
+	public float VOLUME_RANGE = 60f;
+
 	bool Playing = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -73,7 +76,8 @@ public partial class PatronVoice : Node2D
 
 	public void SetVolume( float fraction )
 	{
-		VoicePlayer.VolumeDb = fraction * -80;
+		GD.Print( ( 1 - fraction * VOLUME_RANGE ) - 80 );
+		VoicePlayer.VolumeDb = ( ( 1 - fraction ) * VOLUME_RANGE ) - 80;
 	}
 
 	public void SetPlaying( bool playing )
@@ -98,7 +102,7 @@ public partial class PatronVoice : Node2D
 			VoicePlayer.Stream = GetRandomSound();
 			VoicePlayer.Play();
 			await ToSignal(VoicePlayer, "finished");
-			float CoolDownTime = GD.Randf() * 0.25f + 0.25f;
+			float CoolDownTime = GD.Randf() * 0.1f;
 			VoiceCoolDown.WaitTime = CoolDownTime;
 			VoiceCoolDown.Start();
 			await ToSignal(VoiceCoolDown, "timeout");

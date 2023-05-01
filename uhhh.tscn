@@ -208,6 +208,7 @@ shape = SubResource("CircleShape2D_2gp8y")
 position = Vector2(-66, -8)
 
 [node name="Clue text" type="Label" parent="."]
+visible = false
 z_index = 100
 offset_left = -181.0
 offset_top = 131.0

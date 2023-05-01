@@ -752,7 +752,7 @@ public partial class ClueDirector : Node2D
 		
 		if(DEBUG_SYSTEM)
 		{
-			GD.Print("Talker: " + subjectName + "(" + _talker + "); Subject: " + subject + "; Type: " + dialogType + "; Context" + context + "; Object: " + objectName + "(" + thisDialog.clueID + ")");
+			GD.Print("Talker: " + _talker + "; Subject: " + subjectName + "(" + subject + "); Type: " + dialogType + "; Context" + context + "; Object: " + objectName + "(" + thisDialog.clueID + ")");
 		}
 
 		var formatString = dialogFormatStrings[(int)_talker];
@@ -769,6 +769,8 @@ public partial class ClueDirector : Node2D
 
 	double dialogTimer = 0;
 	double randomDialogTime;
+	
+	bool orderDrink = true;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -784,10 +786,11 @@ public partial class ClueDirector : Node2D
 			
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
-				if(p.currentState == Patron.State.IDLE){
-					var item = p.GetRandomOrderableItem();
+				if(p.currentState == Patron.State.IDLE) {
+					var item = p.GetRandomOrderableItem(orderDrink);
 					p.CreateOrder(item);
 					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+					orderDrink = !orderDrink;
 					break;
 				}
 			}

@@ -14,6 +14,7 @@ public partial class ActManager : Node
 	[Export] Label clueText;
 	[Export] Sprite2D clueWindow;
 	[Export] Suspicion suspicion;
+	[Export] Sprite2D chooseCop;
 
 	[Export] NinePatchRect confirmDialog;
 
@@ -58,6 +59,7 @@ public partial class ActManager : Node
 	{
 		isEnding = true;
 		suspicion.Hide();
+		chooseCop.Show();
 	}
 
 	public override void _Ready(){

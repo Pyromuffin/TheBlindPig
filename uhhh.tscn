@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=27 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -16,9 +16,14 @@
 [ext_resource type="Texture2D" uid="uid://dg2yscj785udo" path="res://assets/ui/clue_window.png" id="12_mldqr"]
 [ext_resource type="Texture2D" uid="uid://ddjed0w55mf7u" path="res://assets/characters/blindpig.png" id="13_mgit7"]
 [ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="16_ckbph"]
+[ext_resource type="Texture2D" uid="uid://csh64mgn5hjek" path="res://assets/ui/act1.png" id="11_3kgy0"]
+[ext_resource type="Texture2D" uid="uid://pavdjnosvnwf" path="res://assets/ui/act2.png" id="12_kwi2p"]
+[ext_resource type="Texture2D" uid="uid://bmjnkgmeee5x6" path="res://assets/ui/act3.png" id="13_q7k32"]
 [ext_resource type="Script" path="res://ActManager.cs" id="17_ufhtv"]
 [ext_resource type="Texture2D" uid="uid://cqj2g7exnqpqm" path="res://assets/ui/bubble_9_slice.png" id="18_2d7ig"]
+[ext_resource type="Texture2D" uid="uid://ca4agkunofe56" path="res://assets/ui/choose_cop.png" id="18_n5g8r"]
 [ext_resource type="Script" path="res://FingerPrompt.cs" id="19_n73yp"]
+[ext_resource type="FontFile" uid="uid://cxrgewehxhlie" path="res://assets/InstrumentSerif-Regular.ttf" id="20_040hn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
 height = 86.0
@@ -223,7 +228,7 @@ theme_override_font_sizes/font_size = 16
 text = "SECRET CLUE"
 autowrap_mode = 3
 
-[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText", "clueWindow", "suspicion", "confirmDialog")]
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText", "clueWindow", "suspicion", "chooseCop", "confirmDialog")]
 script = ExtResource("17_ufhtv")
 director = NodePath("../director")
 actLength = 60.0
@@ -234,15 +239,16 @@ splash3 = NodePath("../director/Sprite2D3")
 clueText = NodePath("../Clue text")
 clueWindow = NodePath("../director/ClueWindow")
 suspicion = NodePath("../Suspicion")
+chooseCop = NodePath("../ChooseCop")
 confirmDialog = NodePath("../Finger Prompt")
 
 [node name="Finger Prompt" type="NinePatchRect" parent="." node_paths=PackedStringArray("actManager")]
 visible = false
 z_index = 4096
-offset_left = -179.0
-offset_top = 5.0
-offset_right = 73.0
-offset_bottom = 123.0
+offset_left = -169.0
+offset_top = 23.0
+offset_right = 11.0
+offset_bottom = 99.0
 texture = ExtResource("18_2d7ig")
 patch_margin_left = 7
 patch_margin_top = 4
@@ -253,27 +259,37 @@ actManager = NodePath("../Act manager")
 
 [node name="Label" type="Label" parent="Finger Prompt"]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 20.0
-offset_right = 190.0
-offset_bottom = 46.0
-text = "FINGER THE COP?"
+offset_left = 21.0
+offset_top = 11.0
+offset_right = 156.0
+offset_bottom = 37.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_040hn")
+text = "Ready to choose the cop?"
 
 [node name="Yes" type="Button" parent="Finger Prompt"]
 layout_mode = 0
-offset_left = 59.0
-offset_top = 57.0
-offset_right = 94.0
-offset_bottom = 88.0
+offset_left = 24.0
+offset_top = 37.0
+offset_right = 59.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("20_040hn")
 text = "Yes"
 
 [node name="No" type="Button" parent="Finger Prompt"]
 layout_mode = 0
-offset_left = 149.0
-offset_top = 59.0
-offset_right = 184.0
-offset_bottom = 90.0
+offset_left = 120.0
+offset_top = 37.0
+offset_right = 155.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("20_040hn")
 text = "No"
+
+[node name="ChooseCop" type="Sprite2D" parent="."]
+visible = false
+z_index = 10
+position = Vector2(-71, -51)
+texture = ExtResource("18_n5g8r")
 
 [connection signal="pressed" from="Finger Prompt/Yes" to="Finger Prompt" method="_on_yes_pressed"]
 [connection signal="pressed" from="Finger Prompt/No" to="Finger Prompt" method="_on_no_pressed"]

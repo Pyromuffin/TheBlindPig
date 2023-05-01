@@ -238,7 +238,11 @@ public partial class Patron : Sprite2D
 		{
 			patronVoice.SetPlaying( fraction < 1 );
 			patronVoice.SetVolume( fraction );
-			animationPlayer.Play( "TalkBoxRight" );
+			if( Position.X < -72 )
+				animationPlayer.Play( "TalkBoxRight" );
+			else
+				animationPlayer.Play( "TalkBoxLeft" );
+			
 			animationPlayer.Seek( ( 1 - fraction ) * 1.8f );
 			if(1 - fraction == 1){
 				dialogHeard = true;

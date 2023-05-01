@@ -142,6 +142,7 @@ position = Vector2(35, -37)
 [node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
 z_index = 103
 position = Vector2(-69, 63)
+maximumOrderTime = 8.0
 waiterStartPos = NodePath("../waiter start pos")
 waiter = NodePath("../Waiter")
 

@@ -208,14 +208,23 @@ shape = SubResource("CircleShape2D_2gp8y")
 [node name="waiter start pos" type="Node2D" parent="."]
 position = Vector2(-66, -8)
 
-[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3")]
+[node name="Clue text" type="Label" parent="."]
+z_index = 100
+offset_left = -269.0
+offset_top = 165.0
+offset_right = -169.0
+offset_bottom = 191.0
+text = "SECRET CLUE"
+
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText")]
 script = ExtResource("17_ufhtv")
 director = NodePath("../director")
-actLength = 180.0
+actLength = 60.0
 fadeTime = 3.0
 splash1 = NodePath("../director/Sprite2D")
 splash2 = NodePath("../director/Sprite2D2")
 splash3 = NodePath("../director/Sprite2D3")
+clueText = NodePath("../Clue text")
 
 [editable path="ItemSource2"]
 [editable path="ItemSource4"]

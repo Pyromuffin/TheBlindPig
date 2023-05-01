@@ -11,6 +11,7 @@ public partial class ActManager : Node
 	[Export] Sprite2D splash1;
 	[Export] Sprite2D splash2;
 	[Export] Sprite2D splash3;
+	[Export] Label clueText;
 
 	double actTimer = 0;
 	public static bool showingActTransition = true;
@@ -22,6 +23,10 @@ public partial class ActManager : Node
 	}
 
 	void ShowActTransition(){
+
+		clueText.Show();
+		clueText.Text = "The undercover cop is " + director.acts[director.currentAct].clue.GetClueText();
+
 		if(director.currentAct == 0){
 			splash1.Show();
 		}

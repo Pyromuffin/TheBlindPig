@@ -23,7 +23,7 @@ public enum ClueType
 	RelationshipClueType,
 }
 
-abstract class Clue 
+public abstract class Clue 
 {
 	public uint clueID;
 	public ClueType clueType;
@@ -38,7 +38,7 @@ abstract class Clue
 	public abstract string GetClueText();
 }
 
-class AlcoholClue : Clue
+public class AlcoholClue : Clue
 {
 	public AlcoholClue()
 	{
@@ -57,7 +57,7 @@ class AlcoholClue : Clue
 	}
 }
 
-class DietClue : Clue
+public class DietClue : Clue
 {
 	public DietClue()
 	{
@@ -75,7 +75,7 @@ class DietClue : Clue
 	}
 }
 
-class PoliticalClue : Clue
+public class PoliticalClue : Clue
 {
 	public PoliticalClue()
 	{
@@ -93,7 +93,7 @@ class PoliticalClue : Clue
 	}
 }
 
-class CriminalClue : Clue
+public class CriminalClue : Clue
 {
 	public CriminalClue()
 	{
@@ -111,7 +111,7 @@ class CriminalClue : Clue
 	}
 }
 
-class RelationshipClue : Clue
+public class RelationshipClue : Clue
 {
 	public RelationshipClue()
 	{
@@ -146,7 +146,7 @@ static class ExtensionsClass
 	}
 }
 	
-class Act 
+public class Act 
 {
 	public Clue clue;
 	
@@ -211,7 +211,7 @@ public partial class ClueDirector : Node2D
 	DialogSystem dialogSystem = new DialogSystem();
 	List<DialogData> diaglogData = new List<DialogData>();
 	
-	Act[] acts = new Act[ACT_COUNT];
+	public Act[] acts = new Act[ACT_COUNT];
 	
 	public void StartCurrentAct()
 	{
@@ -716,7 +716,9 @@ public partial class ClueDirector : Node2D
 					var s = GeneratePatronDialog(p.details.patronType, currentDialog);
 					p.CreateDialog(s);
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
-					currentDialog++;
+					if(currentDialog < diaglogData.Count){
+						currentDialog++;
+					}
 					break;
 				}
 			}

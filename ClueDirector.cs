@@ -348,6 +348,12 @@ public partial class ClueDirector : Node2D
 		// Spawn the cop!
 		patrons[copIndex] = new PatronDetails(copIndex, true, copDrink, copDiet, copPolAff, copCrimBack);
 		
+		DialogData diaglogClueCopPolAff = new DialogData((PatronType)copIndex, DialogContext.PoliticalDialog, (uint)copPolAff);
+		diaglogData.Add(diaglogClueCopPolAff);
+		
+		DialogData diaglogClueCrimBack = new DialogData((PatronType)copIndex, DialogContext.CriminalDialog, (uint)copCrimBack);
+		diaglogData.Add(diaglogClueCrimBack);
+		
 		// Create the clues because
 		CreateClues();
 		
@@ -365,7 +371,6 @@ public partial class ClueDirector : Node2D
 			if(i != copIndex)
 			{
 				// Create our desired properties
-				// TODO: NEED TO REDO IF THE SAME AS COP
 				
 				DietType patronDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
 				while(patronDiet == copDiet)
@@ -455,6 +460,7 @@ public partial class ClueDirector : Node2D
 		// Make this work with the 4 on 2 off rules and move up to above the clues...
 		CreatePatronRelationships();
 		
+		// Clue dialogs happen in a random order
 		diaglogData.Shuffle();
 		
 		// Debug!
@@ -503,10 +509,27 @@ public partial class ClueDirector : Node2D
 		uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
 		uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
 		
+		PatronType subject = _dialogData.subject;
+		
+		/*
+		// This means we are talking about someone else
+		// Figure out which of the remaining four we are talking about!
+		List<PatronType> patronList = new List<PatronType>();
+		for(uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		{
+			if( acts[currentAct]._couples[randomCouple, 0] != (PatronType)i &&
+				acts[currentAct]._couples[randomCouple, 1] != (PatronType)i )
+			{
+				patronList.Add((PatronType)i);
+			}
+		}
+		long subjectIndex = GD.Randi() % (int)patronList.Count;
+		subject = patronList[ (int)subjectIndex ];
+		*/
+		
 		PatronType talker = acts[currentAct]._couples[randomCouple, talkerIndex];
 		PatronType listener = acts[currentAct]._couples[randomCouple, listenerIndex];
 		
-		PatronType subject = _dialogData.subject;
 		DialogContext context = _dialogData.dialogContext;
 		
 		if(listener == subject)

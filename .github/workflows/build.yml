@@ -39,4 +39,4 @@ jobs:
         run: dotnet build
 
       - name: Export
-        run: godot --export "windows" TheBlindPig.exe
+        run: godot --export-release "windows" TheBlindPig.exe

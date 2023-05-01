@@ -15,6 +15,7 @@ public partial class ActManager : Node
 	[Export] Sprite2D chooseCop;
 
 	[Export] NinePatchRect confirmDialog;
+	[Export] CanvasLayer crisis;
 
 	double actTimer = 0;
 	public static bool showingActTransition = true;
@@ -34,9 +35,9 @@ public partial class ActManager : Node
 
 		clueWindow.Show();
 		clueText.Show();
-		clueText.Text = "* The cop" + director.acts[0].clue.GetClueText() + "!" + 
-		"\n* The cop" + director.acts[1].clue.GetClueText() +"!"+
-		"\n* The cop" + director.acts[2].clue.GetClueText() + "!" +
+		clueText.Text = "* The cop" + director.acts[0].clue.GetClueText() + "." + 
+		"\n* The cop" + director.acts[1].clue.GetClueText() +"."+
+		"\n* The cop" + director.acts[2].clue.GetClueText() + "." +
 		"\nCome back when you ID the cop!";
 
 
@@ -46,6 +47,7 @@ public partial class ActManager : Node
 
 	public void StartEnding()
 	{
+		crisis.Show();
 		isEnding = true;
 		suspicion.Hide();
 		chooseCop.Show();

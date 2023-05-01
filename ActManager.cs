@@ -26,7 +26,7 @@ public partial class ActManager : Node
 	void ShowActTransition(){
 
 		clueText.Show();
-		clueText.Text = "The undercover cop is " + director.acts[director.currentAct].clue.GetClueText();
+		clueText.Text = "The undercover cop" + director.acts[director.currentAct].clue.GetClueText();
 
 		if(director.currentAct == 0){
 			splash1.Show();

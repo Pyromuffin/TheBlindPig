@@ -10,11 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
 [ext_resource type="Texture2D" uid="uid://csh64mgn5hjek" path="res://assets/ui/act1.png" id="11_3kgy0"]
-[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
-[ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
+[ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
 [ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="12_ceb2j"]
 [ext_resource type="Texture2D" uid="uid://pavdjnosvnwf" path="res://assets/ui/act2.png" id="12_kwi2p"]
-[ext_resource type="Texture2D" uid="uid://0utrqvocmis5" path="res://assets/characters/blindpig.png" id="13_mgit7"]
+[ext_resource type="Texture2D" uid="uid://crx5p3xet2i05" path="res://assets/characters/blindpig.png" id="13_mgit7"]
 [ext_resource type="Texture2D" uid="uid://bmjnkgmeee5x6" path="res://assets/ui/act3.png" id="13_q7k32"]
 [ext_resource type="Script" path="res://ActManager.cs" id="17_ufhtv"]
 
@@ -149,7 +149,7 @@ itemType = 6
 shape = SubResource("CapsuleShape2D_wlea1")
 
 [node name="ItemSource5" parent="." instance=ExtResource("5_0rmxv")]
-position = Vector2(-37, 139)
+position = Vector2(-53, 168)
 
 [node name="ItemSource6" parent="." instance=ExtResource("5_0rmxv")]
 position = Vector2(-155, -61)
@@ -208,6 +208,7 @@ shape = SubResource("CircleShape2D_2gp8y")
 position = Vector2(-66, -8)
 
 [node name="Clue text" type="Label" parent="."]
+visible = false
 z_index = 100
 offset_left = -181.0
 offset_top = 131.0

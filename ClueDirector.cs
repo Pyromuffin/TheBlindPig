@@ -191,6 +191,7 @@ public partial class ClueDirector : Node2D
 	public delegate void SendDialogEventHandler();
 	
 	const uint ACT_COUNT = 3;
+	const uint FLAVOR_COUNT = 6;
 	
 	uint currentAct = 0;
 	uint copIndex = 0;
@@ -461,6 +462,13 @@ public partial class ClueDirector : Node2D
 
 		// Make this work with the 4 on 2 off rules and move up to above the clues...
 		CreatePatronRelationships();
+		
+		for(int i = 0; i < FLAVOR_COUNT; ++i)
+		{
+			PatronType patronType = (PatronType)(typeof(PatronType ).GetRandomEnumValue());
+			DialogData diaglogClue = new DialogData(patronType, DialogContext.FlavorDialog, 0);
+			diaglogData.Add(diaglogClue);
+		}
 		
 		// Clue dialogs happen in a random order
 		diaglogData.Shuffle();

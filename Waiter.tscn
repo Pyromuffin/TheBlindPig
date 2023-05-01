@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://csf2hnr4t0o7x"]
+[gd_scene load_steps=22 format=3 uid="uid://csf2hnr4t0o7x"]
 
 [ext_resource type="Script" path="res://Waiter.cs" id="1_soig6"]
 [ext_resource type="Texture2D" uid="uid://dywauqvck6svf" path="res://assets/characters/waiter_spritesheet.png" id="2_6ua33"]
@@ -118,7 +118,10 @@ animations = [{
 radius = 5.0
 height = 12.0
 
-[node name="Waiter" type="CharacterBody2D" node_paths=PackedStringArray("audioPlayer", "stepPlayer")]
+[sub_resource type="Gradient" id="Gradient_kuo2h"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Waiter" type="CharacterBody2D" node_paths=PackedStringArray("audioPlayer", "stepPlayer", "dustParticles")]
 script = ExtResource("1_soig6")
 pickUpSound = ExtResource("2_57h5o")
 deliverSound = ExtResource("3_0d5hp")
@@ -127,6 +130,7 @@ audioPlayer = NodePath("sfx")
 stepPlayer = NodePath("step player")
 stepRate = 0.3
 stepRateVariation = 0.05
+dustParticles = NodePath("dust particles")
 
 [node name="step player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_feykr")
@@ -145,3 +149,20 @@ shape = SubResource("CapsuleShape2D_ukv2u")
 [node name="sfx" type="AudioStreamPlayer" parent="."]
 volume_db = -10.0
 bus = &"fx"
+
+[node name="dust particles" type="CPUParticles2D" parent="."]
+z_index = -1
+position = Vector2(2, 23)
+emitting = false
+lifetime = 0.3
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 9.04
+initial_velocity_max = 15.07
+damping_min = 5.57
+damping_max = 11.59
+angle_min = -180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_kuo2h")

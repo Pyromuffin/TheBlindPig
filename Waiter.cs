@@ -16,8 +16,8 @@ public partial class Waiter : CharacterBody2D
 	[Export] public AudioStream pickUpSound, deliverSound, trashSound;
 	[Export] public AudioStreamPlayer audioPlayer;
 	[Export] public AudioStreamPlayer stepPlayer;
-	[Export]public double stepRate, stepRateVariation;
-
+	[Export] public double stepRate, stepRateVariation;
+	[Export] public CpuParticles2D dustParticles;
 
 
 	private bool facingDown = true;
@@ -43,7 +43,6 @@ public partial class Waiter : CharacterBody2D
 		}
 
 
-
 		Vector2 velocity = Velocity;
 
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
@@ -59,9 +58,12 @@ public partial class Waiter : CharacterBody2D
 		}
 		
 		
+
 		
 		if(velocity.Length() > animationCutoffSpeed){
 			
+			dustParticles.Emitting = true;
+
 			if(stepTimer > nextStepTime){
 				stepPlayer.PitchScale = (float)GD.RandRange(0.8, 1.2);
 				stepPlayer.Play();
@@ -88,6 +90,8 @@ public partial class Waiter : CharacterBody2D
 			}
 		}
 		else{		
+			dustParticles.Emitting = false;
+
 			if(facingDown){
 				sprite.Play("forward_idle");
 			} else {

@@ -233,6 +233,7 @@ chooseCop = NodePath("../ChooseCop")
 confirmDialog = NodePath("../Finger Prompt")
 
 [node name="Finger Prompt" type="NinePatchRect" parent="." node_paths=PackedStringArray("actManager")]
+visible = false
 z_index = 4096
 offset_left = -169.0
 offset_top = 23.0

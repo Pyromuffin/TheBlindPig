@@ -214,7 +214,7 @@ iconTransitionTime = 0.0
 deliverySuspicionReduction = 0.0
 questionIcon = null
 dotsIcon = null
-characterAnimationSpeedScale = 0.2
+characterAnimationSpeedScale = 0.3
 isPig = true
 actManager = NodePath("../Act manager")
 

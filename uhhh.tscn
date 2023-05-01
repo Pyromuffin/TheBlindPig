@@ -31,7 +31,7 @@ height = 90.0
 height = 86.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2gp8y"]
-radius = 8.18281
+radius = 29.1548
 
 [node name="world" type="Node2D"]
 y_sort_enabled = true
@@ -170,8 +170,8 @@ itemType = 0
 [node name="CollisionShape2D" parent="ItemSource/Area2D" index="0"]
 shape = SubResource("CapsuleShape2D_x33om")
 
-[node name="Patron" parent="." instance=ExtResource("12_ceb2j")]
-position = Vector2(-88, -14)
+[node name="Patron" parent="." node_paths=PackedStringArray("actManager") instance=ExtResource("12_ceb2j")]
+position = Vector2(-267, 20)
 texture = ExtResource("13_mgit7")
 minimumDialogBoxSize = Vector2(0, 0)
 beginDialogGrowDistance = 0.0
@@ -182,6 +182,8 @@ deliverySuspicionReduction = 0.0
 questionIcon = null
 dotsIcon = null
 characterAnimationSpeedScale = 0.2
+isPig = true
+actManager = NodePath("../Act manager")
 
 [node name="Request text" parent="Patron/Dialog" index="0"]
 visible = false
@@ -198,9 +200,6 @@ visible = false
 [node name="Voice" parent="Patron/Dialog" index="4"]
 visible = false
 
-[node name="Area2D" parent="Patron" index="2"]
-visible = false
-
 [node name="CollisionShape2D" parent="Patron/Area2D" index="0"]
 shape = SubResource("CircleShape2D_2gp8y")
 
@@ -208,12 +207,11 @@ shape = SubResource("CircleShape2D_2gp8y")
 position = Vector2(-66, -8)
 
 [node name="Clue text" type="Label" parent="."]
-visible = false
-z_index = 100
-offset_left = -181.0
-offset_top = 131.0
-offset_right = 33.0
-offset_bottom = 201.0
+z_index = 1000
+offset_left = -239.0
+offset_top = -69.0
+offset_right = 104.0
+offset_bottom = 143.0
 text = "SECRET CLUE"
 autowrap_mode = 3
 

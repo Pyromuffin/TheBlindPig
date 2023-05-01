@@ -16,12 +16,15 @@ public partial class ItemSource : Sprite2D
 	PackedScene itemScene = GD.Load<PackedScene>("res://Item.tscn");
 	
 	Node2D overlapper;
+	[Export]
+	AnimationPlayer animationPlayer;
 	
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		this.Texture = Item.GetLargeIcon(itemType);
+		animationPlayer.Play("Idle");
 		
 	}
 

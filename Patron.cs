@@ -15,14 +15,12 @@ using System;
 
 public enum PatronType
 {
-	None = -1,
 	EscapeArtist,
 	JazzMusician,
 	Spiritualist,
 	Journalist,
 	BaseballPlayer,
 	Flapper,
-	PATRON_COUNT
 }
 
 public enum CriminalBackground
@@ -71,6 +69,8 @@ public class PatronDetails {
 
 	public float idleSpeedScale;
 	
+	const bool DEBUG_SYSTEM = false;
+	
 	public PatronDetails(uint _patronIndex, bool _isCop, ItemType _hatedDrink, DietType _dietType, PolitcalAffiliation _polAff, CriminalBackground _crimBackground)
    	{
 		patronType = (PatronType)_patronIndex;
@@ -83,7 +83,7 @@ public class PatronDetails {
 		politcalAffiliation = _polAff;
 		criminalBackground = _crimBackground;
 		
-		relationPatron = PatronType.None;
+		relationPatron = PatronType.EscapeArtist;
 		relationshipType = RelationshipType.None;
 		
 		switch(patronType)
@@ -126,16 +126,19 @@ public class PatronDetails {
 	
 	public void DebugPrintDetails()
 	{
-		GD.Print("{ " + patronType + " }");
-		
-		GD.Print("Loudness: " + loudness);
-		GD.Print("Diet Type: " + dietType);
-		GD.Print("Hated Drink: " + hatedDrink);
-		GD.Print("Politcal Affiliation: " + politcalAffiliation );
-		GD.Print("Criminal Background: " + criminalBackground);
-		GD.Print(relationshipType + " to " + relationPatron );
-		GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
-		GD.Print("======================");
+		if(DEBUG_SYSTEM)
+		{
+			GD.Print("{ " + patronType + " }");
+			
+			GD.Print("Loudness: " + loudness);
+			GD.Print("Diet Type: " + dietType);
+			GD.Print("Hated Drink: " + hatedDrink);
+			GD.Print("Politcal Affiliation: " + politcalAffiliation );
+			GD.Print("Criminal Background: " + criminalBackground);
+			GD.Print(relationshipType + " to " + relationPatron );
+			GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
+			GD.Print("======================");
+		}
 	}
 }
 

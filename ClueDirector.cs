@@ -191,9 +191,11 @@ public partial class ClueDirector : Node2D
 	public delegate void SendDialogEventHandler();
 	
 	const uint ACT_COUNT = 3;
+	const uint FLAVOR_COUNT = 6;
 	
 	uint currentAct = 0;
 	uint copIndex = 0;
+	int currentDialog = 0;
 	
 	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
 	
@@ -461,6 +463,13 @@ public partial class ClueDirector : Node2D
 		// Make this work with the 4 on 2 off rules and move up to above the clues...
 		CreatePatronRelationships();
 		
+		for(int i = 0; i < FLAVOR_COUNT; ++i)
+		{
+			PatronType patronType = (PatronType)(typeof(PatronType ).GetRandomEnumValue());
+			DialogData diaglogClue = new DialogData(patronType, DialogContext.FlavorDialog, 0);
+			diaglogData.Add(diaglogClue);
+		}
+		
 		// Clue dialogs happen in a random order
 		diaglogData.Shuffle();
 		
@@ -486,6 +495,7 @@ public partial class ClueDirector : Node2D
 	{
 		randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 		randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+		dialogSystem.ParseDialog();
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -505,31 +515,143 @@ public partial class ClueDirector : Node2D
 		dialogSystem.GenerateRadioMessage(context);
 	}
 	
-	public string GeneratePatronDialog(PatronType _talker, bool _isAClue, DialogData _dialogData)
+	public bool StillHasDialogs()
 	{
-		//uint randomCouple = GD.Randi() % 3; // Will be one of the three couples!
-		//uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
-		//uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
-		// TOOD: Find the couple and link to listener
-		
+		return currentDialog < diaglogData.Count;
+	}
+	
+	public string GetContextString(DialogContext _context, uint _ID)
+	{
+		switch(_context)
+		{
+			case DialogContext.PoliticalDialog:
+			{
+				PolitcalAffiliation polAff = (PolitcalAffiliation)_ID;
+				switch(polAff)
+				{
+					case PolitcalAffiliation.LeopardParty:
+					{
+						return "Leopard Party ";
+					}
+					case PolitcalAffiliation.RabbitParty:
+					{
+						return "Rabbit Party";
+					}
+					case PolitcalAffiliation.BearParty:
+					{
+						return "Bear Party";
+					}
+					default:
+						return "UNKNOWN";
+				}
+			}
+			case DialogContext.CriminalDialog:
+			{
+				CriminalBackground crimBackground = (CriminalBackground)_ID;
+				switch(crimBackground)
+				{
+					case CriminalBackground.Bootlegger:
+					{
+						return "Bootlegger";
+					}
+					case CriminalBackground.RumRunner:
+					{
+						return "Rum Runner";
+					}
+					case CriminalBackground.Moonshiner:
+					{
+						return "Moonshiner";
+					}
+					case CriminalBackground.Bribery:
+					{
+						return "Money Launderer";
+					}
+					case CriminalBackground.Smuggling:
+					{
+						return "Smuggler";
+					}
+					default:
+						return "UNKNOWN";
+				}
+			}
+			case DialogContext.RelationshipDialog:
+			{
+				return "";
+			}
+			
+			default:
+				return "";
+		}
+	}
+	
+	public string GeneratePatronDialog(PatronType _talker)
+	{	
 		PatronType listener = PatronType.EscapeArtist;
+		for(int i = 0; i < 3; i++)
+		{
+			var first = acts[currentAct]._couples[i,0];
+			var second = acts[currentAct]._couples[i,1];
 		
-		PatronType subject = _dialogData.subject;
-				
-		DialogContext context = _dialogData.dialogContext;
+			if( first == _talker )
+			{
+				listener = second;
+			}
+			else if( second == _talker )
+			{
+				listener = first;
+			}
+		}
+		
+		DialogData thisDialog =  diaglogData[currentDialog];
+		
+		PatronType subject = thisDialog.subject;
+		DialogContext context = thisDialog.dialogContext;
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
 		
-		//TODO: HOOK UP CSV INTERACTION HERE
+		//HOOK UP CSV INTERACTION HERE
 		// _talker is the person talking
 		// subject is the $subject
 		// dialogType is the table (brag vs gossip)
 		// context is the row
-		// _dialogData.clueID is $object
+		// dialogData.clueID is $object
 		
-		//dialogSystem.GeneratePatronDialog(_talker, listener, subject, dialogType, context, _dialogData.clueID);
+		string[] dialogFormatStrings = null;
+
+		if(dialogType == DialogType.TalkAboutSelf){
+			if(context == DialogContext.CriminalDialog){
+				dialogFormatStrings = dialogSystem.bragCriminalDialogs;
+			}
+			if(context == DialogContext.FlavorDialog){
+				dialogFormatStrings = dialogSystem.bragFlavorDialogs;
+			}
+			if(context == DialogContext.PoliticalDialog){
+				dialogFormatStrings = dialogSystem.bragPoliticalDialogs;
+			}
+		}
+		else {
+			
+			if(context == DialogContext.CriminalDialog){
+				dialogFormatStrings = dialogSystem.gossipCriminalDialogs;
+			}
+			if(context == DialogContext.FlavorDialog){
+				dialogFormatStrings = dialogSystem.gossipFlavorDialogs;
+			}
+			if(context == DialogContext.PoliticalDialog){
+				dialogFormatStrings = dialogSystem.gossipPoliticalDialogs;
+			}
+		}
+
+		var formatString = dialogFormatStrings[(int)_talker];
+
+		string subjectName = patrons[(int)subject].patronName;
+		string objectName = GetContextString(context, thisDialog.clueID);
+		var s = formatString.Replace("$subject", subjectName);
+		s = s.Replace("$object", objectName);
+
+		currentDialog++;
 		
-		return "";
+		return s;
 	} 
 
 
@@ -543,7 +665,7 @@ public partial class ClueDirector : Node2D
 	public override void _Process(double delta)
 	{
 		if(orderTimer > randomOrderTime){
-
+			orderTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];
 			shuffled.Shuffle();
 			
@@ -552,23 +674,23 @@ public partial class ClueDirector : Node2D
 				if(p.currentState == Patron.State.IDLE){
 					var item = p.GetRandomOrderableItem();
 					p.CreateOrder(item);
-					orderTimer = 0;
 					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;
 				}
 			}
+
 		}
 
 		if(dialogTimer > randomDialogTime){
-
+			dialogTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];
 			shuffled.Shuffle();
 			
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
 				if(p.currentState == Patron.State.IDLE){
-					p.CreateDialog("potato's are the cops favorite food!");
-					dialogTimer = 0;
+					var s = GeneratePatronDialog(p.details.patronType);
+					p.CreateDialog(s);
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;
 				}

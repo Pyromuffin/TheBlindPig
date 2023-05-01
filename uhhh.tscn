@@ -9,8 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
-[ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
-[ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
+[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
 height = 86.0

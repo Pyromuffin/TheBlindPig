@@ -35,14 +35,14 @@ public partial class DialogSystem : Node
 {
 
 
-	string[] gossipFlavorDialogs;
-	string[] gossipPoliticalDialogs;
-	string[] gossipCriminalDialogs;
-	string[] bragFlavorDialogs;
-	string[] bragPoliticalDialogs;
-	string[] bragCriminalDialogs;
+	public string[] gossipFlavorDialogs;
+	public string[] gossipPoliticalDialogs;
+	public string[] gossipCriminalDialogs;
+	public string[] bragFlavorDialogs;
+	public string[] bragPoliticalDialogs;
+	public string[] bragCriminalDialogs;
 
-	void ParseDialog() {
+	public void ParseDialog() {
 		var file = FileAccess.Open("res://assets/DialogText.text", FileAccess.ModeFlags.Read);
 		var text = file.GetAsText();
 		var lines = text.Split('\n');
@@ -58,17 +58,6 @@ public partial class DialogSystem : Node
 		file.Close();
 	}
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		ParseDialog();
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-	
 	public void GenerateRadioMessage(DialogContext _dialogContext)
 	{
 		GD.Print("The radio broadcasts information about " + _dialogContext);

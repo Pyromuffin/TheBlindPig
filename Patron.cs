@@ -318,7 +318,7 @@ public partial class Patron : Sprite2D
 			{
 				if (Input.IsActionJustPressed("ui_accept"))
 				{
-					actManager.StartEnding();
+					actManager.ShowEndingConfirmation();
 				}
 			}
 			

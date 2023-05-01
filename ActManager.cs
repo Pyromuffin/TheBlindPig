@@ -14,9 +14,15 @@ public partial class ActManager : Node
 	[Export] Label clueText;
 	[Export] Suspicion suspicion;
 
+	[Export] NinePatchRect confirmDialog;
+
 	double actTimer = 0;
 	public static bool showingActTransition = true;
 	public static bool isEnding = false;
+
+	public void ShowEndingConfirmation(){
+		confirmDialog.Show();
+	}
 
 	void HideTransitions(){
 		splash1.Hide();

@@ -43,20 +43,19 @@ _data = {
 "RESET": SubResource("Animation_14641")
 }
 
-[node name="ItemSource" type="Sprite2D" node_paths=PackedStringArray("animationPlayer")]
+[node name="ItemSource" type="Sprite2D"]
 z_index = 4
 y_sort_enabled = true
 texture = ExtResource("1_qrvnj")
 script = ExtResource("2_n34e0")
 itemType = 3
-animationPlayer = NodePath("AnimationPlayer")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CapsuleShape2D_nywl0")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_uescj")
 }

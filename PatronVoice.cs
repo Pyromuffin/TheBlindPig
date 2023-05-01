@@ -100,20 +100,78 @@ public partial class PatronVoice : Node2D
 		switch (type)
 		{
 			case (PatronType.Journalist):
-				voiceDirectory = voiceDirectory + "journalist/";
+				VoiceStreams = new List<AudioStream>(){
+					Pepp01,
+					Pepp02,
+					Pepp03,
+					Pepp04,
+					Pepp05,
+					Pepp06,
+					Pepp07,
+					Pepp08,
+					Pepp10,
+					Pepp11
+				};
 				break;
 			case (PatronType.BaseballPlayer):
-				voiceDirectory = voiceDirectory + "giraffe/";
+				VoiceStreams = new List<AudioStream>(){
+					Giraffe01,
+					Giraffe02,
+					Giraffe03,
+					Giraffe04,
+					Giraffe05,
+					Giraffe06,
+					Giraffe07,
+					Giraffe08,
+					Giraffe09,
+					Giraffe10,
+					Giraffe11,
+					Giraffe12,
+					Giraffe13
+				};
 				break;
 			case (PatronType.Flapper):
-				voiceDirectory = voiceDirectory + "rabbit/";
+				VoiceStreams = new List<AudioStream>()
+				{
+					Rabbit01,
+					Rabbit02,
+					Rabbit03,
+					Rabbit04,
+					Rabbit05,
+					Rabbit06,
+					Rabbit07,
+					Rabbit08,
+					Rabbit09,
+					Rabbit10
+				};
 				break;
 			case (PatronType.Spiritualist):
-				voiceDirectory = voiceDirectory + "bird/";
+				VoiceStreams = new List<AudioStream>(){
+					Bird01,
+					Bird02,
+					Bird03,
+					Bird04,
+					Bird05,
+					Bird06,
+					Bird07,
+					Bird08,
+					Bird09
+				};
 				break;
 			default:
 			case (PatronType.JazzMusician):
-				voiceDirectory = voiceDirectory + "lion/";
+				VoiceStreams = new List<AudioStream>()
+				{
+					Lion01,
+					Lion02,
+					Lion03,
+					Lion04,
+					Lion05,
+					Lion06,
+					Lion07,
+					Lion08,
+					Lion09
+				};
 				break;
 		}
 

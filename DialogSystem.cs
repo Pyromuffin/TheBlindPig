@@ -43,7 +43,7 @@ public partial class DialogSystem : Node
 	string[] bragCriminalDialogs;
 
 	void ParseDialog() {
-		var file = FileAccess.Open("res://assets/DialogText.csv", FileAccess.ModeFlags.Read);
+		var file = FileAccess.Open("res://assets/DialogText.text", FileAccess.ModeFlags.Read);
 		var text = file.GetAsText();
 		var lines = text.Split('\n');
 		// first three lines are gossips

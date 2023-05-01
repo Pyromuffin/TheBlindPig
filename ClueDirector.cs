@@ -475,10 +475,10 @@ public partial class ClueDirector : Node2D
 			patrons[i].DebugPrintDetails();
 		}
 		
-		foreach(DialogData dData in diaglogData)
-		{
-			GeneratePatronDialog(true, dData );
-		}
+		//foreach(DialogData dData in diaglogData)
+		//{
+		//	GeneratePatronDialog(true, dData );
+		//}
 	}
 	
 	// Called when the node enters the scene tree for the first time.
@@ -505,46 +505,31 @@ public partial class ClueDirector : Node2D
 		dialogSystem.GenerateRadioMessage(context);
 	}
 	
-	public void GeneratePatronDialog(bool _isAClue, DialogData _dialogData)
+	public string GeneratePatronDialog(PatronType _talker, bool _isAClue, DialogData _dialogData)
 	{
-		uint randomCouple = GD.Randi() % 3; // Will be one of the three couples!
-		uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
-		uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
+		//uint randomCouple = GD.Randi() % 3; // Will be one of the three couples!
+		//uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
+		//uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
+		// TOOD: Find the couple and link to listener
+		
+		PatronType listener = PatronType.EscapeArtist;
 		
 		PatronType subject = _dialogData.subject;
-		
-		/*
-		// This means we are talking about someone else
-		// Figure out which of the remaining four we are talking about!
-		List<PatronType> patronList = new List<PatronType>();
-		for(uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
-		{
-			if( acts[currentAct]._couples[randomCouple, 0] != (PatronType)i &&
-				acts[currentAct]._couples[randomCouple, 1] != (PatronType)i )
-			{
-				patronList.Add((PatronType)i);
-			}
-		}
-		long subjectIndex = GD.Randi() % (int)patronList.Count;
-		subject = patronList[ (int)subjectIndex ];
-		*/
-		
-		PatronType talker = acts[currentAct]._couples[randomCouple, talkerIndex];
-		PatronType listener = acts[currentAct]._couples[randomCouple, listenerIndex];
-		
+				
 		DialogContext context = _dialogData.dialogContext;
 		
-		if(listener == subject)
-		{
-			// We are not going to write dialog where the listener is talked about
-			PatronType temp = talker;
-			talker = listener;
-			listener = temp;
-		}
+		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
 		
-		DialogType dialogType = talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
+		//TODO: HOOK UP CSV INTERACTION HERE
+		// _talker is the person talking
+		// subject is the $subject
+		// dialogType is the table (brag vs gossip)
+		// context is the row
+		// _dialogData.clueID is $object
 		
-		dialogSystem.GeneratePatronDialog(talker, listener, subject, dialogType, context, _dialogData.clueID);
+		//dialogSystem.GeneratePatronDialog(_talker, listener, subject, dialogType, context, _dialogData.clueID);
+		
+		return "";
 	} 
 
 
@@ -593,37 +578,6 @@ public partial class ClueDirector : Node2D
 
 		orderTimer += delta;
 		dialogTimer += delta;
-		
-
-		/*
-		while(currentAct < ACT_COUNT)
-		{
-			StartCurrentAct();
-		
-			while(!acts[currentAct].IsActOver())
-			{
-				// When we dish out clues is controlled by Game Flow
-				bool isClue = GD.Randi() % 3 == 0;
-				
-				if(isClue)
-				{
-					acts[currentAct].clueCount--;
-				}
-				
-				// The radio will be controlled by the Game Flow
-				if(GD.Randi() % 6 == 0)
-				{
-					GenerateRadioMessage(isClue);
-				}
-				else
-				{
-					GeneratePatronDialog(isClue);
-				}
-			}
-		
-			GoToNextAct();
-		 }
-		*/
 	}
 	
 }

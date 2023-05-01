@@ -74,7 +74,7 @@ position = Vector2(-318, -113)
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 z_index = 4
 position = Vector2(-46, 161)
-Speed = 100.0
+Speed = 150.0
 firstItemPosition = Vector2(5, -10)
 secondItemPosition = Vector2(-5, -10)
 
@@ -205,6 +205,7 @@ shape = SubResource("CapsuleShape2D_x33om")
 [node name="Patron" parent="." node_paths=PackedStringArray("actManager") instance=ExtResource("12_ceb2j")]
 position = Vector2(-267, 20)
 texture = ExtResource("13_mgit7")
+flip_h = true
 minimumDialogBoxSize = Vector2(0, 0)
 beginDialogGrowDistance = 0.0
 endDialogGrowDistance = 0.0

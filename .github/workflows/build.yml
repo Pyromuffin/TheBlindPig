@@ -1,21 +1,29 @@
-name: Build Godot Project
+name: "godot-ci export"
+on: push
 
-on:
-  push: {}
+env:
+  GODOT_VERSION: 4.0.2
+  EXPORT_NAME: the-blind-pig
 
 jobs:
-  Godot:
-    runs-on: ubuntu-latest
+  export-windows:
+    name: Windows Export
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:mono-4.0.2
     steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        id: build
-        uses: manleydev/build-godot-action@v1.4.1
-        with:
-          name: TheBlindPig
-          preset: windows
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+      - name: Windows Build
+        run: |
+          mkdir -v -p build/windows
+          godot -v --export "windows" ../build/windows/$EXPORT_NAME.exe
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
-          name: TheBlindPig.exe
-          path: ${{ github.workspace }}/${{ steps.build.outputs.build }}
+          name: windows
+          path: build/windows

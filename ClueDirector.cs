@@ -257,7 +257,7 @@ public partial class ClueDirector : Node2D
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
-	const bool DEBUG_SYSTEM = false;
+	const bool DEBUG_SYSTEM = true;
 	
 	const uint ACT_COUNT = 3;
 	const uint FLAVOR_COUNT = 6;
@@ -752,7 +752,7 @@ public partial class ClueDirector : Node2D
 		
 		if(DEBUG_SYSTEM)
 		{
-			GD.Print("Talker: " + subjectName + "(" + _talker + "); Subject: " + subject + "; Type: " + dialogType + "; Context" + context + "; Object: " + objectName + "(" + thisDialog.clueID + ")");
+			GD.Print("Talker: " + _talker + "; Subject: " + subjectName + "(" + subject + "); Type: " + dialogType + "; Context" + context + "; Object: " + objectName + "(" + thisDialog.clueID + ")");
 		}
 
 		var formatString = dialogFormatStrings[(int)_talker];

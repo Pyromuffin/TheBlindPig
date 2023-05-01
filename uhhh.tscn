@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=20 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -11,6 +11,9 @@
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
 [ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
 [ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
+[ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="12_ceb2j"]
+[ext_resource type="Script" path="res://Pig.cs" id="13_8b2wg"]
+[ext_resource type="Texture2D" uid="uid://crx5p3xet2i05" path="res://assets/characters/blindpig.png" id="13_mgit7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
 height = 86.0
@@ -23,6 +26,9 @@ height = 90.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x33om"]
 height = 86.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2gp8y"]
+radius = 8.18281
 
 [node name="world" type="Node2D"]
 y_sort_enabled = true
@@ -145,7 +151,48 @@ itemType = 0
 [node name="CollisionShape2D" parent="ItemSource/Area2D" index="0"]
 shape = SubResource("CapsuleShape2D_x33om")
 
+[node name="Patron" parent="." instance=ExtResource("12_ceb2j")]
+position = Vector2(-88, -14)
+texture = ExtResource("13_mgit7")
+minimumDialogBoxSize = Vector2(0, 0)
+beginDialogGrowDistance = 0.0
+endDialogGrowDistance = 0.0
+iconScale = 0.0
+iconTransitionTime = 0.0
+deliverySuspicionReduction = 0.0
+questionIcon = null
+dotsIcon = null
+characterAnimationSpeedScale = 0.2
+dialogMissTime = 0.0
+dialogFadeTime = 0.0
+
+[node name="Dialog" parent="Patron" index="1" node_paths=PackedStringArray("patron")]
+script = ExtResource("13_8b2wg")
+patron = NodePath("..")
+
+[node name="Request text" parent="Patron/Dialog" index="0"]
+visible = false
+
+[node name="BubbleTail" parent="Patron/Dialog" index="1"]
+visible = false
+
+[node name="DialogIcon" parent="Patron/Dialog" index="2"]
+visible = false
+
+[node name="Label" parent="Patron/Dialog" index="3"]
+visible = false
+
+[node name="Voice" parent="Patron/Dialog" index="4"]
+visible = false
+
+[node name="Area2D" parent="Patron" index="2"]
+visible = false
+
+[node name="CollisionShape2D" parent="Patron/Area2D" index="0"]
+shape = SubResource("CircleShape2D_2gp8y")
+
 [editable path="ItemSource2"]
 [editable path="ItemSource4"]
 [editable path="ItemSource6"]
 [editable path="ItemSource"]
+[editable path="Patron"]

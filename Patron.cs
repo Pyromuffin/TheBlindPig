@@ -186,6 +186,7 @@ public partial class Patron : Sprite2D
 
 
 	public PatronDetails details;
+	[Export]
 	public float characterAnimationSpeedScale;
 
 	// Called when the node enters the scene tree for the first time.
@@ -193,6 +194,7 @@ public partial class Patron : Sprite2D
 	{
 		waiter = GetParent().GetNode<Node2D>("Waiter");
 		EnterState( State.IDLE );
+		characterAnimation.SpeedScale = characterAnimationSpeedScale;
 	} 
 
 	public void Init(PatronDetails d) {

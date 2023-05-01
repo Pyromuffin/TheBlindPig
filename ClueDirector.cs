@@ -509,7 +509,7 @@ public partial class ClueDirector : Node2D
 	
 	public bool StillHasDialogs()
 	{
-		return true;
+		return currentDialog < diaglogData.Count;
 	}
 	
 	public string GetContextString(DialogContext _context, uint _ID)

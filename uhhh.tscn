@@ -181,8 +181,6 @@ iconTransitionTime = 0.0
 deliverySuspicionReduction = 0.0
 questionIcon = null
 dotsIcon = null
-dialogMissTime = 0.0
-dialogFadeTime = 0.0
 
 [node name="Request text" parent="Patron/Dialog" index="0"]
 visible = false

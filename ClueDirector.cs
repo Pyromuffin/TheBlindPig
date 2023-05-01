@@ -89,7 +89,7 @@ class PoliticalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " is a member of " + (PolitcalAffiliation)clueID;
+		return " is a member of the " + (PolitcalAffiliation)clueID;
 	}
 }
 
@@ -107,7 +107,7 @@ class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " pretends to be a " + (CriminalBackground)clueID + " on the side";
+		return "'s cover story is that they are a " + (CriminalBackground)clueID;
 	}
 }
 
@@ -170,7 +170,7 @@ class Act
 		// We do this list thing to be able to prune them out after each selection!
 		// Hacky but works lol
 		List<PatronType> patronList = new List<PatronType>();
-		for(uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		for(uint i = 0; i < 6; ++i)
 		{
 			patronList.Add((PatronType)i);
 		}
@@ -185,19 +185,28 @@ public partial class ClueDirector : Node2D
 
 	[Export] float minimumOrderTime = 8;
 	[Export] float maximumOrderTime = 20;
-	[Export] float dialogAdvanceTime = 3;
 
 	[Signal]
 	public delegate void SendDialogEventHandler();
 	
+	const bool DEBUG_SYSTEM = false;
+	
 	const uint ACT_COUNT = 3;
 	const uint FLAVOR_COUNT = 6;
 	
-	uint currentAct = 0;
+	
+	
+	[Export] Node2D waiterStartPos;
+	[Export] Node2D waiter;
+
+	
+	const int PATRON_COUNT = 6;
+	
+	public uint currentAct = 0;
 	uint copIndex = 0;
 	int currentDialog = 0;
 	
-	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
+	public PatronDetails[] patrons = new PatronDetails[PATRON_COUNT];
 	
 	DialogSystem dialogSystem = new DialogSystem();
 	List<DialogData> diaglogData = new List<DialogData>();
@@ -206,9 +215,12 @@ public partial class ClueDirector : Node2D
 	
 	public void StartCurrentAct()
 	{
-		GD.Print("================");
-		GD.Print("Start of Act " + (currentAct + 1));
-		GD.Print("-------------");
+		if(DEBUG_SYSTEM)
+		{
+			GD.Print("================");
+			GD.Print("Start of Act " + (currentAct + 1));
+			GD.Print("-------------");
+		}
 
 		var act = acts[currentAct];
 		var randomPairs = Spawners.GetRandomSpawnPairs();
@@ -221,22 +233,20 @@ public partial class ClueDirector : Node2D
 			Spawners.patrons[(int)second].Position = randomPairs[i].second.Position;
 		}
 
+		Suspicion.currentSuspicion = 0;
+		foreach(var p in Spawners.patrons){
+			p.ResetOrder();
+		}
+
+		waiter.Position = waiterStartPos.Position;
 	}
 	
-	public void GoToNextAct()
-	{
-		GD.Print("-------------");
-		GD.Print("End of Act " + (currentAct + 1));
-		GD.Print("================");
-		
-		currentAct++;
-	}
 	
 	public void CreatePatronRelationships()
 	{
 		// Now make a simple list of patrons..
 		List<PatronType> patronList = new List<PatronType>();
-		for(uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		for(uint i = 0; i < (uint)PATRON_COUNT; ++i)
 		{
 			patronList.Add((PatronType)i);
 		}
@@ -251,7 +261,7 @@ public partial class ClueDirector : Node2D
 		typeList.Shuffle();
 	
 		// And use it to create the relationships
-		for(int i = 0; i < (int)PatronType.PATRON_COUNT; i+=2)
+		for(int i = 0; i < (int)PATRON_COUNT; i+=2)
 		{
 			RelationshipType relationshipType = typeList[i / 2];
 			if(relationshipType == RelationshipType.None)
@@ -340,7 +350,7 @@ public partial class ClueDirector : Node2D
 	public void CreateMystery()
 	{
 		// Which character is the undercover pig this time?
-		copIndex = GD.Randi() % (uint)PatronType.PATRON_COUNT;
+		copIndex = GD.Randi() % (uint)PATRON_COUNT;
 		
 		// Pick the cop's attributes randomly
 		DietType copDiet = (DietType)(typeof(DietType).GetRandomEnumValue());
@@ -369,7 +379,7 @@ public partial class ClueDirector : Node2D
 		uniqueFromoCopAct.Add(2);
 		uniqueFromoCopAct.Shuffle();
 		
-		for (uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		for (uint i = 0; i < (uint)PATRON_COUNT; ++i)
 		{
 			if(i != copIndex)
 			{
@@ -473,21 +483,18 @@ public partial class ClueDirector : Node2D
 		// Clue dialogs happen in a random order
 		diaglogData.Shuffle();
 		
-		// Debug!
-		for (uint i = 0; i < ACT_COUNT; ++i)
+		if(DEBUG_SYSTEM)
 		{
-			GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
+			for (uint i = 0; i < ACT_COUNT; ++i)
+			{
+				GD.Print("The undercover cop" + acts[i].clue.GetClueText());
+			}
 		}
 
-		for (uint i = 0; i < (uint)PatronType.PATRON_COUNT; ++i)
+		for (uint i = 0; i < (uint)PATRON_COUNT; ++i)
 		{
 			patrons[i].DebugPrintDetails();
 		}
-		
-		//foreach(DialogData dData in diaglogData)
-		//{
-		//	GeneratePatronDialog(true, dData );
-		//}
 	}
 	
 	// Called when the node enters the scene tree for the first time.
@@ -496,6 +503,15 @@ public partial class ClueDirector : Node2D
 		randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 		randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 		dialogSystem.ParseDialog();
+		
+		if(DEBUG_SYSTEM)
+		{
+			for (int i = 0; i < diaglogData.Count; ++i)
+			{
+				PatronType patronType = (PatronType)(typeof(PatronType).GetRandomEnumValue());
+				GD.Print(GeneratePatronDialog(patronType, i));
+			}
+		}
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -584,7 +600,7 @@ public partial class ClueDirector : Node2D
 		}
 	}
 	
-	public string GeneratePatronDialog(PatronType _talker)
+	public string GeneratePatronDialog(PatronType _talker, int _dialogIndex)
 	{	
 		PatronType listener = PatronType.EscapeArtist;
 		for(int i = 0; i < 3; i++)
@@ -602,9 +618,9 @@ public partial class ClueDirector : Node2D
 			}
 		}
 		
-		DialogData thisDialog =  diaglogData[currentDialog];
+		DialogData thisDialog =  diaglogData[_dialogIndex];
 		
-		PatronType subject = thisDialog.subject;
+		PatronType  subject = thisDialog.subject;
 		DialogContext context = thisDialog.dialogContext;
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
@@ -641,15 +657,19 @@ public partial class ClueDirector : Node2D
 				dialogFormatStrings = dialogSystem.gossipPoliticalDialogs;
 			}
 		}
-
-		var formatString = dialogFormatStrings[(int)_talker];
-
+		
 		string subjectName = patrons[(int)subject].patronName;
 		string objectName = GetContextString(context, thisDialog.clueID);
+		
+		if(DEBUG_SYSTEM)
+		{
+			GD.Print("Talker: " + subjectName + "(" + _talker + "); Subject: " + subject + "; Type: " + dialogType + "; Context" + context + "; Object: " + objectName + "(" + thisDialog.clueID + ")");
+		}
+
+		var formatString = dialogFormatStrings[(int)_talker];
 		var s = formatString.Replace("$subject", subjectName);
 		s = s.Replace("$object", objectName);
 
-		currentDialog++;
 		
 		return s;
 	} 
@@ -664,6 +684,10 @@ public partial class ClueDirector : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(ActManager.showingActTransition){
+			return;
+		}
+
 		if(orderTimer > randomOrderTime){
 			orderTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];
@@ -689,9 +713,10 @@ public partial class ClueDirector : Node2D
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
 				if(p.currentState == Patron.State.IDLE){
-					var s = GeneratePatronDialog(p.details.patronType);
+					var s = GeneratePatronDialog(p.details.patronType, currentDialog);
 					p.CreateDialog(s);
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+					currentDialog++;
 					break;
 				}
 			}

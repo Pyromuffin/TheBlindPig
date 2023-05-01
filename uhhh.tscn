@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=23 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -9,10 +9,14 @@
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
-[ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
-[ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
+[ext_resource type="Texture2D" uid="uid://csh64mgn5hjek" path="res://assets/ui/act1.png" id="11_3kgy0"]
+[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
 [ext_resource type="PackedScene" uid="uid://cucowd5iend2x" path="res://Patron.tscn" id="12_ceb2j"]
-[ext_resource type="Texture2D" uid="uid://crx5p3xet2i05" path="res://assets/characters/blindpig.png" id="13_mgit7"]
+[ext_resource type="Texture2D" uid="uid://pavdjnosvnwf" path="res://assets/ui/act2.png" id="12_kwi2p"]
+[ext_resource type="Texture2D" uid="uid://0utrqvocmis5" path="res://assets/characters/blindpig.png" id="13_mgit7"]
+[ext_resource type="Texture2D" uid="uid://bmjnkgmeee5x6" path="res://assets/ui/act3.png" id="13_q7k32"]
+[ext_resource type="Script" path="res://ActManager.cs" id="17_ufhtv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ygts5"]
 height = 86.0
@@ -107,7 +111,23 @@ position = Vector2(79, 31)
 z_index = 4
 position = Vector2(35, -37)
 
-[node name="director" parent="." instance=ExtResource("11_s5m15")]
+[node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
+z_index = 100
+position = Vector2(-69, 63)
+waiterStartPos = NodePath("../waiter start pos")
+waiter = NodePath("../Waiter")
+
+[node name="Sprite2D" type="Sprite2D" parent="director"]
+visible = false
+texture = ExtResource("11_3kgy0")
+
+[node name="Sprite2D2" type="Sprite2D" parent="director"]
+visible = false
+texture = ExtResource("12_kwi2p")
+
+[node name="Sprite2D3" type="Sprite2D" parent="director"]
+visible = false
+texture = ExtResource("13_q7k32")
 
 [node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
@@ -161,7 +181,6 @@ iconTransitionTime = 0.0
 deliverySuspicionReduction = 0.0
 questionIcon = null
 dotsIcon = null
-characterAnimationSpeedScale = 0.2
 dialogMissTime = 0.0
 dialogFadeTime = 0.0
 
@@ -185,6 +204,18 @@ visible = false
 
 [node name="CollisionShape2D" parent="Patron/Area2D" index="0"]
 shape = SubResource("CircleShape2D_2gp8y")
+
+[node name="waiter start pos" type="Node2D" parent="."]
+position = Vector2(-66, -8)
+
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3")]
+script = ExtResource("17_ufhtv")
+director = NodePath("../director")
+actLength = 180.0
+fadeTime = 3.0
+splash1 = NodePath("../director/Sprite2D")
+splash2 = NodePath("../director/Sprite2D2")
+splash3 = NodePath("../director/Sprite2D3")
 
 [editable path="ItemSource2"]
 [editable path="ItemSource4"]

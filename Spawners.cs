@@ -60,12 +60,6 @@ public partial class Spawners : Node
 		for(int i = 0; i < 6; i ++){
 			patrons[i].Init(director.patrons[i]);
 		}
-		director.StartCurrentAct();
-
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 }

@@ -657,7 +657,7 @@ public partial class ClueDirector : Node2D
 	public override void _Process(double delta)
 	{
 		if(orderTimer > randomOrderTime){
-
+			orderTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];
 			shuffled.Shuffle();
 			
@@ -666,26 +666,23 @@ public partial class ClueDirector : Node2D
 				if(p.currentState == Patron.State.IDLE){
 					var item = p.GetRandomOrderableItem();
 					p.CreateOrder(item);
-					orderTimer = 0;
 					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;
 				}
 			}
+
 		}
 
 		if(dialogTimer > randomDialogTime){
-
+			dialogTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];
 			shuffled.Shuffle();
 			
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
 				if(p.currentState == Patron.State.IDLE){
-
 					var s = GeneratePatronDialog(p.details.patronType);
-					
 					p.CreateDialog(s);
-					dialogTimer = 0;
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;
 				}

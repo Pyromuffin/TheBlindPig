@@ -486,6 +486,7 @@ public partial class ClueDirector : Node2D
 	{
 		randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 		randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+		dialogSystem.ParseDialog();
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -527,9 +528,38 @@ public partial class ClueDirector : Node2D
 		// context is the row
 		// _dialogData.clueID is $object
 		
-		//dialogSystem.GeneratePatronDialog(_talker, listener, subject, dialogType, context, _dialogData.clueID);
-		
-		return "";
+		string[] dialogFormatStrings = null;
+
+		if(dialogType == DialogType.TalkAboutSelf){
+			if(context == DialogContext.CriminalDialog){
+				dialogFormatStrings = dialogSystem.bragCriminalDialogs;
+			}
+			if(context == DialogContext.FlavorDialog){
+				dialogFormatStrings = dialogSystem.bragFlavorDialogs;
+			}
+			if(context == DialogContext.PoliticalDialog){
+				dialogFormatStrings = dialogSystem.bragPoliticalDialogs;
+			}
+		}
+		else {
+			
+			if(context == DialogContext.CriminalDialog){
+				dialogFormatStrings = dialogSystem.gossipCriminalDialogs;
+			}
+			if(context == DialogContext.FlavorDialog){
+				dialogFormatStrings = dialogSystem.gossipFlavorDialogs;
+			}
+			if(context == DialogContext.PoliticalDialog){
+				dialogFormatStrings = dialogSystem.gossipPoliticalDialogs;
+			}
+		}
+
+		var formatString = dialogFormatStrings[(int)_talker];
+
+		var s = formatString.Replace("$subject", subject.ToString());
+		s = s.Replace("$object", _dialogData.clueID.ToString());
+
+		return s;
 	} 
 
 
@@ -538,6 +568,7 @@ public partial class ClueDirector : Node2D
 
 	double dialogTimer = 0;
 	double randomDialogTime;
+	int dialogIndex = 0;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -567,7 +598,10 @@ public partial class ClueDirector : Node2D
 			for(int i = 0; i < 6; i++){
 				var p = shuffled[i];
 				if(p.currentState == Patron.State.IDLE){
-					p.CreateDialog("potato's are the cops favorite food!");
+
+					var s = GeneratePatronDialog(p.details.patronType, false, diaglogData[dialogIndex]);
+					dialogIndex++;
+					p.CreateDialog(s);
 					dialogTimer = 0;
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;

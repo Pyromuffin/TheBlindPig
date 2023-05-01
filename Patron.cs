@@ -55,7 +55,7 @@ public class PatronDetails {
 	public PatronType patronType;
 	public DietType dietType;
 	public ItemType hatedDrink;
-	
+	public string patronName;
 	
 	// ARE THEY THE COP!?
 	public bool isTheCop;
@@ -85,38 +85,42 @@ public class PatronDetails {
 		
 		relationPatron = PatronType.None;
 		relationshipType = RelationshipType.None;
-	}
-	
-	public string GetPatronName(PatronType _type)
-	{
-		switch(_type)
+		
+		switch(patronType)
 		{
 			case PatronType.EscapeArtist:
 			{
-				return "Sharksy";
+				patronName = "Sharksy";
+				break;
 			}
 			case PatronType.JazzMusician:
 			{
-				return "Lyonet";
+				patronName = "Lyonet";
+				break;
 			}
 			case PatronType.Spiritualist:
 			{
-				return "Birdie";
+				patronName = "Birdie";
+				break;
 			}
 			case PatronType.Journalist:
 			{
-				return "Dog";
+				patronName = "Dog";
+				break;
 			}
 			case PatronType.BaseballPlayer:
 			{
-				return "Jeffraffe";
+				patronName = "Jeffraffe";
+				break;
 			}
 			case PatronType.Flapper:
 			{
-				return "Rabbie";
+				patronName = "Rabbie";
+				break;
 			}
 			default:
-				return "";
+				patronName = "";
+				break;
 		}
 	}
 	
@@ -223,6 +227,7 @@ public partial class Patron : Sprite2D
 	{
 		dialogBubble.Size = minimumDialogBoxSize;
 		DialogIcon.Scale = Vector2.One * 0.4f;
+		DialogIcon.Modulate = new Color(1,1,1,1);
 		fading =  false;
 		revealed = false;
 
@@ -235,6 +240,8 @@ public partial class Patron : Sprite2D
 	void EnterState( State newState )
 	{
 		ResetDialog();
+		patronVoice.SetPlaying( false );
+
 		switch( newState )
 		{
 			case( State.ORDERING ):
@@ -261,7 +268,10 @@ public partial class Patron : Sprite2D
 	}
 
 	bool dialogHeard = false;
-	double dialogAdvanceTimer = 0;
+
+	[Export]
+	double dialogMissTime, dialogFadeTime;
+	double dialogMissTimer, dialogFadeTimer;
 
 
 
@@ -278,12 +288,19 @@ public partial class Patron : Sprite2D
 		else if( currentState == State.TALKING ){
 			growDialog();
 			if(dialogHeard){
-				if(dialogAdvanceTimer > dialogAdvanceTime){
-					
+				if(dialogFadeTimer > dialogFadeTime){
+					ResetOrder();
+					dialogHeard = false;
+					dialogFadeTimer = 0;					
 				}
-
-				dialogAdvanceTimer += delta;
-
+				dialogFadeTimer += delta;
+			} else {
+				if(dialogMissTimer > dialogMissTime){
+					ResetOrder();
+					dialogHeard = false;
+					dialogMissTimer = 0;
+				}
+				dialogMissTimer += delta;
 			}
 		}
 	}

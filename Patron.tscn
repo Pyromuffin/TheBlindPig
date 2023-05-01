@@ -559,6 +559,8 @@ patronVoice = NodePath("Dialog/Voice")
 patronText = NodePath("Dialog/Label")
 animationPlayer = NodePath("Dialog/AnimationPlayer")
 characterAnimation = NodePath("CharacterAnimation")
+dialogMissTime = 15.0
+dialogFadeTime = 5.0
 
 [node name="CharacterAnimation" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Area2D/CollisionShape2D")

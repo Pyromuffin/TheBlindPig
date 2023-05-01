@@ -509,7 +509,71 @@ public partial class ClueDirector : Node2D
 	
 	public bool StillHasDialogs()
 	{
-		return true;
+		return currentDialog < diaglogData.Count;
+	}
+	
+	public string GetContextString(DialogContext _context, uint _ID)
+	{
+		switch(_context)
+		{
+			case DialogContext.PoliticalDialog:
+			{
+				PolitcalAffiliation polAff = (PolitcalAffiliation)_ID;
+				switch(polAff)
+				{
+					case PolitcalAffiliation.LeopardParty:
+					{
+						return "Leopard Party ";
+					}
+					case PolitcalAffiliation.RabbitParty:
+					{
+						return "Rabbit Party";
+					}
+					case PolitcalAffiliation.BearParty:
+					{
+						return "Bear Party";
+					}
+					default:
+						return "UNKNOWN";
+				}
+			}
+			case DialogContext.CriminalDialog:
+			{
+				CriminalBackground crimBackground = (CriminalBackground)_ID;
+				switch(crimBackground)
+				{
+					case CriminalBackground.Bootlegger:
+					{
+						return "Bootlegger";
+					}
+					case CriminalBackground.RumRunner:
+					{
+						return "Rum Runner";
+					}
+					case CriminalBackground.Moonshiner:
+					{
+						return "Moonshiner";
+					}
+					case CriminalBackground.Bribery:
+					{
+						return "Money Launderer";
+					}
+					case CriminalBackground.Smuggling:
+					{
+						return "Smuggler";
+					}
+					default:
+						return "UNKNOWN";
+				}
+			}
+			case DialogContext.RelationshipDialog:
+			{
+				return "";
+			}
+			
+			default:
+				return "";
+		}
 	}
 	
 	public string GeneratePatronDialog(PatronType _talker)
@@ -572,8 +636,10 @@ public partial class ClueDirector : Node2D
 
 		var formatString = dialogFormatStrings[(int)_talker];
 
-		var s = formatString.Replace("$subject", subject.ToString());
-		s = s.Replace("$object", thisDialog.clueID.ToString());
+		string subjectName = patrons[(int)subject].patronName;
+		string objectName = GetContextString(context, thisDialog.clueID);
+		var s = formatString.Replace("$subject", subjectName);
+		s = s.Replace("$object", objectName);
 
 		currentDialog++;
 		

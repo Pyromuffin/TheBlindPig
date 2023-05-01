@@ -174,7 +174,7 @@ public class CriminalClue : Clue
 	public override string GetClueText()
 	{
 		string objectName = GetContextString(DialogContext.CriminalDialog, clueID);
-		return "'s cover story is that they are a " + objectName;
+		return " pretends they are a " + objectName;
 	}
 }
 

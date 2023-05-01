@@ -1,0 +1,84 @@
+[gd_scene load_steps=17 format=3 uid="uid://jn7v0dubvbns"]
+
+[ext_resource type="Texture2D" uid="uid://dhn0qlml1hnal" path="res://assets/ui/icon_absinthe_16.png" id="1_3lg1p"]
+[ext_resource type="Texture2D" uid="uid://scp1swp55wfe" path="res://assets/ui/icon_absinthe_24.png" id="2_somwb"]
+[ext_resource type="Texture2D" uid="uid://d32fdyaxjpcch" path="res://assets/ui/icon_bourbon_16.png" id="3_7r1yr"]
+[ext_resource type="Texture2D" uid="uid://ddqqmkedvov70" path="res://assets/ui/icon_bourbon_24.png" id="4_awqjo"]
+[ext_resource type="Texture2D" uid="uid://qbbeikf62hvv" path="res://assets/ui/icon_cake_16.png" id="5_j7rj0"]
+[ext_resource type="Texture2D" uid="uid://df001iifjrs1c" path="res://assets/ui/icon_cake_24.png" id="6_sejxu"]
+[ext_resource type="Texture2D" uid="uid://cloplpbccy7ok" path="res://assets/ui/icon_carrot_16.png" id="7_cerrk"]
+[ext_resource type="Texture2D" uid="uid://dqvb4uurg8crx" path="res://assets/ui/icon_carrot_24.png" id="8_2d4ig"]
+[ext_resource type="Texture2D" uid="uid://b8hwaps5nff3y" path="res://assets/ui/icon_cocktail_16.png" id="9_6hc7y"]
+[ext_resource type="Texture2D" uid="uid://dvk5ptps2r5tj" path="res://assets/ui/icon_cocktail_24.png" id="10_4o84u"]
+[ext_resource type="Texture2D" uid="uid://558bng4640xv" path="res://assets/ui/icon_dots_24.png" id="11_66stl"]
+[ext_resource type="Texture2D" uid="uid://dktp0imuelb4l" path="res://assets/ui/icon_meat_16.png" id="12_sxptn"]
+[ext_resource type="Texture2D" uid="uid://ddrhlam46hufm" path="res://assets/ui/icon_meat_24.png" id="13_ijgj4"]
+[ext_resource type="Texture2D" uid="uid://cbw45m4bkhhrn" path="res://assets/ui/icon_question_mark_24.png" id="14_gba7u"]
+[ext_resource type="Texture2D" uid="uid://ba85eb1xblbvu" path="res://assets/ui/icon_wine_16.png" id="15_4hs5s"]
+[ext_resource type="Texture2D" uid="uid://bj7sjeul7vu5l" path="res://assets/ui/icon_wine_24.png" id="16_2kqyg"]
+
+[node name="References" type="Node2D"]
+
+[node name="IconAbsinthe16" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("1_3lg1p")
+
+[node name="IconAbsinthe24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("2_somwb")
+
+[node name="IconBourbon16" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("3_7r1yr")
+
+[node name="IconBourbon24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("4_awqjo")
+
+[node name="IconCake16" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("5_j7rj0")
+
+[node name="IconCake24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("6_sejxu")
+
+[node name="IconCarrot16" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("7_cerrk")
+
+[node name="IconCarrot24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("8_2d4ig")
+
+[node name="IconCocktail16" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("9_6hc7y")
+
+[node name="IconCocktail24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("10_4o84u")
+
+[node name="IconDots24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("11_66stl")
+
+[node name="IconMeat16" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("12_sxptn")
+
+[node name="IconMeat24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("13_ijgj4")
+
+[node name="IconQuestionMark24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("14_gba7u")
+
+[node name="IconWine16" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("15_4hs5s")
+
+[node name="IconWine24" type="Sprite2D" parent="."]
+position = Vector2(-255, 175)
+texture = ExtResource("16_2kqyg")

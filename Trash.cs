@@ -6,10 +6,13 @@ public partial class Trash : Sprite2D
 	
 	bool overlapped = false;
 	Node2D overlapper;
+	[Export]
+	AnimationPlayer animationPlayer;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		animationPlayer.Play("Idle");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

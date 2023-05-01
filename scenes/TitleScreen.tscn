@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8jhpmp7igvri"]
+[gd_scene load_steps=8 format=3 uid="uid://b8jhpmp7igvri"]
 
 [ext_resource type="Script" path="res://scenes/TitleScreen.cs" id="1_byj4c"]
 [ext_resource type="Texture2D" uid="uid://dq0xjle71snuo" path="res://assets/ui/title_screen.png" id="1_rpfrn"]
@@ -7,7 +7,45 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1cea2"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="Control" type="Control"]
+[sub_resource type="Animation" id="Animation_38ibg"]
+resource_name = "Idle"
+length = 1.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.4),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector2(170, 311), Vector2(170, 305), Vector2(170, 311)]
+}
+
+[sub_resource type="Animation" id="Animation_8gg1w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(170, 327)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5ub6j"]
+_data = {
+"Idle": SubResource("Animation_38ibg"),
+"RESET": SubResource("Animation_8gg1w")
+}
+
+[node name="Control" type="Control" node_paths=PackedStringArray("animationPlayer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +53,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_byj4c")
+animationPlayer = NodePath("AnimationPlayer")
 
 [node name="Image" type="TextureRect" parent="."]
 layout_mode = 0
@@ -24,13 +63,25 @@ scale = Vector2(0.33, 0.33)
 texture = ExtResource("1_rpfrn")
 
 [node name="Label" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
 layout_mode = 0
 offset_left = 170.0
 offset_top = 327.0
 offset_right = 347.0
 offset_bottom = 353.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_nbcuo")
+text = "PRESS SPACE TO START"
+
+[node name="Label" type="Label" parent="Label"]
+offset_left = 170.0
+offset_top = 311.0
+offset_right = 347.0
+offset_bottom = 337.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_nbcuo")
 text = "PRESS SPACE TO START"
 
@@ -39,3 +90,8 @@ layout_mode = 0
 offset_right = 480.0
 offset_bottom = 352.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1cea2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5ub6j")
+}

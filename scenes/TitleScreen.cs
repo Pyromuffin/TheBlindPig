@@ -4,11 +4,14 @@ using System;
 public partial class TitleScreen : Control
 {
 	private string state = "title";
+	[Export]
+	AnimationPlayer animationPlayer;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		(GetNode("Panel") as Panel).Modulate = new Color(0, 0, 0, 0);
+		animationPlayer.Play( "Idle" );
 	}
 
 

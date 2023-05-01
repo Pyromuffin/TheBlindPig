@@ -15,14 +15,12 @@ using System;
 
 public enum PatronType
 {
-	None = -1,
 	EscapeArtist,
 	JazzMusician,
 	Spiritualist,
 	Journalist,
 	BaseballPlayer,
 	Flapper,
-	PATRON_COUNT
 }
 
 public enum CriminalBackground
@@ -71,6 +69,8 @@ public class PatronDetails {
 
 	public float idleSpeedScale;
 	
+	const bool DEBUG_SYSTEM = false;
+	
 	public PatronDetails(uint _patronIndex, bool _isCop, ItemType _hatedDrink, DietType _dietType, PolitcalAffiliation _polAff, CriminalBackground _crimBackground)
    	{
 		patronType = (PatronType)_patronIndex;
@@ -83,19 +83,19 @@ public class PatronDetails {
 		politcalAffiliation = _polAff;
 		criminalBackground = _crimBackground;
 		
-		relationPatron = PatronType.None;
+		relationPatron = PatronType.EscapeArtist;
 		relationshipType = RelationshipType.None;
 		
 		switch(patronType)
 		{
 			case PatronType.EscapeArtist:
 			{
-				patronName = "Sharksy";
+				patronName = "Sharky";
 				break;
 			}
 			case PatronType.JazzMusician:
 			{
-				patronName = "Lyonet";
+				patronName = "Lionel";
 				break;
 			}
 			case PatronType.Spiritualist:
@@ -105,17 +105,17 @@ public class PatronDetails {
 			}
 			case PatronType.Journalist:
 			{
-				patronName = "Dog";
+				patronName = "Pupperoni";
 				break;
 			}
 			case PatronType.BaseballPlayer:
 			{
-				patronName = "Jeffraffe";
+				patronName = "Gee Raffe";
 				break;
 			}
 			case PatronType.Flapper:
 			{
-				patronName = "Rabbie";
+				patronName = "Bunnie";
 				break;
 			}
 			default:
@@ -126,16 +126,19 @@ public class PatronDetails {
 	
 	public void DebugPrintDetails()
 	{
-		GD.Print("{ " + patronType + " }");
-		
-		GD.Print("Loudness: " + loudness);
-		GD.Print("Diet Type: " + dietType);
-		GD.Print("Hated Drink: " + hatedDrink);
-		GD.Print("Politcal Affiliation: " + politcalAffiliation );
-		GD.Print("Criminal Background: " + criminalBackground);
-		GD.Print(relationshipType + " to " + relationPatron );
-		GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
-		GD.Print("======================");
+		if(DEBUG_SYSTEM)
+		{
+			GD.Print("{ " + patronType + " }");
+			
+			GD.Print("Loudness: " + loudness);
+			GD.Print("Diet Type: " + dietType);
+			GD.Print("Hated Drink: " + hatedDrink);
+			GD.Print("Politcal Affiliation: " + politcalAffiliation );
+			GD.Print("Criminal Background: " + criminalBackground);
+			GD.Print(relationshipType + " to " + relationPatron );
+			GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
+			GD.Print("======================");
+		}
 	}
 }
 
@@ -186,6 +189,7 @@ public partial class Patron : Sprite2D
 
 
 	public PatronDetails details;
+	[Export]
 	public float characterAnimationSpeedScale;
 
 	// Called when the node enters the scene tree for the first time.
@@ -193,6 +197,7 @@ public partial class Patron : Sprite2D
 	{
 		waiter = GetParent().GetNode<Node2D>("Waiter");
 		EnterState( State.IDLE );
+		characterAnimation.SpeedScale = characterAnimationSpeedScale;
 	} 
 
 	public void Init(PatronDetails d) {

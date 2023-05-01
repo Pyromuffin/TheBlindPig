@@ -198,6 +198,7 @@ public partial class Patron : Sprite2D
 	public ActManager actManager;
 	bool hasStartedAnimating = false;
 	float animStartTime;
+	[Export] public double crisisModeTransitionTime = 5.0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -282,8 +283,9 @@ public partial class Patron : Sprite2D
 	}
 
 	bool dialogHeard = false;
-
+	double endingTimer = 0;
 	double dialogMissTimer, dialogFadeTimer;
+
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -295,10 +297,12 @@ public partial class Patron : Sprite2D
 
 		if (ActManager.isEnding)
 		{
+			endingTimer += delta;
+
 			if (currentState != State.IDLE)
 				EnterState( State.IDLE );
 
-			if ( !isPig && overlapper != null && Input.IsActionJustPressed("ui_accept"))
+			if ( !isPig && overlapper != null && Input.IsActionJustPressed("ui_accept") && endingTimer > crisisModeTransitionTime)
 			{
 				if( details.isTheCop )
 				{

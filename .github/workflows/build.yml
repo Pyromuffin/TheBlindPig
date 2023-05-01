@@ -1,21 +1,39 @@
-name: Build Godot Project
-
-on:
-  push: {}
+name: Build
+on: push
 
 jobs:
-  Godot:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      DOTNET_NOLOGO: true
+    defaults:
+      run:
+        # Use bash shells on all platforms.
+        shell: bash
     steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        id: build
-        uses: manleydev/build-godot-action@v1.4.1
+      - uses: actions/checkout@v3
+        name: 🧾 Checkout
+
+      - uses: actions/setup-dotnet@v3
+        name: 💽 Setup .NET SDK
+
+      - name: 📦 Restore Dependencies
+        run: dotnet restore
+
+      - uses: chickensoft-games/setup-godot@v1
+        name: 🤖 Setup Godot
         with:
-          name: TheBlindPig
-          preset: windows
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: TheBlindPig.exe
-          path: ${{ github.workspace }}/${{ steps.build.outputs.build }}
+          version: 4.0.2 # also valid: 4.0.0.rc1 or 4.0.0, etc
+          use-dotnet: true
+
+      - name: 🔬 Verify Setup
+        run: |
+          dotnet --version
+          godot --version
+
+      - name: 🧑‍🔬 Generate .NET Bindings
+        run: godot --headless --build-solutions --quit || exit 0
+
+      - name: 🦺 Build Projects
+        run: dotnet build

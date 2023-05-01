@@ -33,9 +33,35 @@ public partial class DialogData : Node
 
 public partial class DialogSystem : Node
 {
+
+
+	string[] gossipFlavorDialogs;
+	string[] gossipPoliticalDialogs;
+	string[] gossipCriminalDialogs;
+	string[] bragFlavorDialogs;
+	string[] bragPoliticalDialogs;
+	string[] bragCriminalDialogs;
+
+	void ParseDialog() {
+		var file = FileAccess.Open("res://assets/DialogText.csv", FileAccess.ModeFlags.Read);
+		var text = file.GetAsText();
+		var lines = text.Split('\n');
+		// first three lines are gossips
+		// second three lines are brags
+		gossipFlavorDialogs = lines[0].Split(',');
+		gossipPoliticalDialogs = lines[1].Split(',');
+		gossipCriminalDialogs = lines[2].Split(',');
+		bragFlavorDialogs = lines[3].Split(',');
+		bragPoliticalDialogs = lines[4].Split(',');
+		bragCriminalDialogs = lines[5].Split(',');
+
+		file.Close();
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		ParseDialog();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

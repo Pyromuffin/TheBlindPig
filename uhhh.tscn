@@ -60,23 +60,11 @@ position = Vector2(-197, 110)
 [node name="SpawnPoint3" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-214, 77)
 
-[node name="SpawnPoint5" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-149, 25)
-
-[node name="SpawnPoint6" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-118, 24)
-
 [node name="SpawnPoint7" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-86, 24)
 
 [node name="SpawnPoint8" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-54, 26)
-
-[node name="SpawnPoint9" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(-21, 26)
-
-[node name="SpawnPoint10" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(11, 25)
 
 [node name="SpawnPoint11" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(-104, 108)
@@ -96,43 +84,41 @@ position = Vector2(79, -2)
 [node name="SpawnPoint18" parent="Spawners" instance=ExtResource("11_o2jjd")]
 position = Vector2(79, 31)
 
-[node name="SpawnPoint19" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(132, 32)
-
-[node name="SpawnPoint20" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(133, 0)
-
 [node name="Item Sources" type="Node" parent="."]
-
-[node name="ItemSource" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-position = Vector2(-160, -1)
-
-[node name="ItemSource2" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-position = Vector2(-132, -2)
-itemType = 1
-
-[node name="ItemSource3" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-position = Vector2(-102, -1)
-itemType = 5
-
-[node name="ItemSource4" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-position = Vector2(-69, -2)
-itemType = 6
-
-[node name="ItemSource5" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-position = Vector2(-39, -1)
-itemType = 0
-
-[node name="ItemSource6" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-position = Vector2(-3, -2)
-itemType = 4
-
-[node name="ItemSource7" parent="Item Sources" instance=ExtResource("5_0rmxv")]
-position = Vector2(-228, 97)
-itemType = 2
 
 [node name="Trash" parent="." instance=ExtResource("4_1fmxv")]
 z_index = 4
 position = Vector2(35, -37)
 
 [node name="director" parent="." instance=ExtResource("11_s5m15")]
+
+[node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
+z_index = 5
+position = Vector2(-111, -6)
+itemType = 1
+
+[node name="ItemSource3" parent="." instance=ExtResource("5_0rmxv")]
+position = Vector2(138, -37)
+itemType = 5
+
+[node name="ItemSource4" parent="." instance=ExtResource("5_0rmxv")]
+z_index = 5
+position = Vector2(-58, -6)
+itemType = 6
+
+[node name="ItemSource5" parent="." instance=ExtResource("5_0rmxv")]
+position = Vector2(-37, 139)
+
+[node name="ItemSource6" parent="." instance=ExtResource("5_0rmxv")]
+z_index = 5
+position = Vector2(-3, -6)
+itemType = 4
+
+[node name="ItemSource7" parent="." instance=ExtResource("5_0rmxv")]
+position = Vector2(-262, 123)
+itemType = 2
+
+[node name="ItemSource" parent="." instance=ExtResource("5_0rmxv")]
+z_index = 5
+position = Vector2(-159, -6)
+itemType = 0

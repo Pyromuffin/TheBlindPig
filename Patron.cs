@@ -111,7 +111,6 @@ public partial class Patron : Sprite2D
 	[Export] public float iconScale;
 	[Export] public float iconTransitionTime;
 	[Export] public float deliverySuspicionReduction;
-	[Export] public float randomTime;
 
 	[Export]
 	public NinePatchRect dialogBubble;
@@ -130,6 +129,8 @@ public partial class Patron : Sprite2D
 	public ItemType desiredItem;
 	string currentDialog;
 	
+	[Export] float dialogAdvanceTime;
+
 	[Export]
 	Texture2D questionIcon;
 	[Export]
@@ -143,21 +144,20 @@ public partial class Patron : Sprite2D
 	[Export]
 	AnimationPlayer animationPlayer;
 
+
 	public PatronDetails details;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		waiter = GetParent().GetNode<Node2D>("Waiter");
-		//desiredItem = Item.GetRandomItem();
-		//RandomTimedOrder(Item.GetRandomItem());
 		EnterState( State.IDLE );
-		//type =(PatronType)(GD.Randi() % 6);
 	} 
 
 	public void Init(PatronDetails d) {
 		details = d;
 		Texture = GD.Load<Texture2D>("res://assets/characters/" + details.patronType.ToString().ToLower() + ".png");
+		patronVoice.Init( details.patronType );
 	}
 
 	void ResetDialog()
@@ -198,6 +198,11 @@ public partial class Patron : Sprite2D
 		EnterState( State.IDLE );
 	}
 
+	bool dialogHeard = false;
+	double dialogAdvanceTimer = 0;
+
+
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
@@ -210,6 +215,14 @@ public partial class Patron : Sprite2D
 		}
 		else if( currentState == State.TALKING ){
 			growDialog();
+			if(dialogHeard){
+				if(dialogAdvanceTimer > dialogAdvanceTime){
+					
+				}
+
+				dialogAdvanceTimer += delta;
+
+			}
 		}
 	}
 
@@ -225,8 +238,15 @@ public partial class Patron : Sprite2D
 		{
 			patronVoice.SetPlaying( fraction < 1 );
 			patronVoice.SetVolume( fraction );
-			animationPlayer.Play( "TalkBoxRight" );
+			if( Position.X < -72 )
+				animationPlayer.Play( "TalkBoxRight" );
+			else
+				animationPlayer.Play( "TalkBoxLeft" );
+			
 			animationPlayer.Seek( ( 1 - fraction ) * 1.8f );
+			if(1 - fraction == 1){
+				dialogHeard = true;
+			}
 		}
 		else if( currentState == State.ORDERING )
 		{
@@ -282,6 +302,7 @@ public partial class Patron : Sprite2D
 		dialogBubble.Show();
 		DialogIcon.Show();
 		TailIcon.Show();
+		patronText.Show();
 		DialogIcon.Texture = dotsIcon;
 	}
 	
@@ -328,7 +349,6 @@ public partial class Patron : Sprite2D
 			}
 		}
 
-		GD.Print("huge error");
 		throw new InvalidOperationException();
 	}
 
@@ -339,7 +359,12 @@ public partial class Patron : Sprite2D
 
 	public void CreateDialog(string text){
 		currentDialog = text;
+		patronText.Text = text;
 		EnterState( State.TALKING );
+	}
+
+	public void EnterIdle(){
+		EnterState( State.IDLE );
 	}
 
 

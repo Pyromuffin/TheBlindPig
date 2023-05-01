@@ -45,6 +45,7 @@ public partial class TitleScreen : Control
 
 	public void ShowInstructions()
 	{
+		(GetNode("Label") as Label).Modulate = new Color(0,0,0,0);
 		(GetNode("Image") as TextureRect).Texture = GD.Load("res://assets/ui/instructions.png") as Texture2D;
 	}
 

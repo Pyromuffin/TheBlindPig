@@ -3,10 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://scp1swp55wfe" path="res://assets/ui/icon_absinthe_24.png" id="1_qrvnj"]
 [ext_resource type="Script" path="res://ItemSource.cs" id="2_n34e0"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_hlobf"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nywl0"]
+height = 46.0
 
 [node name="ItemSource" type="Sprite2D"]
 z_index = 4
+y_sort_enabled = true
 texture = ExtResource("1_qrvnj")
 script = ExtResource("2_n34e0")
 itemType = 3
@@ -14,7 +16,7 @@ itemType = 3
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_hlobf")
+shape = SubResource("CapsuleShape2D_nywl0")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

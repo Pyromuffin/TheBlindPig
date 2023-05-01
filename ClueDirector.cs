@@ -185,6 +185,7 @@ public partial class ClueDirector : Node2D
 
 	[Export] float minimumOrderTime = 8;
 	[Export] float maximumOrderTime = 20;
+	[Export] float dialogAdvanceTime = 3;
 
 	[Signal]
 	public delegate void SendDialogEventHandler();
@@ -484,6 +485,7 @@ public partial class ClueDirector : Node2D
 	public override void _Ready()
 	{
 		randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+		randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 	}
 	
 	public void GenerateRadioMessage(bool _isAClue)
@@ -546,12 +548,16 @@ public partial class ClueDirector : Node2D
 	} 
 
 
-	double timer = 0;
+	double orderTimer = 0;
 	double randomOrderTime;
+
+	double dialogTimer = 0;
+	double randomDialogTime;
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if(timer > randomOrderTime){
+		if(orderTimer > randomOrderTime){
 
 			var shuffled = Spawners.patrons.Clone() as Patron[];
 			shuffled.Shuffle();
@@ -561,14 +567,63 @@ public partial class ClueDirector : Node2D
 				if(p.currentState == Patron.State.IDLE){
 					var item = p.GetRandomOrderableItem();
 					p.CreateOrder(item);
-					timer = 0;
+					orderTimer = 0;
 					randomOrderTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
 					break;
 				}
 			}
 		}
 
-		timer += delta;
+		if(dialogTimer > randomDialogTime){
+
+			var shuffled = Spawners.patrons.Clone() as Patron[];
+			shuffled.Shuffle();
+			
+			for(int i = 0; i < 6; i++){
+				var p = shuffled[i];
+				if(p.currentState == Patron.State.IDLE){
+					p.CreateDialog("potato's are the cops favorite food!");
+					dialogTimer = 0;
+					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);
+					break;
+				}
+			}
+		}
+
+
+		orderTimer += delta;
+		dialogTimer += delta;
+		
+
+		/*
+		while(currentAct < ACT_COUNT)
+		{
+			StartCurrentAct();
+		
+			while(!acts[currentAct].IsActOver())
+			{
+				// When we dish out clues is controlled by Game Flow
+				bool isClue = GD.Randi() % 3 == 0;
+				
+				if(isClue)
+				{
+					acts[currentAct].clueCount--;
+				}
+				
+				// The radio will be controlled by the Game Flow
+				if(GD.Randi() % 6 == 0)
+				{
+					GenerateRadioMessage(isClue);
+				}
+				else
+				{
+					GeneratePatronDialog(isClue);
+				}
+			}
+		
+			GoToNextAct();
+		 }
+		*/
 	}
 	
 }

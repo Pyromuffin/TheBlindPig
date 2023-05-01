@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bpdx1wngyarcr"
+
+[deps]
+
+files=["res://assets/DialogText.EscapeArtist.translation", "res://assets/DialogText.JazzMusician.translation", "res://assets/DialogText.Spiritualist.translation", "res://assets/DialogText.Journalist.translation", "res://assets/DialogText.BaseballPlayer.translation", "res://assets/DialogText.Flapper.translation"]
+
+source_file="res://assets/DialogText.csv"
+dest_files=["res://assets/DialogText.EscapeArtist.translation", "res://assets/DialogText.JazzMusician.translation", "res://assets/DialogText.Spiritualist.translation", "res://assets/DialogText.Journalist.translation", "res://assets/DialogText.BaseballPlayer.translation", "res://assets/DialogText.Flapper.translation"]
+
+[params]
+
+compress=true
+delimiter=0

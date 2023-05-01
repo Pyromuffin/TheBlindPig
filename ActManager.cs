@@ -37,7 +37,7 @@ public partial class ActManager : Node
 		clueText.Text = "* The cop" + director.acts[0].clue.GetClueText() + "." + 
 		"\n* The cop" + director.acts[1].clue.GetClueText() +"."+
 		"\n* The cop" + director.acts[2].clue.GetClueText() + "." +
-		"\nCome back when you find the weasel!";
+		"\nCome back when you ID the cop!";
 
 
 		splash1.Show();

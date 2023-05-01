@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8jhpmp7igvri"]
+[gd_scene load_steps=9 format=3 uid="uid://b8jhpmp7igvri"]
 
 [ext_resource type="Script" path="res://scenes/TitleScreen.cs" id="1_byj4c"]
 [ext_resource type="Texture2D" uid="uid://dq0xjle71snuo" path="res://assets/ui/title_screen.png" id="1_rpfrn"]
 [ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="3_nbcuo"]
+[ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="4_utii0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1cea2"]
 bg_color = Color(0, 0, 0, 1)
@@ -95,3 +96,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_1cea2")
 libraries = {
 "": SubResource("AnimationLibrary_5ub6j")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_utii0")
+autoplay = true

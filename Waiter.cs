@@ -27,8 +27,12 @@ public partial class Waiter : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
 
+		if(ActManager.showingActTransition){
+			return;
+		}
+
+		Vector2 velocity = Velocity;
 
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		if (direction != Vector2.Zero)

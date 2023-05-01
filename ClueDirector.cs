@@ -23,7 +23,7 @@ public enum ClueType
 	RelationshipClueType,
 }
 
-abstract class Clue 
+public abstract class Clue 
 {
 	public uint clueID;
 	public ClueType clueType;
@@ -38,7 +38,7 @@ abstract class Clue
 	public abstract string GetClueText();
 }
 
-class AlcoholClue : Clue
+public class AlcoholClue : Clue
 {
 	public AlcoholClue()
 	{
@@ -57,7 +57,7 @@ class AlcoholClue : Clue
 	}
 }
 
-class DietClue : Clue
+public class DietClue : Clue
 {
 	public DietClue()
 	{
@@ -75,7 +75,7 @@ class DietClue : Clue
 	}
 }
 
-class PoliticalClue : Clue
+public class PoliticalClue : Clue
 {
 	public PoliticalClue()
 	{
@@ -93,7 +93,7 @@ class PoliticalClue : Clue
 	}
 }
 
-class CriminalClue : Clue
+public class CriminalClue : Clue
 {
 	public CriminalClue()
 	{
@@ -111,7 +111,7 @@ class CriminalClue : Clue
 	}
 }
 
-class RelationshipClue : Clue
+public class RelationshipClue : Clue
 {
 	public RelationshipClue()
 	{
@@ -146,7 +146,7 @@ static class ExtensionsClass
 	}
 }
 	
-class Act 
+public class Act 
 {
 	public Clue clue;
 	
@@ -185,7 +185,6 @@ public partial class ClueDirector : Node2D
 
 	[Export] float minimumOrderTime = 8;
 	[Export] float maximumOrderTime = 20;
-	[Export] float dialogAdvanceTime = 3;
 
 	[Signal]
 	public delegate void SendDialogEventHandler();
@@ -195,9 +194,15 @@ public partial class ClueDirector : Node2D
 	const uint ACT_COUNT = 3;
 	const uint FLAVOR_COUNT = 6;
 	
+	
+	
+	[Export] Node2D waiterStartPos;
+	[Export] Node2D waiter;
+
+	
 	const int PATRON_COUNT = 6;
 	
-	uint currentAct = 0;
+	public uint currentAct = 0;
 	uint copIndex = 0;
 	int currentDialog = 0;
 	
@@ -206,7 +211,7 @@ public partial class ClueDirector : Node2D
 	DialogSystem dialogSystem = new DialogSystem();
 	List<DialogData> diaglogData = new List<DialogData>();
 	
-	Act[] acts = new Act[ACT_COUNT];
+	public Act[] acts = new Act[ACT_COUNT];
 	
 	public void StartCurrentAct()
 	{
@@ -228,19 +233,14 @@ public partial class ClueDirector : Node2D
 			Spawners.patrons[(int)second].Position = randomPairs[i].second.Position;
 		}
 
+		Suspicion.currentSuspicion = 0;
+		foreach(var p in Spawners.patrons){
+			p.ResetOrder();
+		}
+
+		waiter.Position = waiterStartPos.Position;
 	}
 	
-	public void GoToNextAct()
-	{
-		if(DEBUG_SYSTEM)
-		{
-			GD.Print("-------------");
-			GD.Print("End of Act " + (currentAct + 1));
-			GD.Print("================");
-		}
-		
-		currentAct++;
-	}
 	
 	public void CreatePatronRelationships()
 	{
@@ -620,7 +620,7 @@ public partial class ClueDirector : Node2D
 		
 		DialogData thisDialog =  diaglogData[_dialogIndex];
 		
-		PatronType subject = thisDialog.subject;
+		PatronType  subject = thisDialog.subject;
 		DialogContext context = thisDialog.dialogContext;
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
@@ -667,7 +667,6 @@ public partial class ClueDirector : Node2D
 		}
 
 		var formatString = dialogFormatStrings[(int)_talker];
-
 		var s = formatString.Replace("$subject", subjectName);
 		s = s.Replace("$object", objectName);
 
@@ -685,6 +684,10 @@ public partial class ClueDirector : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(ActManager.showingActTransition){
+			return;
+		}
+
 		if(orderTimer > randomOrderTime){
 			orderTimer = 0;
 			var shuffled = Spawners.patrons.Clone() as Patron[];

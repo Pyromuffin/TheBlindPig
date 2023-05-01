@@ -25,7 +25,9 @@ public partial class Suspicion : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+		if(ActManager.showingActTransition){
+			return;
+		}
 		
 		currentSuspicion += (float)delta * suspicionRate;
 		currentSuspicion = Mathf.Clamp(currentSuspicion, 0, 100);

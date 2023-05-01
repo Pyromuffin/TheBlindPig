@@ -194,6 +194,7 @@ public partial class ClueDirector : Node2D
 	
 	uint currentAct = 0;
 	uint copIndex = 0;
+	int currentDialog = 0;
 	
 	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
 	
@@ -505,18 +506,23 @@ public partial class ClueDirector : Node2D
 		dialogSystem.GenerateRadioMessage(context);
 	}
 	
-	public string GeneratePatronDialog(PatronType _talker, bool _isAClue, DialogData _dialogData)
+	public string GeneratePatronDialog(PatronType _talker)
 	{
+		if(currentDialog >= diaglogData.Count)
+			return "";
+			
 		//uint randomCouple = GD.Randi() % 3; // Will be one of the three couples!
 		//uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
 		//uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
 		// TOOD: Find the couple and link to listener
 		
+		DialogData thisDialog =  diaglogData[currentDialog];
+		
 		PatronType listener = PatronType.EscapeArtist;
 		
-		PatronType subject = _dialogData.subject;
+		PatronType subject = thisDialog.subject;
 				
-		DialogContext context = _dialogData.dialogContext;
+		DialogContext context = thisDialog.dialogContext;
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
 		
@@ -528,6 +534,8 @@ public partial class ClueDirector : Node2D
 		// _dialogData.clueID is $object
 		
 		//dialogSystem.GeneratePatronDialog(_talker, listener, subject, dialogType, context, _dialogData.clueID);
+		
+		currentDialog++;
 		
 		return "";
 	} 

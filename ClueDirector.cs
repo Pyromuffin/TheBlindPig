@@ -633,7 +633,7 @@ public partial class ClueDirector : Node2D
 				{
 					case PolitcalAffiliation.LeopardParty:
 					{
-						return "Leopard Party ";
+						return "Leopard Party";
 					}
 					case PolitcalAffiliation.RabbitParty:
 					{

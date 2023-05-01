@@ -37,3 +37,6 @@ jobs:
 
       - name: 🦺 Build Projects
         run: dotnet build
+
+      - name: Export
+        run: godot --export "windows" TheBlindPig.exe

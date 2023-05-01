@@ -277,7 +277,7 @@ public partial class Patron : Sprite2D
 			if(1 - fraction == 1)
 			{
 				dialogHeard = true;
-				characterAnimation.SpeedScale = 2.0f;
+				characterAnimation.SpeedScale = 2.5f;
 			}
 			else
 			{
@@ -395,7 +395,7 @@ public partial class Patron : Sprite2D
 
 	public void CreateOrder(ItemType item){
 		desiredItem = item;
-		EnterState( State.TALKING );
+		EnterState( State.ORDERING );
 	}
 
 	public void CreateDialog(string text){

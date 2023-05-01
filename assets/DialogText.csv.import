@@ -6,10 +6,10 @@ uid="uid://bpdx1wngyarcr"
 
 [deps]
 
-files=["res://assets/DialogText.EscapeArtist.translation", "res://assets/DialogText.JazzMusician.translation", "res://assets/DialogText.Spiritualist.translation", "res://assets/DialogText.Journalist.translation", "res://assets/DialogText.BaseballPlayer.translation", "res://assets/DialogText.Flapper.translation"]
+files=["res://assets/DialogText.At my last show $subject was so zozzled they couldn't dance. .translation", "res://assets/DialogText.$subject's future is very GRIM! I have forseen it!!.translation", "res://assets/DialogText.I'm gonna get a big scoop on $subjectt!.translation", "res://assets/DialogText.Take me out to the ball game!.translation", "res://assets/DialogText.Flapper Flavor.translation"]
 
 source_file="res://assets/DialogText.csv"
-dest_files=["res://assets/DialogText.EscapeArtist.translation", "res://assets/DialogText.JazzMusician.translation", "res://assets/DialogText.Spiritualist.translation", "res://assets/DialogText.Journalist.translation", "res://assets/DialogText.BaseballPlayer.translation", "res://assets/DialogText.Flapper.translation"]
+dest_files=["res://assets/DialogText.At my last show $subject was so zozzled they couldn't dance. .translation", "res://assets/DialogText.$subject's future is very GRIM! I have forseen it!!.translation", "res://assets/DialogText.I'm gonna get a big scoop on $subjectt!.translation", "res://assets/DialogText.Take me out to the ball game!.translation", "res://assets/DialogText.Flapper Flavor.translation"]
 
 [params]
 

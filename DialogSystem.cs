@@ -16,8 +16,20 @@ public enum DialogContext
 	RelationshipDialog,
 }
 
-
-
+public partial class DialogData : Node
+{
+	public PatronType subject;
+	public DialogType dialogType;
+	public DialogContext dialogContext;
+	public uint clueID;
+	
+	public DialogData(PatronType _subject, DialogContext _dialogContext, uint _clueID)
+	{
+		subject = _subject;
+		dialogContext = _dialogContext;
+		clueID = _clueID;
+	}
+}
 
 public partial class DialogSystem : Node
 {

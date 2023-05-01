@@ -281,6 +281,11 @@ public partial class Patron : Sprite2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (ActManager.showingActTransition)
+		{
+			return;
+		}
+
 		if (currentState == State.ORDERING)
 		{
 			growDialog();

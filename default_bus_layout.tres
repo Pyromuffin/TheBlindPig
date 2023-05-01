@@ -1,10 +1,10 @@
-[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://c6yliqu0svs6w"]
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://cpphakidr2g8r"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_vm8m1"]
 resource_name = "Reverb"
 room_size = 0.4
 hipass = 0.59
-dry = 0.68
+dry = 0.9
 wet = 0.2
 
 [resource]

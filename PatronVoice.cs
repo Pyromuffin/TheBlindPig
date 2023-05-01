@@ -81,6 +81,18 @@ public partial class PatronVoice : Node2D
 	AudioStream Rabbit09 = ResourceLoader.Load("res://assets/sounds/Voices/rabbit/Rabbit-09.mp3") as AudioStream;
 	AudioStream Rabbit10 = ResourceLoader.Load("res://assets/sounds/Voices/rabbit/Rabbit-10.mp3") as AudioStream;
 
+	AudioStream Shark01 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-01.mp3") as AudioStream;
+	AudioStream Shark02 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-02.mp3") as AudioStream;
+	AudioStream Shark03 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-03.mp3") as AudioStream;
+	AudioStream Shark04 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-04.mp3") as AudioStream;
+	AudioStream Shark05 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-05.mp3") as AudioStream;
+	AudioStream Shark06 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-06.mp3") as AudioStream;
+	AudioStream Shark07 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-07.mp3") as AudioStream;
+	AudioStream Shark08 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-08.mp3") as AudioStream;
+	AudioStream Shark09 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-09.mp3") as AudioStream;
+	AudioStream Shark10 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-10.mp3") as AudioStream;
+	AudioStream Shark11 = ResourceLoader.Load("res://assets/sounds/Voices/shark/Shark-11.mp3") as AudioStream;
+
 	bool Playing = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -158,7 +170,6 @@ public partial class PatronVoice : Node2D
 					Bird09
 				};
 				break;
-			default:
 			case (PatronType.JazzMusician):
 				VoiceStreams = new List<AudioStream>()
 				{
@@ -171,6 +182,22 @@ public partial class PatronVoice : Node2D
 					Lion07,
 					Lion08,
 					Lion09
+				};
+				break;
+			case (PatronType.EscapeArtist):
+				VoiceStreams = new List<AudioStream>()
+				{
+					Shark01,
+					Shark02,
+					Shark03,
+					Shark04,
+					Shark05,
+					Shark06,
+					Shark07,
+					Shark08,
+					Shark09,
+					Shark10,
+					Shark11
 				};
 				break;
 		}

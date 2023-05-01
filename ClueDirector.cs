@@ -155,7 +155,7 @@ public class PoliticalClue : Clue
 	public override string GetClueText()
 	{
 		string objectName = GetContextString(DialogContext.PoliticalDialog, clueID);
-		return " is a member of the " + objectName;
+		return " works for the " + objectName;
 	}
 }
 
@@ -174,7 +174,7 @@ public class CriminalClue : Clue
 	public override string GetClueText()
 	{
 		string objectName = GetContextString(DialogContext.CriminalDialog, clueID);
-		return " pretends they are a " + objectName;
+		return " hides as a " + objectName;
 	}
 }
 
@@ -251,8 +251,8 @@ public class Act
 public partial class ClueDirector : Node2D
 {
 
-	[Export] float minimumOrderTime = 8;
-	[Export] float maximumOrderTime = 20;
+	[Export] float minimumOrderTime = 4;
+	[Export] float maximumOrderTime = 10;
 
 	[Signal]
 	public delegate void SendDialogEventHandler();

@@ -8,11 +8,11 @@ public partial class ActManager : Node
 	[Export] public float actLength;
 	[Export] public float fadeTime;
 
-	[Export] Sprite2D splash1;
-	[Export] Sprite2D splash2;
-	[Export] Sprite2D splash3;
+	[Export] AnimatedSprite2D splash1;
 	[Export] Label clueText;
+	[Export] Sprite2D clueWindow;
 	[Export] Suspicion suspicion;
+	[Export] Sprite2D chooseCop;
 
 	[Export] NinePatchRect confirmDialog;
 
@@ -26,34 +26,28 @@ public partial class ActManager : Node
 
 	void HideTransitions(){
 		splash1.Hide();
-		splash2.Hide();
-		splash3.Hide();
 		clueText.Hide();
+		clueWindow.Hide();
 	}
 
 	void ShowActTransition(){
 
+		clueWindow.Show();
 		clueText.Show();
-		clueText.Text = "The cop" + director.acts[0].clue.GetClueText() + 
-		"\nThe cop" + director.acts[1].clue.GetClueText() +
-		"\nThe cop" + director.acts[2].clue.GetClueText();
+		clueText.Text = "* The cop" + director.acts[0].clue.GetClueText() + "." + 
+		"\n* The cop" + director.acts[1].clue.GetClueText() +"."+
+		"\n* The cop" + director.acts[2].clue.GetClueText() + "." +
+		"\nCome back when you find the weasel!";
 
-
-		if(director.currentAct == 0){
-			splash1.Show();
-		}
-		if(director.currentAct == 1){
-			splash2.Show();
-		}
-		if(director.currentAct == 2){
-			splash3.Show();
-		}
+		splash1.Show();
+		splash1.Play();
 	}
 
 	public void StartEnding()
 	{
 		isEnding = true;
 		suspicion.Hide();
+		chooseCop.Show();
 	}
 
 	public override void _Ready(){

@@ -87,6 +87,39 @@ public class PatronDetails {
 		relationshipType = RelationshipType.None;
 	}
 	
+	public string GetPatronName(PatronType _type)
+	{
+		switch(_type)
+		{
+			case PatronType.EscapeArtist:
+			{
+				return "Sharksy";
+			}
+			case PatronType.JazzMusician:
+			{
+				return "Lyonet";
+			}
+			case PatronType.Spiritualist:
+			{
+				return "Birdie";
+			}
+			case PatronType.Journalist:
+			{
+				return "Dog";
+			}
+			case PatronType.BaseballPlayer:
+			{
+				return "Jeffraffe";
+			}
+			case PatronType.Flapper:
+			{
+				return "Rabbie";
+			}
+			default:
+				return "";
+		}
+	}
+	
 	public void DebugPrintDetails()
 	{
 		GD.Print("{ " + patronType + " }");
@@ -100,7 +133,6 @@ public class PatronDetails {
 		GD.Print(isTheCop?"IM THE FUCKING COP":"Not the cop");
 		GD.Print("======================");
 	}
-	
 }
 
 

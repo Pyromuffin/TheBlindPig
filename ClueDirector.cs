@@ -510,18 +510,26 @@ public partial class ClueDirector : Node2D
 	{
 		if(currentDialog >= diaglogData.Count)
 			return "";
-			
-		//uint randomCouple = GD.Randi() % 3; // Will be one of the three couples!
-		//uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
-		//uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
-		// TOOD: Find the couple and link to listener
+		
+		PatronType listener = PatronType.EscapeArtist;
+		for(int i = 0; i < 3; i++)
+		{
+			var first = acts[currentAct]._couples[i,0];
+			var second = acts[currentAct]._couples[i,1];
+		
+			if( first == _talker )
+			{
+				listener = second;
+			}
+			else if( second == _talker )
+			{
+				listener = first;
+			}
+		}
 		
 		DialogData thisDialog =  diaglogData[currentDialog];
 		
-		PatronType listener = PatronType.EscapeArtist;
-		
 		PatronType subject = thisDialog.subject;
-				
 		DialogContext context = thisDialog.dialogContext;
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
@@ -531,7 +539,7 @@ public partial class ClueDirector : Node2D
 		// subject is the $subject
 		// dialogType is the table (brag vs gossip)
 		// context is the row
-		// _dialogData.clueID is $object
+		// dialogData.clueID is $object
 		
 		//dialogSystem.GeneratePatronDialog(_talker, listener, subject, dialogType, context, _dialogData.clueID);
 		

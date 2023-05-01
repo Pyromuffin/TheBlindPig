@@ -10,6 +10,9 @@ public partial class Suspicion : Control
 	
 	[Export] Vector2 emptyPosition;
 	[Export] Vector2 fullPosition;
+	[Export] float perOrderIncrease;
+	
+
 
 	public static void Reduce(float amount){
 		currentSuspicion -= amount;
@@ -29,7 +32,16 @@ public partial class Suspicion : Control
 			return;
 		}
 		
-		currentSuspicion += (float)delta * suspicionRate;
+
+		float increase = 1.0f;
+	
+		foreach(var p in Spawners.patrons){
+			if(p.currentState == Patron.State.ORDERING){
+				increase += perOrderIncrease;
+			}
+		}
+
+		currentSuspicion += (float)delta * increase;
 		currentSuspicion = Mathf.Clamp(currentSuspicion, 0, 100);
 		float fraction = currentSuspicion / 100.0f;
 		meat.Position = emptyPosition.Lerp(fullPosition, fraction);

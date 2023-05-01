@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://oms64g11osdg"]
+[gd_scene load_steps=14 format=3 uid="uid://oms64g11osdg"]
 
 [ext_resource type="PackedScene" uid="uid://botryqnqv1wnx" path="res://scenes/LevelArt.tscn" id="1_guobj"]
 [ext_resource type="PackedScene" uid="uid://g8ai066temhf" path="res://Trash.tscn" id="4_1fmxv"]
@@ -9,8 +9,14 @@
 [ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="8_rg0r7"]
 [ext_resource type="PackedScene" uid="uid://cahf75rkn5038" path="res://Suspicion.tscn" id="9_vwhiw"]
 [ext_resource type="Script" path="res://Spawners.cs" id="10_4tikp"]
-[ext_resource type="PackedScene" uid="uid://cu8msbann1hbl" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
-[ext_resource type="PackedScene" uid="uid://d0i1y87lxcmta" path="res://DirectorTest.tscn" id="11_s5m15"]
+[ext_resource type="PackedScene" path="res://prefabs/SpawnPoint.tscn" id="11_o2jjd"]
+[ext_resource type="PackedScene" path="res://DirectorTest.tscn" id="11_s5m15"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wlea1"]
+height = 94.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rec3r"]
+height = 90.0
 
 [node name="world" type="Node2D"]
 y_sort_enabled = true
@@ -94,7 +100,7 @@ position = Vector2(35, -37)
 
 [node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
-position = Vector2(-111, -6)
+position = Vector2(-9, 1)
 itemType = 1
 
 [node name="ItemSource3" parent="." instance=ExtResource("5_0rmxv")]
@@ -102,17 +108,21 @@ position = Vector2(138, -37)
 itemType = 5
 
 [node name="ItemSource4" parent="." instance=ExtResource("5_0rmxv")]
-z_index = 5
-position = Vector2(-58, -6)
+position = Vector2(-55, -62)
 itemType = 6
+
+[node name="CollisionShape2D" parent="ItemSource4/Area2D" index="0"]
+shape = SubResource("CapsuleShape2D_wlea1")
 
 [node name="ItemSource5" parent="." instance=ExtResource("5_0rmxv")]
 position = Vector2(-37, 139)
 
 [node name="ItemSource6" parent="." instance=ExtResource("5_0rmxv")]
-z_index = 5
-position = Vector2(-3, -6)
+position = Vector2(-155, -61)
 itemType = 4
+
+[node name="CollisionShape2D" parent="ItemSource6/Area2D" index="0"]
+shape = SubResource("CapsuleShape2D_rec3r")
 
 [node name="ItemSource7" parent="." instance=ExtResource("5_0rmxv")]
 position = Vector2(-262, 123)
@@ -120,5 +130,8 @@ itemType = 2
 
 [node name="ItemSource" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
-position = Vector2(-159, -6)
+position = Vector2(-134, 0)
 itemType = 0
+
+[editable path="ItemSource4"]
+[editable path="ItemSource6"]

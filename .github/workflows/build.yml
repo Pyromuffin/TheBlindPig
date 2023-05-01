@@ -24,7 +24,7 @@ jobs:
       - uses: chickensoft-games/setup-godot@v1
         name: 🤖 Setup Godot
         with:
-          version: 4.0.2 # also valid: 4.0.0.rc1 or 4.0.0, etc
+          version: global.json
           use-dotnet: true
 
       - name: 🔬 Verify Setup
@@ -39,4 +39,4 @@ jobs:
         run: dotnet build
 
       - name: Export
-        run: godot --export "windows" TheBlindPig.exe
+        run: godot --export-release "windows" TheBlindPig.exe

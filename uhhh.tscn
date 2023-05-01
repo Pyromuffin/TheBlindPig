@@ -215,7 +215,7 @@ offset_bottom = 143.0
 text = "SECRET CLUE"
 autowrap_mode = 3
 
-[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText")]
+[node name="Act manager" type="Node" parent="." node_paths=PackedStringArray("director", "splash1", "splash2", "splash3", "clueText", "suspicion")]
 script = ExtResource("17_ufhtv")
 director = NodePath("../director")
 actLength = 60.0
@@ -224,6 +224,7 @@ splash1 = NodePath("../director/Sprite2D")
 splash2 = NodePath("../director/Sprite2D2")
 splash3 = NodePath("../director/Sprite2D3")
 clueText = NodePath("../Clue text")
+suspicion = NodePath("../Suspicion")
 
 [editable path="ItemSource2"]
 [editable path="ItemSource4"]

@@ -12,6 +12,7 @@ public partial class ActManager : Node
 	[Export] Sprite2D splash2;
 	[Export] Sprite2D splash3;
 	[Export] Label clueText;
+	[Export] Suspicion suspicion;
 
 	double actTimer = 0;
 	public static bool showingActTransition = true;
@@ -46,6 +47,7 @@ public partial class ActManager : Node
 	public void StartEnding()
 	{
 		isEnding = true;
+		suspicion.Hide();
 	}
 
 	public override void _Ready(){

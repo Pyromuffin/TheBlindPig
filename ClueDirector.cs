@@ -89,7 +89,7 @@ class PoliticalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " is a member of " + (PolitcalAffiliation)clueID;
+		return " is a member of the " + (PolitcalAffiliation)clueID;
 	}
 }
 
@@ -107,7 +107,7 @@ class CriminalClue : Clue
 	
 	public override string GetClueText()
 	{
-		return " pretends to be a " + (CriminalBackground)clueID + " on the side";
+		return "'s cover story is that they are a " + (CriminalBackground)clueID;
 	}
 }
 
@@ -487,7 +487,7 @@ public partial class ClueDirector : Node2D
 		{
 			for (uint i = 0; i < ACT_COUNT; ++i)
 			{
-				GD.Print("Act " + (i+1) + ": The undercover cop" + acts[i].clue.GetClueText());
+				GD.Print("The undercover cop" + acts[i].clue.GetClueText());
 			}
 		}
 

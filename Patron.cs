@@ -90,12 +90,12 @@ public class PatronDetails {
 		{
 			case PatronType.EscapeArtist:
 			{
-				patronName = "Sharksy";
+				patronName = "Sharky";
 				break;
 			}
 			case PatronType.JazzMusician:
 			{
-				patronName = "Lyonet";
+				patronName = "Lionel";
 				break;
 			}
 			case PatronType.Spiritualist:
@@ -105,17 +105,17 @@ public class PatronDetails {
 			}
 			case PatronType.Journalist:
 			{
-				patronName = "Dog";
+				patronName = "Pupperoni";
 				break;
 			}
 			case PatronType.BaseballPlayer:
 			{
-				patronName = "Jeffraffe";
+				patronName = "Gee Raffe";
 				break;
 			}
 			case PatronType.Flapper:
 			{
-				patronName = "Rabbie";
+				patronName = "Bunnie";
 				break;
 			}
 			default:

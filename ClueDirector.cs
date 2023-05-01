@@ -194,6 +194,7 @@ public partial class ClueDirector : Node2D
 	
 	uint currentAct = 0;
 	uint copIndex = 0;
+	int currentDialog = 0;
 	
 	public PatronDetails[] patrons = new PatronDetails[(int)PatronType.PATRON_COUNT];
 	
@@ -506,27 +507,42 @@ public partial class ClueDirector : Node2D
 		dialogSystem.GenerateRadioMessage(context);
 	}
 	
-	public string GeneratePatronDialog(PatronType _talker, bool _isAClue, DialogData _dialogData)
+	public bool StillHasDialogs()
 	{
-		//uint randomCouple = GD.Randi() % 3; // Will be one of the three couples!
-		//uint talkerIndex = GD.Randi() % 2; // Either 0 or 1
-		//uint listenerIndex = talkerIndex == 0u ? 1u : 0u;
-		// TOOD: Find the couple and link to listener
-		
+		return true;
+	}
+	
+	public string GeneratePatronDialog(PatronType _talker)
+	{	
 		PatronType listener = PatronType.EscapeArtist;
+		for(int i = 0; i < 3; i++)
+		{
+			var first = acts[currentAct]._couples[i,0];
+			var second = acts[currentAct]._couples[i,1];
 		
-		PatronType subject = _dialogData.subject;
-				
-		DialogContext context = _dialogData.dialogContext;
+			if( first == _talker )
+			{
+				listener = second;
+			}
+			else if( second == _talker )
+			{
+				listener = first;
+			}
+		}
+		
+		DialogData thisDialog =  diaglogData[currentDialog];
+		
+		PatronType subject = thisDialog.subject;
+		DialogContext context = thisDialog.dialogContext;
 		
 		DialogType dialogType = _talker == subject ? DialogType.TalkAboutSelf : DialogType.GossipAboutSomeoneElse;
 		
-		//TODO: HOOK UP CSV INTERACTION HERE
+		//HOOK UP CSV INTERACTION HERE
 		// _talker is the person talking
 		// subject is the $subject
 		// dialogType is the table (brag vs gossip)
 		// context is the row
-		// _dialogData.clueID is $object
+		// dialogData.clueID is $object
 		
 		string[] dialogFormatStrings = null;
 
@@ -557,8 +573,10 @@ public partial class ClueDirector : Node2D
 		var formatString = dialogFormatStrings[(int)_talker];
 
 		var s = formatString.Replace("$subject", subject.ToString());
-		s = s.Replace("$object", _dialogData.clueID.ToString());
+		s = s.Replace("$object", thisDialog.clueID.ToString());
 
+		currentDialog++;
+		
 		return s;
 	} 
 
@@ -568,7 +586,6 @@ public partial class ClueDirector : Node2D
 
 	double dialogTimer = 0;
 	double randomDialogTime;
-	int dialogIndex = 0;
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -599,8 +616,8 @@ public partial class ClueDirector : Node2D
 				var p = shuffled[i];
 				if(p.currentState == Patron.State.IDLE){
 
-					var s = GeneratePatronDialog(p.details.patronType, false, diaglogData[dialogIndex]);
-					dialogIndex++;
+					var s = GeneratePatronDialog(p.details.patronType);
+					
 					p.CreateDialog(s);
 					dialogTimer = 0;
 					randomDialogTime = GD.RandRange(minimumOrderTime, maximumOrderTime);

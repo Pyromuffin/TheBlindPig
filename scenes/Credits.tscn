@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://nfybpcjy7shx"]
+[gd_scene load_steps=6 format=3 uid="uid://b2g3klvs3lx1g"]
 
 [ext_resource type="Texture2D" uid="uid://0o06eejal6kv" path="res://assets/ui/credits.png" id="1_4t34k"]
 [ext_resource type="Script" path="res://scenes/Credits.cs" id="1_h4jtb"]
+[ext_resource type="Script" path="res://AudioDirector.cs" id="3_a4mnr"]
+[ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="3_bhexl"]
+[ext_resource type="AudioStream" uid="uid://dlm05uq4lx3sp" path="res://assets/music/JamRagIntro.mp3" id="5_f6wsi"]
 
 [node name="Credits" type="Control"]
 layout_mode = 3
@@ -17,3 +20,18 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_4t34k")
+
+[node name="Music" type="Node2D" parent="." node_paths=PackedStringArray("Bass", "Treble")]
+position = Vector2(-184, 30)
+script = ExtResource("3_a4mnr")
+Bass = NodePath("Bass")
+Treble = NodePath("Treble")
+
+[node name="Bass" type="AudioStreamPlayer2D" parent="Music"]
+stream = ExtResource("3_bhexl")
+max_distance = 600.0
+
+[node name="Treble" type="AudioStreamPlayer2D" parent="Music"]
+stream = ExtResource("5_f6wsi")
+autoplay = true
+max_distance = 600.0

@@ -64,6 +64,7 @@ offset_top = 156.0
 offset_right = -84.0
 offset_bottom = 156.0
 suspicionRate = 1.0
+perOrderIncrease = 0.25
 actManager = NodePath("../Act manager")
 
 [node name="LevelArt" parent="." instance=ExtResource("1_guobj")]
@@ -73,7 +74,7 @@ position = Vector2(-318, -113)
 [node name="Waiter" parent="." instance=ExtResource("5_c2evn")]
 z_index = 4
 position = Vector2(-46, 161)
-Speed = 100.0
+Speed = 150.0
 firstItemPosition = Vector2(5, -10)
 secondItemPosition = Vector2(-5, -10)
 
@@ -134,8 +135,6 @@ position = Vector2(35, -37)
 [node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
 z_index = 103
 position = Vector2(-69, 63)
-minimumOrderTime = 4.0
-maximumOrderTime = 10.0
 waiterStartPos = NodePath("../waiter start pos")
 waiter = NodePath("../Waiter")
 
@@ -206,6 +205,7 @@ shape = SubResource("CapsuleShape2D_x33om")
 [node name="Patron" parent="." node_paths=PackedStringArray("actManager") instance=ExtResource("12_ceb2j")]
 position = Vector2(-267, 20)
 texture = ExtResource("13_mgit7")
+flip_h = true
 minimumDialogBoxSize = Vector2(0, 0)
 beginDialogGrowDistance = 0.0
 endDialogGrowDistance = 0.0
@@ -299,6 +299,15 @@ visible = false
 z_index = 10
 position = Vector2(-71, -51)
 texture = ExtResource("18_n5g8r")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -290.0
+offset_top = -99.0
+offset_right = -141.0
+offset_bottom = -73.0
+theme_override_fonts/font = ExtResource("16_ckbph")
+theme_override_font_sizes/font_size = 16
+text = "Press Tab for clues!"
 
 [connection signal="pressed" from="Finger Prompt/Yes" to="Finger Prompt" method="_on_yes_pressed"]
 [connection signal="pressed" from="Finger Prompt/No" to="Finger Prompt" method="_on_no_pressed"]

@@ -8,6 +8,7 @@ height = 46.0
 
 [node name="ItemSource" type="Sprite2D"]
 z_index = 4
+y_sort_enabled = true
 texture = ExtResource("1_qrvnj")
 script = ExtResource("2_n34e0")
 itemType = 3

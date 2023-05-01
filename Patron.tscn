@@ -489,7 +489,6 @@ endDialogGrowDistance = 30.0
 iconScale = 2.6
 iconTransitionTime = 1.0
 deliverySuspicionReduction = 10.0
-randomTime = 10.0
 dialogBubble = NodePath("Dialog/Request text")
 DialogIcon = NodePath("Dialog/DialogIcon")
 TailIcon = NodePath("Dialog/BubbleTail")

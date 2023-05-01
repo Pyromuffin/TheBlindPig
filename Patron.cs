@@ -55,7 +55,7 @@ public class PatronDetails {
 	public PatronType patronType;
 	public DietType dietType;
 	public ItemType hatedDrink;
-	
+	public string patronName;
 	
 	// ARE THEY THE COP!?
 	public bool isTheCop;
@@ -85,38 +85,42 @@ public class PatronDetails {
 		
 		relationPatron = PatronType.None;
 		relationshipType = RelationshipType.None;
-	}
-	
-	public string GetPatronName(PatronType _type)
-	{
-		switch(_type)
+		
+		switch(patronType)
 		{
 			case PatronType.EscapeArtist:
 			{
-				return "Sharksy";
+				patronName = "Sharksy";
+				break;
 			}
 			case PatronType.JazzMusician:
 			{
-				return "Lyonet";
+				patronName = "Lyonet";
+				break;
 			}
 			case PatronType.Spiritualist:
 			{
-				return "Birdie";
+				patronName = "Birdie";
+				break;
 			}
 			case PatronType.Journalist:
 			{
-				return "Dog";
+				patronName = "Dog";
+				break;
 			}
 			case PatronType.BaseballPlayer:
 			{
-				return "Jeffraffe";
+				patronName = "Jeffraffe";
+				break;
 			}
 			case PatronType.Flapper:
 			{
-				return "Rabbie";
+				patronName = "Rabbie";
+				break;
 			}
 			default:
-				return "";
+				patronName = "";
+				break;
 		}
 	}
 	

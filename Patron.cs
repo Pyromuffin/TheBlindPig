@@ -105,7 +105,7 @@ public class PatronDetails {
 			}
 			case PatronType.Journalist:
 			{
-				patronName = "Dog";
+				patronName = "Pupperoni";
 				break;
 			}
 			case PatronType.BaseballPlayer:

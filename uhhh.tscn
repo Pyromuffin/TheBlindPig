@@ -19,7 +19,7 @@
 [ext_resource type="FontFile" uid="uid://cmd3do8c6uit3" path="res://assets/SonicMania.ttf" id="16_ckbph"]
 [ext_resource type="Script" path="res://ActManager.cs" id="17_ufhtv"]
 [ext_resource type="Texture2D" uid="uid://cqj2g7exnqpqm" path="res://assets/ui/bubble_9_slice.png" id="18_2d7ig"]
-[ext_resource type="Texture2D" uid="uid://wc654i0jjvmi" path="res://assets/ui/choose_cop.png" id="18_n5g8r"]
+[ext_resource type="Texture2D" uid="uid://dmbylnm023p7y" path="res://assets/ui/choose_cop.png" id="18_n5g8r"]
 [ext_resource type="Script" path="res://FingerPrompt.cs" id="19_n73yp"]
 [ext_resource type="FontFile" uid="uid://cxrgewehxhlie" path="res://assets/InstrumentSerif-Regular.ttf" id="20_040hn"]
 
@@ -246,7 +246,6 @@ splash1 = NodePath("../director/Clue Splash")
 clueText = NodePath("../director/Clue text")
 clueWindow = NodePath("../director/ClueWindow")
 suspicion = NodePath("../Suspicion")
-chooseCop = NodePath("../ChooseCop")
 confirmDialog = NodePath("../Finger Prompt")
 
 [node name="Finger Prompt" type="NinePatchRect" parent="." node_paths=PackedStringArray("actManager")]

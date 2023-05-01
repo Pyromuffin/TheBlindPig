@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bc0tebbr7u843"]
+[gd_scene load_steps=3 format=3 uid="uid://bxjf4af8plush"]
 
-[ext_resource type="Script" path="res://scenes/BadEnd.cs" id="1_1chqc"]
+[ext_resource type="Script" path="res://scenes/End.cs" id="1_rjofe"]
 [ext_resource type="Texture2D" uid="uid://cckalxa0xqnfl" path="res://assets/ui/ending_wrong.png" id="2_x6r81"]
 
 [node name="BadEnd" type="Control"]
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_1chqc")
+script = ExtResource("1_rjofe")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0

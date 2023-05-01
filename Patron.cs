@@ -299,11 +299,11 @@ public partial class Patron : Sprite2D
 			{
 				if( details.isTheCop )
 				{
-					GD.Print( "A goddamn cop" );
+					GetTree().ChangeSceneToFile("res://scenes/GoodEnd.tscn");
 				}
 				else
 				{
-					GD.Print( "Not a cop" );
+					GetTree().ChangeSceneToFile("res://scenes/BadEnd.tscn");
 				}
 
 				var waiter = overlapper as Waiter;

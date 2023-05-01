@@ -11,6 +11,7 @@ public partial class Suspicion : Control
 	[Export] Vector2 emptyPosition;
 	[Export] Vector2 fullPosition;
 	[Export] float perOrderIncrease;
+	[Export] ActManager actManager;
 	
 
 
@@ -45,6 +46,8 @@ public partial class Suspicion : Control
 		currentSuspicion = Mathf.Clamp(currentSuspicion, 0, 100);
 		float fraction = currentSuspicion / 100.0f;
 		meat.Position = emptyPosition.Lerp(fullPosition, fraction);
+		if ( currentSuspicion >= 100 )
+			actManager.StartEnding();
 		//text.Text = "Suspicion: " + ((int)currentSuspicion).ToString();
 	}
 }

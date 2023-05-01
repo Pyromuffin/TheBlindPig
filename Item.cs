@@ -14,7 +14,6 @@ public enum ItemType {
 public enum DietType {
 	Carnivore,
 	Herbivore,
-	Omnivore,
 }
 
 
@@ -94,10 +93,10 @@ public partial class Item : Sprite2D
 				return GetHerbivoreFood();
 			}
 			
-			case DietType.Omnivore:
-			{
-				return GetOmnivoreFood();
-			}
+			//case DietType.Omnivore:
+			//{
+			//	return GetOmnivoreFood();
+			//}
 		}
 		
 		return (ItemType)0;

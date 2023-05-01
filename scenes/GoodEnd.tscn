@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://ct6is5tq3e6s7"]
+[gd_scene load_steps=5 format=3 uid="uid://ct6is5tq3e6s7"]
 
 [ext_resource type="Texture2D" uid="uid://d3wtkh3iy2wkc" path="res://assets/ui/ending_correct.png" id="1_apswj"]
 [ext_resource type="Script" path="res://scenes/End.cs" id="1_furwm"]
 [ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="3_uqssv"]
+[ext_resource type="Texture2D" uid="uid://33n5y5eow8vi" path="res://assets/characters/baseballplayer.png" id="4_4t6oa"]
 
-[node name="GoodEnd" type="Control"]
+[node name="GoodEnd" type="Control" node_paths=PackedStringArray("cop")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_furwm")
+cop = NodePath("cop")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -22,3 +24,7 @@ texture = ExtResource("1_apswj")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_uqssv")
 autoplay = true
+
+[node name="cop" type="Sprite2D" parent="."]
+position = Vector2(240, 124)
+texture = ExtResource("4_4t6oa")

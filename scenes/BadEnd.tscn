@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxjf4af8plush"]
+[gd_scene load_steps=5 format=3 uid="uid://bxjf4af8plush"]
 
 [ext_resource type="Script" path="res://scenes/End.cs" id="1_rjofe"]
 [ext_resource type="Texture2D" uid="uid://cckalxa0xqnfl" path="res://assets/ui/ending_wrong.png" id="2_x6r81"]
 [ext_resource type="AudioStream" uid="uid://5cib7njio311" path="res://assets/music/JamRagBass.mp3" id="3_tlrix"]
+[ext_resource type="Texture2D" uid="uid://33n5y5eow8vi" path="res://assets/characters/baseballplayer.png" id="4_fuktm"]
 
-[node name="BadEnd" type="Control"]
+[node name="BadEnd" type="Control" node_paths=PackedStringArray("cop")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rjofe")
+cop = NodePath("cop")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -22,3 +24,7 @@ texture = ExtResource("2_x6r81")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_tlrix")
 autoplay = true
+
+[node name="cop" type="Sprite2D" parent="."]
+position = Vector2(240, 124)
+texture = ExtResource("4_fuktm")

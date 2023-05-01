@@ -4,7 +4,24 @@ using System;
 public partial class End : Control
 {
 
+
 	bool Released = false;
+	[Export] Sprite2D cop;
+
+
+	public override void _Ready(){
+
+		PatronType copType = (PatronType)0;
+
+		foreach(var p in Spawners.patrons){
+			if(p.details.isTheCop){
+				copType = p.details.patronType;
+				break;
+			}
+		}
+		
+		cop.Texture = GD.Load<Texture2D>("res://assets/characters/" + copType.ToString().ToLower() + ".png");
+	}
 
 	public override void _Process(double delta)
 	{

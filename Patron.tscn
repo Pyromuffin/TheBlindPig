@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cucowd5iend2x"]
+[gd_scene load_steps=18 format=3 uid="uid://cucowd5iend2x"]
 
 [ext_resource type="Texture2D" uid="uid://bofc7qyp1hmcq" path="res://assets/characters/flapper.png" id="1_8tbdv"]
 [ext_resource type="Script" path="res://Patron.cs" id="2_38pbh"]
@@ -8,6 +8,43 @@
 [ext_resource type="Texture2D" uid="uid://558bng4640xv" path="res://assets/ui/icon_dots_24.png" id="5_vyp4j"]
 [ext_resource type="PackedScene" uid="uid://cuavbbtf6ko2h" path="res://prefabs/voice.tscn" id="7_070qc"]
 [ext_resource type="FontFile" uid="uid://cxrgewehxhlie" path="res://assets/InstrumentSerif-Regular.ttf" id="8_cp3sn"]
+
+[sub_resource type="Animation" id="Animation_etfdp"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1.04167), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lf5r4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fxyi2"]
+_data = {
+"Idle": SubResource("Animation_etfdp"),
+"RESET": SubResource("Animation_lf5r4")
+}
 
 [sub_resource type="Animation" id="Animation_ela44"]
 resource_name = "IconBoxRight"
@@ -243,118 +280,6 @@ tracks/10/keys = {
 "values": [Vector2(-9, -54)]
 }
 
-[sub_resource type="Animation" id="Animation_t5c81"]
-resource_name = "TalkBoxRight"
-length = 1.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Request text:size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.6, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(16, 15), Vector2(161, 37)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Request text:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.6, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-1, -22), Vector2(148, -22)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Request text:offset_left")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.6, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [-1.0, 148.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Request text:offset_top")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.6, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [-22.0, -22.0]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Request text:offset_right")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.6, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [15.0, 309.0]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Request text:offset_bottom")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.6, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [-7.0, 15.0]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("DialogIcon:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Label:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(1.6, 1.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("Label:position")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(1.6),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-9, -54)]
-}
-
 [sub_resource type="Animation" id="Animation_00e0p"]
 resource_name = "TalkBoxLeft"
 length = 1.8
@@ -467,6 +392,118 @@ tracks/8/keys = {
 "values": [Vector2(-128, -54)]
 }
 
+[sub_resource type="Animation" id="Animation_t5c81"]
+resource_name = "TalkBoxRight"
+length = 1.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Request text:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.6, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(16, 15), Vector2(161, 37)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Request text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-1, -22), Vector2(148, -22)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Request text:offset_left")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-1.0, 148.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Request text:offset_top")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.6, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-22.0, -22.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Request text:offset_right")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.6, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [15.0, 309.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Request text:offset_bottom")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.6, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-7.0, 15.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("DialogIcon:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Label:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1.6, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Label:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1.6),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-9, -54)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xnsxp"]
 _data = {
 "IconBoxRight": SubResource("Animation_ela44"),
@@ -478,7 +515,7 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvnn8"]
 radius = 31.0161
 
-[node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "DialogIcon", "TailIcon", "patronVoice", "patronText", "animationPlayer")]
+[node name="Patron" type="Sprite2D" node_paths=PackedStringArray("dialogBubble", "DialogIcon", "TailIcon", "patronVoice", "patronText", "animationPlayer", "characterAnimation")]
 z_index = 4
 y_sort_enabled = true
 texture = ExtResource("1_8tbdv")
@@ -497,6 +534,13 @@ dotsIcon = ExtResource("5_vyp4j")
 patronVoice = NodePath("Dialog/Voice")
 patronText = NodePath("Dialog/Label")
 animationPlayer = NodePath("Dialog/AnimationPlayer")
+characterAnimation = NodePath("CharacterAnimation")
+
+[node name="CharacterAnimation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Area2D/CollisionShape2D")
+libraries = {
+"": SubResource("AnimationLibrary_fxyi2")
+}
 
 [node name="Dialog" type="Node2D" parent="."]
 z_index = 100

@@ -68,6 +68,8 @@ public class PatronDetails {
 	
 	public PatronType relationPatron;
 	public RelationshipType relationshipType;
+
+	public float idleSpeedScale;
 	
 	public PatronDetails(uint _patronIndex, bool _isCop, ItemType _hatedDrink, DietType _dietType, PolitcalAffiliation _polAff, CriminalBackground _crimBackground)
    	{
@@ -143,9 +145,12 @@ public partial class Patron : Sprite2D
 
 	[Export]
 	AnimationPlayer animationPlayer;
+	[Export]
+	AnimationPlayer characterAnimation;
 
 
 	public PatronDetails details;
+	public float characterAnimationSpeedScale;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -158,6 +163,28 @@ public partial class Patron : Sprite2D
 		details = d;
 		Texture = GD.Load<Texture2D>("res://assets/characters/" + details.patronType.ToString().ToLower() + ".png");
 		patronVoice.Init( details.patronType );
+		switch ( details.patronType )
+		{
+			case(PatronType.Journalist):
+				characterAnimationSpeedScale = 1.1f;
+				break;
+			case(PatronType.BaseballPlayer):
+				characterAnimationSpeedScale = 0.67f;
+				break;
+			case(PatronType.Flapper):
+				characterAnimationSpeedScale = 1.3f;
+				break;
+			case(PatronType.Spiritualist):
+				characterAnimationSpeedScale = 0.43f;
+				break;
+			case(PatronType.EscapeArtist):
+				characterAnimationSpeedScale = 0.33f;
+				break;
+			case(PatronType.JazzMusician):
+				characterAnimationSpeedScale = 0.53f;
+				break;
+		}
+		characterAnimation.SpeedScale = characterAnimationSpeedScale;
 	}
 
 	void ResetDialog()
@@ -183,6 +210,9 @@ public partial class Patron : Sprite2D
 				break;
 			case( State.TALKING ):
 				EnterTalking();
+				break;
+			case( State.IDLE ):
+				EnterIdle();
 				break;
 		}
 		currentState = newState;
@@ -244,8 +274,14 @@ public partial class Patron : Sprite2D
 				animationPlayer.Play( "TalkBoxLeft" );
 			
 			animationPlayer.Seek( ( 1 - fraction ) * 1.8f );
-			if(1 - fraction == 1){
+			if(1 - fraction == 1)
+			{
 				dialogHeard = true;
+				characterAnimation.SpeedScale = 2.0f;
+			}
+			else
+			{
+				characterAnimation.SpeedScale = characterAnimationSpeedScale;
 			}
 		}
 		else if( currentState == State.ORDERING )
@@ -305,6 +341,11 @@ public partial class Patron : Sprite2D
 		patronText.Show();
 		DialogIcon.Texture = dotsIcon;
 	}
+
+	void EnterIdle()
+	{
+		characterAnimation.Play( "Idle" );
+	}
 	
 
 	bool IsItemDrink(ItemType item){
@@ -354,7 +395,7 @@ public partial class Patron : Sprite2D
 
 	public void CreateOrder(ItemType item){
 		desiredItem = item;
-		EnterState( State.ORDERING );
+		EnterState( State.TALKING );
 	}
 
 	public void CreateDialog(string text){
@@ -363,7 +404,7 @@ public partial class Patron : Sprite2D
 		EnterState( State.TALKING );
 	}
 
-	public void EnterIdle(){
+	public void StartIdle() {
 		EnterState( State.IDLE );
 	}
 

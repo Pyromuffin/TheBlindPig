@@ -16,6 +16,8 @@ public partial class ActManager : Node
 
 	[Export] NinePatchRect confirmDialog;
 	[Export] CanvasLayer crisis;
+	[Export]
+	AudioStreamPlayer soundEffect;
 
 	double actTimer = 0;
 	public static bool showingActTransition = true;
@@ -78,6 +80,7 @@ public partial class ActManager : Node
 		if(showingActTransition && Input.IsActionJustPressed("ui_accept")){
 			HideTransitions();
 			showingActTransition = false;
+			soundEffect.Play();
 		}
 
 

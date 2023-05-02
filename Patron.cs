@@ -198,7 +198,7 @@ public partial class Patron : Sprite2D
 	public ActManager actManager;
 	bool hasStartedAnimating = false;
 	float animStartTime;
-	[Export] public double crisisModeTransitionTime = 5.0;
+	[Export] public double crisisModeTransitionTime = 1.5;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

@@ -18,7 +18,7 @@ public partial class PatronVoice : Node2D
 	public float MIN_PITCH = 0.8f;
 
 	[Export]
-	public float VOLUME_RANGE = 60f;
+	public float VOLUME_RANGE = 65f;
 
 	AudioStream BassSound = ResourceLoader.Load("res://assets/music/JamRagBass.mp3") as AudioStream;
 	AudioStream TrebleSound = ResourceLoader.Load("res://assets/music/JamRagTreble.mp3") as AudioStream;
@@ -222,7 +222,10 @@ public partial class PatronVoice : Node2D
 
 	public void SetVolume(float fraction)
 	{
-		VoicePlayer.VolumeDb = ((1 - fraction) * VOLUME_RANGE) - 80;
+		float volumeDb = ( (1 - fraction) * VOLUME_RANGE ) - 80;
+		if( volumeDb > -80 )
+			volumeDb = Math.Clamp( volumeDb, -30, -15 );
+		VoicePlayer.VolumeDb  = volumeDb;
 	}
 
 	public void SetPlaying(bool playing)

@@ -6,6 +6,8 @@ public partial class TitleScreen : Control
 	private string state = "title";
 	[Export]
 	AnimationPlayer animationPlayer;
+	[Export]
+	AudioStreamPlayer soundEffect;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -30,6 +32,7 @@ public partial class TitleScreen : Control
 					tween.TweenCallback(Callable.From(this.ShowInstructions));
 					tween.TweenProperty(GetNode("Panel"), "modulate:a", 0.0f, duration);
 					tween.TweenCallback(Callable.From(this.GotoInstructions));
+					soundEffect.Play();
 				}
 				else if (state == "instructions")
 				{
@@ -39,6 +42,7 @@ public partial class TitleScreen : Control
 					tween.TweenCallback(Callable.From(this.ShowCharacters));
 					tween.TweenProperty(GetNode("Panel"), "modulate:a", 0.0f, duration);
 					tween.TweenCallback(Callable.From(this.GotoCharacters));
+					soundEffect.Play();
 				}
 				else if (state == "characters")
 				{
@@ -46,6 +50,7 @@ public partial class TitleScreen : Control
 					Tween tween = GetTree().CreateTween();
 					tween.TweenProperty(GetNode("Panel"), "modulate:a", 1.0f, duration);
 					tween.TweenCallback(Callable.From(this.GoToGameScene));
+					soundEffect.Play();
 				}
 			}
 		}

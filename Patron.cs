@@ -312,9 +312,6 @@ public partial class Patron : Sprite2D
 				{
 					GetTree().ChangeSceneToFile("res://scenes/BadEnd.tscn");
 				}
-
-				var waiter = overlapper as Waiter;
-				waiter.DeliverItem(this);
 			}
 			return;
 		}

@@ -131,7 +131,7 @@ position = Vector2(81, 106)
 position = Vector2(79, -2)
 
 [node name="SpawnPoint18" parent="Spawners" instance=ExtResource("11_o2jjd")]
-position = Vector2(79, 31)
+position = Vector2(132, 33)
 
 [node name="Item Sources" type="Node" parent="."]
 

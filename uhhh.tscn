@@ -167,6 +167,7 @@ autowrap_mode = 3
 [node name="Clue Splash" type="AnimatedSprite2D" parent="director"]
 visible = false
 z_index = 100
+position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_rlwwe")
 
 [node name="ItemSource2" parent="." instance=ExtResource("5_0rmxv")]

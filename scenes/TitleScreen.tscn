@@ -60,7 +60,7 @@ animationPlayer = NodePath("AnimationPlayer")
 layout_mode = 0
 offset_right = 1440.0
 offset_bottom = 1056.0
-scale = Vector2(0.33, 0.33)
+scale = Vector2(0.333, 0.333)
 texture = ExtResource("1_rpfrn")
 
 [node name="Label" type="Label" parent="."]

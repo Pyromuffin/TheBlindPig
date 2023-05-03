@@ -140,6 +140,10 @@ position = Vector2(132, 33)
 z_index = 4
 position = Vector2(35, -37)
 
+[node name="Trash2" parent="." instance=ExtResource("4_1fmxv")]
+z_index = 4
+position = Vector2(43, 157)
+
 [node name="director" parent="." node_paths=PackedStringArray("waiterStartPos", "waiter") instance=ExtResource("11_s5m15")]
 z_index = 103
 position = Vector2(-69, 63)
@@ -206,7 +210,7 @@ itemType = 2
 
 [node name="ItemSource" parent="." instance=ExtResource("5_0rmxv")]
 z_index = 5
-position = Vector2(-134, 0)
+position = Vector2(-130, 0)
 itemType = 0
 
 [node name="CollisionShape2D" parent="ItemSource/Area2D" index="0"]

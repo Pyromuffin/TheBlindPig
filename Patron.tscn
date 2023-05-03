@@ -549,7 +549,7 @@ beginDialogGrowDistance = 60.0
 endDialogGrowDistance = 30.0
 iconScale = 2.6
 iconTransitionTime = 1.0
-deliverySuspicionReduction = 5.0
+deliverySuspicionReduction = 8.0
 dialogBubble = NodePath("Dialog/Request text")
 DialogIcon = NodePath("Dialog/DialogIcon")
 TailIcon = NodePath("Dialog/BubbleTail")
@@ -613,7 +613,6 @@ autowrap_mode = 3
 [node name="Voice" parent="Dialog" instance=ExtResource("7_070qc")]
 MAX_PITCH = 1.0
 MIN_PITCH = 1.0
-VOLUME_RANGE = 65.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Dialog"]
 libraries = {
